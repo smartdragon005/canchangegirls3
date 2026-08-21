@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 女友</title>
     <style>
+        /* ===== 重置 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: #0b0e14;
@@ -18,7 +21,9 @@
             justify-content: center;
             align-items: center;
             padding: 12px;
+            color: #edf2f7;
         }
+
         .app {
             max-width: 480px;
             width: 100%;
@@ -29,7 +34,23 @@
             display: flex;
             flex-direction: column;
             background: #141a24;
+            position: relative;
         }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2b3a50;
+            border-radius: 8px;
+        }
+
+        /* ===== 头部 ===== */
         .header {
             padding: 14px 16px 10px 16px;
             border-bottom: 1px solid #2a3344;
@@ -38,7 +59,9 @@
             gap: 12px;
             flex-shrink: 0;
             background: #0f161e;
+            flex-wrap: wrap;
         }
+
         .header .avatar {
             width: 44px;
             height: 44px;
@@ -47,57 +70,178 @@
             flex-shrink: 0;
             border: 2px solid #2b5ca8;
         }
+
         .header .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .header .info {
             flex: 1;
+            min-width: 80px;
         }
-        .header .info h1 {
+
+        .header .info .name-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header .info .name-row h1 {
             font-size: 17px;
-            color: #edf2f7;
             font-weight: 600;
+            color: #edf2f7;
         }
-        .header .info .status {
+
+        .header .info .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 12px;
             color: #7a8aa3;
+            flex-wrap: wrap;
         }
-        .header .info .status .dot {
+
+        .header .info .status-row .dot {
             display: inline-block;
             width: 7px;
             height: 7px;
             background: #4caf50;
             border-radius: 50%;
-            margin-right: 4px;
+            margin-right: 2px;
             animation: pulse-dot 1.8s ease-in-out infinite;
         }
+
         @keyframes pulse-dot {
+
             0%,
             100% {
                 opacity: 0.4;
                 transform: scale(0.8);
             }
+
             50% {
                 opacity: 1;
                 transform: scale(1.2);
             }
         }
-        .header .actions button {
-            background: transparent;
-            border: 1px solid #2f3b4e;
-            color: #a0b3cc;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.2s;
+
+        .header .info .status-row .status-tag {
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            border: 1px solid #2a3344;
+            background: #1a2538;
+            color: #8899bb;
+            white-space: nowrap;
         }
-        .header .actions button:hover {
+
+        .status-tag.working {
+            color: #4fc3f7;
+            border-color: #2b5ca8;
+        }
+
+        .status-tag.resting {
+            color: #ffb74d;
+            border-color: #8d6e3f;
+        }
+
+        .status-tag.sleeping {
+            color: #7986cb;
+            border-color: #3949ab;
+        }
+
+        .status-tag.free {
+            color: #81c784;
+            border-color: #388e3c;
+        }
+
+        .status-tag.singing {
+            color: #ff8a65;
+            border-color: #d84315;
+        }
+
+        /* ===== 三点菜单 ===== */
+        .menu-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .menu-btn {
+            background: transparent;
+            border: none;
+            color: #7a8aa3;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            line-height: 1;
+            transition: 0.2s;
+            letter-spacing: 2px;
+        }
+
+        .menu-btn:hover {
             background: #1e283a;
             color: #edf2f7;
         }
+
+        .menu-dropdown {
+            position: absolute;
+            right: 0;
+            top: 36px;
+            background: #1a2538;
+            border: 1px solid #2a3344;
+            border-radius: 12px;
+            padding: 6px 0;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .menu-dropdown.open {
+            display: block;
+        }
+
+        .menu-dropdown .item {
+            padding: 10px 16px;
+            font-size: 13px;
+            color: #a0b3cc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.15s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .menu-dropdown .item:hover {
+            background: #2a3344;
+            color: #edf2f7;
+        }
+
+        .menu-dropdown .item.danger {
+            color: #cf6679;
+        }
+
+        .menu-dropdown .item.danger:hover {
+            background: #2a1418;
+            color: #ff8a9e;
+        }
+
+        .menu-dropdown .divider {
+            height: 1px;
+            background: #2a3344;
+            margin: 4px 12px;
+        }
+
+        /* ===== 角色切换栏（恢复参考文件效果） ===== */
         .persona-bar {
             padding: 10px 12px;
             display: flex;
@@ -108,9 +252,11 @@
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
+
         .persona-bar::-webkit-scrollbar {
             display: none;
         }
+
         .persona-item {
             display: flex;
             flex-direction: column;
@@ -124,29 +270,38 @@
             border: 2px solid transparent;
             background: transparent;
         }
+
         .persona-item.active {
             border-color: #2b5ca8;
             background: #1a2538;
         }
+
         .persona-item .pavatar {
             width: 48px;
             height: 48px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #2f3b4e;
+            transition: border-color 0.3s;
         }
+
         .persona-item.active .pavatar {
             border-color: #3a7bd5;
         }
+
         .persona-item .pname {
             font-size: 12px;
-            color: #8899bb;
+            color: #edf2f7;
             white-space: nowrap;
+            transition: color 0.3s, font-weight 0.3s;
         }
+
         .persona-item.active .pname {
             color: #edf2f7;
             font-weight: 600;
         }
+
+        /* ===== API Row ===== */
         .api-row {
             padding: 6px 16px;
             display: flex;
@@ -157,11 +312,12 @@
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
+
         .api-row label {
             font-size: 12px;
             color: #5b6e8a;
-            white-space: nowrap;
         }
+
         .api-row input {
             flex: 1;
             min-width: 100px;
@@ -173,20 +329,26 @@
             font-size: 13px;
             font-family: inherit;
         }
+
         .api-row input:focus {
             outline: none;
             border-color: #3a7bd5;
         }
+
         .api-row input::placeholder {
             color: #4d627c;
         }
+
         .api-row .status {
             font-size: 11px;
             color: #4d627c;
         }
+
         .api-row .status.ready {
             color: #4caf50;
         }
+
+        /* ===== 消息区 ===== */
         .message-area {
             flex: 1;
             overflow-y: auto;
@@ -197,6 +359,8 @@
             background: #10171f;
             min-height: 0;
         }
+
+        /* ===== 消息气泡 ===== */
         .message {
             max-width: 88%;
             padding: 10px 14px;
@@ -206,16 +370,19 @@
             animation: fadeIn 0.25s ease-out;
             word-break: break-word;
         }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
                 transform: translateY(8px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .message.bot {
             align-self: flex-start;
             background: #1e283a;
@@ -223,18 +390,21 @@
             border-bottom-left-radius: 6px;
             border: 1px solid #2b354a;
         }
+
         .message.user {
             align-self: flex-end;
             background: #2b5ca8;
             color: white;
             border-bottom-right-radius: 6px;
         }
+
         .message .time {
             font-size: 10px;
             opacity: 0.5;
             margin-top: 4px;
             display: block;
         }
+
         .message.sys {
             font-size: 12px;
             color: #5b6e8a;
@@ -244,6 +414,7 @@
             border: none !important;
             padding: 4px 0 !important;
         }
+
         .message.bot .msg-image {
             max-width: 100%;
             max-height: 300px;
@@ -252,6 +423,8 @@
             margin-top: 4px;
             border: 1px solid #2b354a;
         }
+
+        /* ===== 音频 ===== */
         .audio-wrapper {
             display: flex;
             align-items: center;
@@ -262,6 +435,7 @@
             cursor: pointer;
             user-select: none;
         }
+
         .audio-play-btn {
             width: 32px;
             height: 32px;
@@ -279,12 +453,15 @@
             padding: 0;
             line-height: 1;
         }
+
         .audio-play-btn:hover {
             background: #4f8ee8;
         }
+
         .audio-play-btn.playing {
             background: #e85a4f;
         }
+
         .audio-wave {
             flex: 1;
             height: 32px;
@@ -294,6 +471,7 @@
             min-width: 60px;
             position: relative;
         }
+
         .audio-wave .bar {
             flex: 1;
             height: 6px;
@@ -303,13 +481,16 @@
             min-height: 3px;
             max-height: 22px;
         }
+
         .audio-wave .bar.active {
             background: #3a7bd5;
         }
+
         .audio-wave .bar.played {
             background: #3a7bd5;
             opacity: 0.6;
         }
+
         .audio-duration {
             font-size: 12px;
             color: #8899bb;
@@ -319,59 +500,8 @@
             font-variant-numeric: tabular-nums;
             letter-spacing: 0.3px;
         }
-        .message.bot .audio-play-btn {
-            background: #4a7fc9;
-        }
-        .message.bot .audio-play-btn:hover {
-            background: #5a8fd9;
-        }
-        .message.bot .audio-play-btn.playing {
-            background: #d95a4a;
-        }
-        .message.bot .audio-wave .bar {
-            background: #3a4a5e;
-        }
-        .message.bot .audio-wave .bar.active {
-            background: #5a8fd9;
-        }
-        .message.bot .audio-duration {
-            color: #7a8aa3;
-        }
-        .typing {
-            align-self: flex-start;
-            background: #1e283a;
-            padding: 10px 16px;
-            border-radius: 18px;
-            border-bottom-left-radius: 6px;
-            border: 1px solid #2b354a;
-            color: #8899bb;
-            font-size: 14px;
-        }
-        .typing .dot {
-            display: inline-block;
-            width: 7px;
-            height: 7px;
-            background: #8899bb;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: blink 1.4s infinite;
-        }
-        .typing .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .typing .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        @keyframes blink {
-            0%,
-            60%,
-            100% {
-                opacity: 0.2;
-            }
-            30% {
-                opacity: 1;
-            }
-        }
+
+        /* ===== 输入区 ===== */
         .input-area {
             padding: 8px 16px 14px 16px;
             border-top: 1px solid #1f2a38;
@@ -381,6 +511,7 @@
             align-items: flex-end;
             background: #0f161e;
         }
+
         .input-area textarea {
             flex: 1;
             background: #1a2533;
@@ -395,17 +526,21 @@
             font-family: inherit;
             line-height: 1.5;
         }
+
         .input-area textarea:focus {
             outline: none;
             border-color: #3a7bd5;
         }
+
         .input-area textarea::placeholder {
             color: #4d627c;
         }
+
         .input-area textarea:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
+
         .input-area button {
             background: #2b5ca8;
             border: none;
@@ -421,64 +556,255 @@
             align-items: center;
             justify-content: center;
         }
+
         .input-area button:hover:not(:disabled) {
             background: #3a7bd5;
         }
+
         .input-area button:active:not(:disabled) {
             transform: scale(0.92);
         }
+
         .input-area button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
-        .message-area::-webkit-scrollbar {
-            width: 3px;
+
+        /* ===== 遮罩 ===== */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            border-radius: 32px;
+            backdrop-filter: blur(2px);
         }
-        .message-area::-webkit-scrollbar-track {
-            background: transparent;
+
+        .overlay.open {
+            display: flex;
         }
-        .message-area::-webkit-scrollbar-thumb {
-            background: #2b3a50;
-            border-radius: 8px;
+
+        /* ===== 通用弹窗 ===== */
+        .modal {
+            background: #1a2538;
+            border: 1px solid #2a3344;
+            border-radius: 16px;
+            padding: 28px 24px 20px;
+            max-width: 360px;
+            width: 90%;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
+            text-align: center;
         }
+
+        .modal .modal-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .modal h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #edf2f7;
+            margin-bottom: 6px;
+        }
+
+        .modal p {
+            font-size: 14px;
+            color: #a0b3cc;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .modal .file-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #10171f;
+            border: 1px solid #2a3344;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .modal .file-input-row label {
+            background: #2b5ca8;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+
+        .modal .file-input-row label:hover {
+            background: #3a7bd5;
+        }
+
+        .modal .file-input-row input[type="file"] {
+            display: none;
+        }
+
+        .modal .file-input-row .file-name {
+            font-size: 13px;
+            color: #8899bb;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .modal .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 4px;
+        }
+
+        .modal .modal-actions button {
+            padding: 8px 24px;
+            border-radius: 20px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .modal .modal-actions .btn-cancel {
+            background: #2f3b4e;
+            color: #a0b3cc;
+        }
+
+        .modal .modal-actions .btn-cancel:hover {
+            background: #3a4a62;
+            color: #edf2f7;
+        }
+
+        .modal .modal-actions .btn-confirm {
+            background: #3a7bd5;
+            color: white;
+        }
+
+        .modal .modal-actions .btn-confirm:hover {
+            background: #4f8ee8;
+        }
+
+        .modal .modal-actions .btn-danger {
+            background: #cf6679;
+            color: white;
+        }
+
+        .modal .modal-actions .btn-danger:hover {
+            background: #e5738a;
+        }
+
+        .modal .pwd-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #2a3344;
+            border-radius: 10px;
+            background: #10171f;
+            color: #edf2f7;
+            font-size: 16px;
+            font-family: inherit;
+            margin-bottom: 16px;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        .modal .pwd-input:focus {
+            outline: none;
+            border-color: #3a7bd5;
+        }
+
+        .modal .pwd-input::placeholder {
+            color: #4d627c;
+            letter-spacing: 0;
+        }
+
+        /* ===== 响应式 ===== */
         @media (max-width: 480px) {
             body {
                 padding: 0;
             }
+
             .app {
                 height: 100vh;
                 max-height: none;
                 border-radius: 0;
             }
+
+            .overlay {
+                border-radius: 0;
+            }
+
+            .modal {
+                max-width: 92%;
+                padding: 24px 18px 18px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="app" id="app">
+        <!-- ===== 遮罩 + 弹窗容器 ===== -->
+        <div class="overlay" id="overlay">
+            <div class="modal" id="modalContent">
+                <!-- 动态渲染 -->
+            </div>
+        </div>
+
+        <!-- ===== 头部 ===== -->
         <div class="header">
             <div class="avatar" id="headerAvatar">
                 <img id="headerAvatarImg" src="/img/tianxiaoduo/avatar.jpg" alt="avatar">
             </div>
             <div class="info">
-                <h1 id="headerName">甜小朵</h1>
-                <div class="status"><span class="dot"></span>在线</div>
+                <div class="name-row">
+                    <h1 id="headerName">甜小朵</h1>
+                </div>
+                <div class="status-row">
+                    <span class="dot"></span>
+                    <span>在线</span>
+                    <span class="status-tag" id="statusTag">💉 上班中</span>
+                </div>
             </div>
-            <div class="actions">
-                <button id="clearBtn">清空</button>
+            <div class="menu-wrapper">
+                <button class="menu-btn" id="menuBtn" aria-label="菜单">···</button>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <button class="item" data-action="import">📥 导入聊天记录</button>
+                    <button class="item" data-action="export">📤 导出聊天记录</button>
+                    <div class="divider"></div>
+                    <button class="item" data-action="config">⚙️ 配置管理</button>
+                    <div class="divider"></div>
+                    <button class="item danger" data-action="clear">🗑️ 清空所有消息</button>
+                </div>
             </div>
         </div>
 
+        <!-- ===== 角色切换栏 ===== -->
         <div class="persona-bar" id="personaBar"></div>
 
+        <!-- ===== API Key ===== -->
         <div class="api-row">
             <label>🔑</label>
             <input type="password" id="apiKeyInput" placeholder="DeepSeek API Key">
             <span class="status" id="apiStatus">未配置</span>
         </div>
 
+        <!-- ===== 消息区 ===== -->
         <div class="message-area" id="messageArea"></div>
 
+        <!-- ===== 输入区 ===== -->
         <div class="input-area">
             <textarea id="userInput" rows="1" placeholder="输入消息…" disabled></textarea>
             <button id="sendBtn" disabled>➤</button>
@@ -489,12 +815,78 @@
         // ============================================================
         //  配置
         // ============================================================
+        const DEFAULT_CONFIG = {
+            mediaProb: 0.8,
+            nakedProb: 0.3,
+            maxHistory: 60,
+            maxFileNum: 30,
+            maxNakedNum: 15,
+            maxAudioNum: 30,
+            cityName: '滨州市',
+            petTianxiaoduo: '宝贝',
+            petBaijie: '亲爱的',
+            petXiaoya: '你',
+            configPassword: 'wlaoshi520'
+        };
 
-        const MEDIA_PROBABILITY = 0.5;
-        const MAX_HISTORY = 30;
-        const MAX_FILE_NUM = 30;
-        const MAX_NAKED_NUM = 15;
+        function loadConfig() {
+            const raw = localStorage.getItem('ai_girls_config');
+            if (raw) {
+                try {
+                    const saved = JSON.parse(raw);
+                    return { ...DEFAULT_CONFIG, ...saved };
+                } catch (e) { }
+            }
+            return { ...DEFAULT_CONFIG };
+        }
 
+        const CONFIG = loadConfig();
+
+        // ============================================================
+        //  常量
+        // ============================================================
+        const MEDIA_PROBABILITY = CONFIG.mediaProb;
+        const NAKED_PROBABILITY = CONFIG.nakedProb;
+        const MAX_HISTORY = CONFIG.maxHistory;
+        const MAX_FILE_NUM = CONFIG.maxFileNum;
+        const MAX_NAKED_NUM = CONFIG.maxNakedNum;
+        const MAX_AUDIO_NUM = CONFIG.maxAudioNum;
+        const CONFIG_PASSWORD = CONFIG.configPassword;
+        const CITY_NAME = CONFIG.cityName || '滨州市';
+
+        // ============================================================
+        //  二十四节气表
+        // ============================================================
+        const SOLAR_TERMS = {
+            '01-05': '小寒',
+            '01-20': '大寒',
+            '02-04': '立春',
+            '02-19': '雨水',
+            '03-05': '惊蛰',
+            '03-20': '春分',
+            '04-04': '清明',
+            '04-20': '谷雨',
+            '05-05': '立夏',
+            '05-21': '小满',
+            '06-05': '芒种',
+            '06-21': '夏至',
+            '07-07': '小暑',
+            '07-22': '大暑',
+            '08-07': '立秋',
+            '08-23': '处暑',
+            '09-07': '白露',
+            '09-23': '秋分',
+            '10-08': '寒露',
+            '10-23': '霜降',
+            '11-07': '立冬',
+            '11-22': '小雪',
+            '12-07': '大雪',
+            '12-21': '冬至'
+        };
+
+        // ============================================================
+        //  角色配置
+        // ============================================================
         const PERSONAS = [{
             id: 'tianxiaoduo',
             name: '甜小朵',
@@ -512,38 +904,22 @@
             systemPrompt: `你是小雅，今年23岁，在一家独立书店做店员，同时也画一些插画，是用户的女朋友。\n用户同时有三个女朋友：甜小朵、白洁、小雅（就是你）。\n你安静内向、温柔细腻，内心世界非常丰富。\n你始终记得：你是小雅，是用户的女朋友之一，你永远不会跳戏。`
         }];
 
-        const AUDIO_KEYWORDS = [
-            '声音', '说话', '歌', '歌声', '唱歌',
-            '笑声', '笑一下', '哈哈', '来一首', '听声音',
-            '语音', '嘿嘿', '嘻嘻', '哼两句', '说句话'
-        ];
-
-        // ★★★ 普通图片关键词（不含数学词） ★★★
-        const IMAGE_KEYWORDS = [
-            '照片', '自拍', '看看你', '美照', '发张照片',
-            '让我看看', '露脸', '瞅瞅', '在干嘛', '今天',
-            '现在', '穿什么', '来一张', '拍拍', '好久没看'
-        ];
-
-        // ★★★ 数学关键词 → 触发 naked 文件夹 ★★★
-        const NAKED_KEYWORDS = [
-            '做爱', '裸体', '肉体', '胸', '打炮',
-            '阴茎', '乳房', '开房', '滚床单','那个了','你的逼','阴唇','性生活',
-            '兴奋','勃起','脱衣服','酒店','家里只有我一个人','约炮','插入','出轨'
-        ];
-
-        // ★★★ 合并所有图片关键词（用于检测是否触发图片） ★★★
-        const ALL_IMAGE_KEYWORDS = [...IMAGE_KEYWORDS, ...NAKED_KEYWORDS];
-
-        const COMBO_KEYWORDS = ['想你了', '晚安', '早安', '抱抱', '亲亲'];
-
-        const COMBO_REPLIES = {
-            '想你了': '我也想你呀～',
-            '晚安': '晚安，好梦～',
-            '早安': '早安呀～',
-            '抱抱': '抱抱～',
-            '亲亲': 'mua～'
-        };
+        // ============================================================
+        //  DOM
+        // ============================================================
+        const personaBar = document.getElementById('personaBar');
+        const headerAvatarImg = document.getElementById('headerAvatarImg');
+        const headerName = document.getElementById('headerName');
+        const statusTag = document.getElementById('statusTag');
+        const messageArea = document.getElementById('messageArea');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const apiStatus = document.getElementById('apiStatus');
+        const menuBtn = document.getElementById('menuBtn');
+        const menuDropdown = document.getElementById('menuDropdown');
+        const overlay = document.getElementById('overlay');
+        const modalContent = document.getElementById('modalContent');
 
         // ============================================================
         //  状态
@@ -560,30 +936,30 @@
             });
             conversations[p.id] = fixed.slice(-MAX_HISTORY);
         });
-
+        let isWaiting = false;
         let currentAudioElement = null;
         let currentAudioWrapper = null;
-
-        // ============================================================
-        //  DOM
-        // ============================================================
-        const personaBar = document.getElementById('personaBar');
-        const headerAvatarImg = document.getElementById('headerAvatarImg');
-        const headerName = document.getElementById('headerName');
-        const messageArea = document.getElementById('messageArea');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const apiKeyInput = document.getElementById('apiKeyInput');
-        const apiStatus = document.getElementById('apiStatus');
-
-        let isWaiting = false;
+        let menuOpen = false;
+        let weatherCache = { data: null, time: 0 };
+        const WEATHER_CACHE_DURATION = 30 * 60 * 1000;
 
         // ============================================================
         //  工具函数
         // ============================================================
         function getTime() {
             return new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function getFullTimestamp() {
+            return new Date().toISOString();
+        }
+
+        function getDateStr() {
+            const d = new Date();
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return y + m + day;
         }
 
         function getHistory() {
@@ -596,7 +972,6 @@
             localStorage.setItem('chat_' + currentPersona.id, JSON.stringify(trimmed));
         }
 
-        // ★★★ 图片随机：支持 naked 子文件夹 ★★★
         function getRandomImagePath(isNaked = false) {
             const num = Math.floor(Math.random() * (isNaked ? MAX_NAKED_NUM : MAX_FILE_NUM)) + 1;
             if (isNaked) {
@@ -606,28 +981,14 @@
         }
 
         function getRandomAudioPath() {
-            const num = Math.floor(Math.random() * MAX_FILE_NUM) + 1;
+            const num = Math.floor(Math.random() * MAX_AUDIO_NUM) + 1;
             return `/audio/${currentPersona.id}/${num}.mp3`;
-        }
-
-        function containsKeyword(text, keywords) {
-            return keywords.some(kw => text.includes(kw));
-        }
-
-        function getMatchedCombo(text) {
-            for (const kw of COMBO_KEYWORDS) {
-                if (text.includes(kw)) return kw;
-            }
-            return null;
         }
 
         function getMockDuration() {
             return Math.floor(Math.random() * 9) + 3;
         }
 
-        // ============================================================
-        //  检测消息是否为图片/音频路径
-        // ============================================================
         function isImagePath(text) {
             return text && /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(text);
         }
@@ -637,153 +998,693 @@
         }
 
         // ============================================================
-        //  核心：构建 System Prompt
+        //  时间信息
+        // ============================================================
+        function getTimeInfo() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            const weekday = now.getDay();
+            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            const dateKey = String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+            const seasons = [
+                { name: '春', months: [3, 4, 5] },
+                { name: '夏', months: [6, 7, 8] },
+                { name: '秋', months: [9, 10, 11] },
+                { name: '冬', months: [12, 1, 2] }
+            ];
+            const season = seasons.find(s => s.months.includes(month))?.name || '冬';
+            const term = SOLAR_TERMS[dateKey] || null;
+            const HOLIDAYS = {
+                '01-01': '元旦',
+                '02-14': '情人节',
+                '03-08': '妇女节',
+                '04-23': '小雅的生日',
+                '05-01': '劳动节',
+                '06-01': '儿童节',
+                '10-01': '国庆节',
+                '12-25': '圣诞节'
+            };
+            const holiday = HOLIDAYS[dateKey] || null;
+            return {
+                now,
+                year,
+                month,
+                day,
+                hour,
+                minute,
+                weekday: weekdays[weekday],
+                dateKey,
+                season,
+                term,
+                holiday,
+                isWeekend: weekday === 0 || weekday === 6
+            };
+        }
+
+        // ============================================================
+        //  状态标签
+        // ============================================================
+        function getStatusTag(now, personaId) {
+            const h = now.getHours();
+            const m = now.getMinutes();
+            const day = now.getDate();
+            const weekday = now.getDay();
+            const total = h * 60 + m;
+
+            if (personaId === 'tianxiaoduo') {
+                const isSunday = weekday === 0;
+                if (isSunday) {
+                    if (total >= 23 * 60 || total < 8 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    return { icon: '☕', label: '休息日', cls: 'free' };
+                }
+                if (total >= 23 * 60 || total < 7 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                if (total < 8 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
+                if (total < 11 * 60) return { icon: '💉', label: '上班中', cls: 'working' };
+                if (total < 15 * 60) return { icon: '🍜', label: '午休中', cls: 'resting' };
+                if (total < 17 * 60) return { icon: '💉', label: '上班中', cls: 'working' };
+                return { icon: '🏠', label: '已下班', cls: 'free' };
+            }
+
+            if (personaId === 'baijie') {
+                const isFirstHalf = day <= 15;
+                if (isFirstHalf) {
+                    if (total >= 4 * 60 && total < 11 * 60) return { icon: '😴', label: '补觉中', cls: 'sleeping' };
+                    if (total >= 20 * 60 || total < 4 * 60) return { icon: '🌙', label: '夜班中', cls: 'working' };
+                    return { icon: '🏠', label: '自由活动', cls: 'free' };
+                } else {
+                    if (total >= 1 * 60 && total < 9 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    if (total < 10 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
+                    if (total < 18 * 60) return { icon: '💼', label: '上班中', cls: 'working' };
+                    return { icon: '🏠', label: '已下班', cls: 'free' };
+                }
+            }
+
+            if (personaId === 'xiaoya') {
+                const isTue = weekday === 2;
+                const isFri = weekday === 5;
+                const isWed = weekday === 3;
+                const isSat = weekday === 6;
+                const isRest = isWed || isSat;
+                const isSing = isTue || isFri;
+
+                if (isRest) {
+                    if (total >= 22 * 60 || total < 6 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    return { icon: '☕', label: '休息日', cls: 'free' };
+                }
+                if (isSing) {
+                    if (total >= 1 * 60 && total < 10 * 60) return { icon: '😴', label: '补觉中', cls: 'sleeping' };
+                    if (total >= 21 * 60 || total < 1 * 60) return { icon: '🎤', label: '驻唱中', cls: 'singing' };
+                    if (total < 8 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
+                    if (total < 11 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
+                    if (total < 14 * 60) return { icon: '🍜', label: '午休中', cls: 'resting' };
+                    if (total < 17 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
+                    if (total < 21 * 60) return { icon: '🏠', label: '自由活动', cls: 'free' };
+                    return { icon: '🎤', label: '准备驻唱', cls: 'singing' };
+                }
+                if (total >= 22 * 60 || total < 6 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                if (total < 8 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
+                if (total < 11 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
+                if (total < 14 * 60) return { icon: '🍜', label: '午休中', cls: 'resting' };
+                if (total < 17 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
+                return { icon: '🏠', label: '已下班', cls: 'free' };
+            }
+            return { icon: '💬', label: '在线', cls: 'free' };
+        }
+
+        // ============================================================
+        //  默认回复
+        // ============================================================
+        function getDefaultReply(personaId) {
+            const replies = {
+                'tianxiaoduo': [
+                    '小朵已经休息啦，想我的话明早晨7点后再来找我哦~ 😴',
+                    '呼...睡着了...明天再聊叭... 🌙',
+                    'zzZ...小朵在梦里等你哦... 💤'
+                ],
+                'baijie': [
+                    '刚下班呢，让我补个觉，中午再找我聊哦~ 💤',
+                    '人家都睡了啦~ 明天再聊嘛，讨厌~ 😘',
+                    '夜班好累...让我睡一会儿... 🌙'
+                ],
+                'xiaoya': [
+                    '小雅已经睡着啦~ 明天还要早起呢，晚安哦 🌙',
+                    '昨晚驻唱太晚啦，让我补个觉~ 中午见哦 🎤',
+                    'zzZ...小雅在梦里唱歌给你听... 💤'
+                ]
+            };
+            const list = replies[personaId] || replies['tianxiaoduo'];
+            return list[Math.floor(Math.random() * list.length)];
+        }
+
+        // ============================================================
+        //  判断默认回复
+        // ============================================================
+        function shouldDefaultReply(personaId, now) {
+            const h = now.getHours();
+            const total = h * 60 + now.getMinutes();
+            const day = now.getDate();
+            const weekday = now.getDay();
+
+            if (personaId === 'tianxiaoduo') {
+                const isSunday = weekday === 0;
+                if (isSunday) return total >= 23 * 60 || total < 8 * 60;
+                return total >= 23 * 60 || total < 7 * 60;
+            }
+            if (personaId === 'baijie') {
+                const isFirstHalf = day <= 15;
+                if (isFirstHalf) return total >= 4 * 60 && total < 11 * 60;
+                return total >= 1 * 60 && total < 9 * 60;
+            }
+            if (personaId === 'xiaoya') {
+                const isTue = weekday === 2;
+                const isFri = weekday === 5;
+                const isWed = weekday === 3;
+                const isSat = weekday === 6;
+                const isRest = isWed || isSat;
+                const isSing = isTue || isFri;
+                if (isRest) return total >= 22 * 60 || total < 6 * 60;
+                if (isSing) return total >= 1 * 60 && total < 10 * 60;
+                return total >= 22 * 60 || total < 6 * 60;
+            }
+            return false;
+        }
+
+        // ============================================================
+        //  弹窗系统
+        // ============================================================
+        let modalResolve = null;
+
+        function showModal(html) {
+            return new Promise((resolve) => {
+                modalContent.innerHTML = html;
+                overlay.classList.add('open');
+                modalResolve = resolve;
+            });
+        }
+
+        function closeModal(result) {
+            overlay.classList.remove('open');
+            if (modalResolve) {
+                modalResolve(result);
+                modalResolve = null;
+            }
+        }
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay && !modalContent.querySelector('.no-close')) {
+                closeModal(false);
+            }
+        });
+
+        function showAlert(title, message, icon = 'ℹ️', btnText = '确认') {
+            return showModal(`
+                <span class="modal-icon">${icon}</span>
+                <h2>${title}</h2>
+                <p>${message}</p>
+                <div class="modal-actions">
+                    <button class="btn-confirm" onclick="window._modalConfirm(true)">${btnText}</button>
+                </div>
+            `);
+        }
+
+        function showConfirm(title, message, icon = '⚠️', confirmText = '确定', danger = false) {
+            return showModal(`
+                <span class="modal-icon">${icon}</span>
+                <h2>${title}</h2>
+                <p>${message}</p>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="window._modalConfirm(false)">取消</button>
+                    <button class="${danger ? 'btn-danger' : 'btn-confirm'}" onclick="window._modalConfirm(true)">${confirmText}</button>
+                </div>
+            `);
+        }
+
+        function showImportModal() {
+            return new Promise((resolve) => {
+                let selectedFile = null;
+                const html = `
+                    <span class="modal-icon">📥</span>
+                    <h2>导入聊天记录</h2>
+                    <p>选择要导入的 .json 文件，将按时间排序合并</p>
+                    <div class="file-input-row">
+                        <label for="fileInput">选择文件</label>
+                        <input type="file" id="fileInput" accept=".json">
+                        <span class="file-name" id="fileName">未选择任何文件</span>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-cancel" id="importCancel">取消</button>
+                        <button class="btn-confirm" id="importConfirm" disabled>导入</button>
+                    </div>
+                `;
+                modalContent.innerHTML = html;
+                overlay.classList.add('open');
+
+                const fileInput = document.getElementById('fileInput');
+                const fileName = document.getElementById('fileName');
+                const confirmBtn = document.getElementById('importConfirm');
+                const cancelBtn = document.getElementById('importCancel');
+
+                fileInput.addEventListener('change', () => {
+                    if (fileInput.files.length > 0) {
+                        selectedFile = fileInput.files[0];
+                        fileName.textContent = selectedFile.name;
+                        confirmBtn.disabled = false;
+                    } else {
+                        selectedFile = null;
+                        fileName.textContent = '未选择任何文件';
+                        confirmBtn.disabled = true;
+                    }
+                });
+
+                cancelBtn.onclick = () => {
+                    overlay.classList.remove('open');
+                    resolve(null);
+                };
+                confirmBtn.onclick = () => {
+                    overlay.classList.remove('open');
+                    resolve(selectedFile);
+                };
+            });
+        }
+
+        window._modalConfirm = function (result) {
+            closeModal(result);
+        };
+
+        // ============================================================
+        //  密码弹窗
+        // ============================================================
+        function showPasswordModal() {
+            return new Promise((resolve) => {
+                const html = `
+                    <span class="modal-icon">🔒</span>
+                    <h2>验证身份</h2>
+                    <p>请输入配置管理密码</p>
+                    <input class="pwd-input" id="pwdInput" type="password" placeholder="请输入密码" autofocus>
+                    <div class="modal-actions">
+                        <button class="btn-cancel" id="pwdCancel">取消</button>
+                        <button class="btn-confirm" id="pwdConfirm">确认</button>
+                    </div>
+                `;
+                modalContent.innerHTML = html;
+                overlay.classList.add('open');
+
+                const input = document.getElementById('pwdInput');
+                const cancelBtn = document.getElementById('pwdCancel');
+                const confirmBtn = document.getElementById('pwdConfirm');
+
+                input.focus();
+
+                const doConfirm = () => {
+                    const val = input.value.trim();
+                    overlay.classList.remove('open');
+                    resolve(val);
+                };
+                const doCancel = () => {
+                    overlay.classList.remove('open');
+                    resolve(null);
+                };
+
+                confirmBtn.onclick = doConfirm;
+                cancelBtn.onclick = doCancel;
+                input.onkeydown = (e) => {
+                    if (e.key === 'Enter') doConfirm();
+                    if (e.key === 'Escape') doCancel();
+                };
+                overlay.onclick = null;
+            });
+        }
+
+        // ============================================================
+        //  导入/导出/清空
         // ============================================================
 
-        function personaToThirdPerson(persona) {
-            return persona.systemPrompt.replace(/你/g, persona.name);
+        async function exportChat() {
+            const history = getHistory();
+            if (history.length === 0) {
+                showAlert('导出失败', '当前角色没有聊天记录可导出', '📭');
+                return;
+            }
+            const data = {
+                version: '1.0',
+                exportedAt: new Date().toISOString(),
+                persona: currentPersona.name,
+                personaId: currentPersona.id,
+                messages: history
+            };
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Girls3@${getDateStr()}_${currentPersona.name}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showAlert('导出成功', `已导出 ${currentPersona.name} 的 ${history.length} 条聊天记录`, '📤');
         }
 
-        function detectQuestionType(text, mentionedNames) {
-            const types = [];
-
-            if (mentionedNames.length === 1) {
-                types.push('single_eval');
-                return types;
-            }
-
-            if (mentionedNames.length >= 2) {
-                if (/对.*态度|对.*看法|觉得.*怎么样|怎么看/.test(text)) {
-                    types.push('attitude');
-                }
-                if (/谁更|比较|更[^的]|哪个更/.test(text)) {
-                    types.push('compare');
-                }
-                if (/关系|相处|合不合|合得来|会喜欢/.test(text)) {
-                    types.push('relationship');
-                }
-                if (/如果|假如|要是|会怎样/.test(text)) {
-                    types.push('hypothetical');
-                }
-                if (types.length === 0) {
-                    types.push('relationship');
-                }
-            }
-
-            return types;
-        }
-
-        function getMentionedOthers(text, currentId) {
-            const others = [];
-            for (const p of PERSONAS) {
-                if (p.id !== currentId && text.includes(p.name)) {
-                    others.push(p);
-                }
-            }
-            return others;
-        }
-
-        function buildSystemPrompt(persona, userMessage) {
-            let prompt = persona.systemPrompt;
-
-            const mentioned = getMentionedOthers(userMessage, persona.id);
-
-            if (mentioned.length === 0) {
-                return prompt;
-            }
-
-            const allNames = PERSONAS.map(p => p.name).join('、');
-            const otherPrompts = mentioned.map(p => {
-                return `以下是「${p.name}」的性格描述（供你参考）：\n${personaToThirdPerson(p)}`;
-            }).join('\n\n');
-
-            if (mentioned.length === 1) {
-                const target = mentioned[0];
-                prompt += `\n\n补充信息：用户同时有三个女朋友：${allNames}。`;
-                prompt += `\n\n${otherPrompts}`;
-                prompt += `\n\n现在用户问你对「${target.name}」的看法。`;
-                prompt += `\n请你（${persona.name}）根据上面「${target.name}」的性格描述，以${persona.name}自己的身份和视角，说出对${target.name}的真实看法和评价。`;
-                prompt += `\n你和${target.name}都是用户的女朋友，你可以有自己的喜好、偏好甚至小情绪，这很正常。`;
-                prompt += `\n请用自然、口语化的方式表达，像真正的女朋友之间的评价一样。`;
-
-            } else {
-                const types = detectQuestionType(userMessage, mentioned);
-                const nameA = mentioned[0].name;
-                const nameB = mentioned[1] ? mentioned[1].name : mentioned[0].name;
-
-                prompt += `\n\n补充信息：用户同时有三个女朋友：${allNames}。`;
-                prompt += `\n\n${otherPrompts}`;
-
-                const instructions = [];
-
-                for (const type of types) {
-                    if (type === 'attitude') {
-                        instructions.push(
-                            `请你（${persona.name}）以旁观者的身份，根据上面两个人的性格描述，合理推测「${nameA}」对「${nameB}」的真实态度和看法。请明确表示这是你的猜测，比如"我觉得以${nameA}的性格，她可能会..."，语气要像聊八卦一样自然。`
-                            );
-                    } else if (type === 'compare') {
-                        instructions.push(
-                            `请你（${persona.name}）以${persona.name}自己的身份，根据上面两个人的性格描述，比较「${nameA}」和「${nameB}」。可以委婉表达，比如"如果非要选的话，我觉得..."，并且说明理由。`
-                            );
-                    } else if (type === 'relationship') {
-                        instructions.push(
-                            `请你（${persona.name}）以旁观者的身份，根据上面两个人的性格描述，合理推测「${nameA}」和「${nameB}」之间的相处模式和关系状态。可以结合她们性格的互补或冲突来分析。`
-                            );
-                    } else if (type === 'hypothetical') {
-                        instructions.push(
-                            `请你（${persona.name}）以旁观者的身份，根据上面两个人的性格描述，发挥想象力，推测「${nameA}」和「${nameB}」在一起时可能发生的互动。可以带点故事感和"狗血"剧情（比如争风吃醋、暗戳戳的小心思），越有趣越好。请明确表示这是你的想象，比如"我觉得画面可能是这样的..."。`
-                            );
+        async function importChat() {
+            const file = await showImportModal();
+            if (!file) return;
+            try {
+                const text = await file.text();
+                const data = JSON.parse(text);
+                if (!data.messages || !Array.isArray(data.messages)) throw new Error('无效格式');
+                const imported = data.messages;
+                const current = getHistory();
+                const all = [...current, ...imported];
+                const seen = new Set();
+                const merged = [];
+                for (const msg of all) {
+                    const key = msg.timestamp || msg.time || JSON.stringify(msg);
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        merged.push(msg);
                     }
                 }
-
-                prompt += `\n\n现在用户问了多个问题，请依次回答：`;
-                instructions.forEach((inst, idx) => {
-                    prompt += `\n${idx + 1}. ${inst}`;
-                });
-                prompt += `\n\n语气要自然、口语化，像女朋友之间聊天一样。`;
+                merged.sort((a, b) => (a.timestamp || a.time || '').localeCompare(b.timestamp || b.time || ''));
+                saveHistory(merged);
+                renderMessages();
+                showAlert('导入成功', `共导入 ${imported.length} 条消息，当前总计 ${merged.length} 条`, '✅');
+            } catch (e) {
+                showAlert('导入失败', '文件格式不正确，请选择 .json 文件', '❌');
             }
+        }
+
+        async function clearChat() {
+            const name = currentPersona.name;
+            const steps = [
+                { title: '清空所有聊天记录', message: `确定要清空与「${name}」的所有聊天记录吗？`, icon: '⚠️', btn: '确定清空' },
+                { title: '再次确认', message: '这将永久删除所有消息，且无法恢复！', icon: '⚠️', btn: '我确定' },
+                { title: '最后一次确认', message: `真的要清空与「${name}」的所有聊天记录吗？`, icon: '⚠️', btn: '全部删除' }
+            ];
+            for (const step of steps) {
+                const result = await showConfirm(step.title, step.message, step.icon, step.btn, true);
+                if (!result) return;
+            }
+            conversations[currentPersona.id] = [];
+            localStorage.setItem('chat_' + currentPersona.id, JSON.stringify([]));
+            renderMessages();
+            showAlert('已清空', `已清空与「${name}」的所有聊天记录`, '🗑️');
+        }
+
+        // ============================================================
+        //  配置管理
+        // ============================================================
+        async function openConfigManager() {
+            const pwd = await showPasswordModal();
+            if (pwd === null) return;
+            if (pwd !== CONFIG_PASSWORD) {
+                showAlert('密码错误', '请重新尝试', '❌', '确定');
+                return;
+            }
+            window.open('config.html', '_blank');
+        }
+
+        // ============================================================
+        //  三点菜单
+        // ============================================================
+        function toggleMenu(e) {
+            e.stopPropagation();
+            menuOpen = !menuOpen;
+            menuDropdown.classList.toggle('open', menuOpen);
+        }
+
+        function closeMenu() {
+            menuOpen = false;
+            menuDropdown.classList.remove('open');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        document.addEventListener('click', (e) => {
+            if (menuOpen && !e.target.closest('.menu-wrapper')) closeMenu();
+        });
+
+        menuDropdown.querySelectorAll('.item').forEach(item => {
+            item.addEventListener('click', () => {
+                const action = item.dataset.action;
+                closeMenu();
+                if (action === 'import') importChat();
+                else if (action === 'export') exportChat();
+                else if (action === 'clear') clearChat();
+                else if (action === 'config') openConfigManager();
+            });
+        });
+
+        // ============================================================
+        //  天气
+        // ============================================================
+        const WEATHER_KEYWORDS = ['天气', '温度', '热', '冷', '下雨', '雨', '雪', '阳光', '风', '出门', '穿衣', '预报', '晴', '阴', '雾',
+            '降温', '升温', '凉快'
+        ];
+
+        async function fetchWeather() {
+            const now = Date.now();
+            if (weatherCache.data && (now - weatherCache.time) < WEATHER_CACHE_DURATION) {
+                return weatherCache.data;
+            }
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 5000);
+                const city = encodeURIComponent(CITY_NAME);
+                const resp = await fetch(`https://wttr.in/${city}?format=%C+%t`, { signal: controller.signal });
+                clearTimeout(timeout);
+                if (!resp.ok) throw new Error('API失败');
+                const text = await resp.text();
+                const match = text.match(/(.+?)\s+([+-]?\d+°C)/);
+                if (match) {
+                    weatherCache.data = { condition: match[1].trim(), temperature: match[2] };
+                } else {
+                    weatherCache.data = { condition: text.trim(), temperature: '?' };
+                }
+                weatherCache.time = now;
+                return weatherCache.data;
+            } catch (e) {
+                console.warn('天气获取失败:', e);
+                const fallbacks = [
+                    '天气预报明明说有雨但现在风和日丽',
+                    '天气软件说下雨，但我看窗外太阳挺好的',
+                    '明明报的是多云，结果出大太阳了',
+                    '说好的降温呢？我感觉今天还是好热'
+                ];
+                return { fallback: fallbacks[Math.floor(Math.random() * fallbacks.length)] };
+            }
+        }
+
+        function isWeatherQuery(text) {
+            return WEATHER_KEYWORDS.some(kw => text.includes(kw));
+        }
+
+        // ============================================================
+        //  System Prompt
+        // ============================================================
+        function buildSystemPrompt(persona, userMessage, weather) {
+            const timeInfo = getTimeInfo();
+            const status = getStatusTag(timeInfo.now, persona.id);
+            let prompt = persona.systemPrompt;
+
+            prompt +=
+                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${String(timeInfo.hour).padStart(2, '0')}:${String(timeInfo.minute).padStart(2, '0')}`;
+            prompt += `\n当前季节：${timeInfo.season}天`;
+            if (timeInfo.term) prompt += `\n今日节气：${timeInfo.term}`;
+            if (timeInfo.holiday) prompt += `\n今日节日：${timeInfo.holiday}`;
+
+            prompt += `\n\n${persona.name}当前状态：${status.icon} ${status.label}`;
+            const statusDetails = {
+                'tianxiaoduo': '甜小朵是儿科护士，住在医院附近的南丁格尔公寓，骑电动车上班。',
+                'baijie': '白洁是酒店客户关系总监，住在蓝丝绒公寓，开珍珠白Mini Cooper上班。',
+                'xiaoya': '小雅是新华书店店员，住在单位宿舍，骑电动车上班，偶尔在"寻觅"小酒吧驻唱。'
+            };
+            prompt += `\n${statusDetails[persona.id] || ''}`;
+
+            prompt += `\n城市：${CITY_NAME}`;
+
+            if (weather) {
+                if (weather.fallback) {
+                    prompt += `\n天气：${weather.fallback}`;
+                } else {
+                    prompt += `\n当前天气：${weather.condition}，${weather.temperature}`;
+                }
+            }
+
+            const moods = {
+                'working': '专注认真',
+                'resting': '放松慵懒',
+                'sleeping': '困倦温柔',
+                'free': '轻松愉快',
+                'singing': '兴奋投入'
+            };
+            prompt += `\n当前情绪：${moods[status.cls] || '平静'}`;
+
+            prompt += `\n\n用户是你的男朋友。用户同时有三个女朋友：甜小朵、白洁、小雅。你们三人互相认识，知道彼此的存在。`;
+
+            const petNames = {
+                'tianxiaoduo': CONFIG.petTianxiaoduo || '宝贝',
+                'baijie': CONFIG.petBaijie || '亲爱的',
+                'xiaoya': CONFIG.petXiaoya || '你'
+            };
+            prompt += `\n你对用户的称呼是「${petNames[persona.id] || '亲爱的'}」。`;
 
             return prompt;
         }
 
         // ============================================================
-        //  音频 UI 创建
+        //  渲染
+        // ============================================================
+
+        function renderPersonas() {
+            personaBar.innerHTML = '';
+            PERSONAS.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'persona-item' + (p.id === currentPersona.id ? ' active' : '');
+                div.dataset.id = p.id;
+                div.innerHTML = `
+            <img class="pavatar" src="${p.avatar}" onerror="this.src='/img/default-avatar.jpg'">
+            <span class="pname">${p.name}</span>
+        `;
+                div.onclick = () => switchPersona(p.id);
+                personaBar.appendChild(div);
+            });
+        }
+
+        function switchPersona(id) {
+            const p = PERSONAS.find(p => p.id === id);
+            if (!p || p.id === currentPersona.id) return;
+            if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement = null; currentAudioWrapper = null; }
+            currentPersona = p;
+            updateHeader();
+            renderMessages();
+            userInput.focus();
+
+            document.querySelectorAll('.persona-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.id === id);
+            });
+        }
+
+        function updateHeader() {
+            headerAvatarImg.src = currentPersona.avatar;
+            headerAvatarImg.onerror = () => { headerAvatarImg.src = '/img/default-avatar.jpg'; };
+            headerName.textContent = currentPersona.name;
+            updateStatusTag();
+        }
+
+        function updateStatusTag() {
+            const status = getStatusTag(new Date(), currentPersona.id);
+            statusTag.textContent = status.icon + ' ' + status.label;
+            statusTag.className = 'status-tag ' + status.cls;
+        }
+
+        function renderMessages() {
+            messageArea.innerHTML = '';
+            const history = getHistory();
+            if (history.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'message bot';
+                div.innerHTML = `👋 你好，我是 ${currentPersona.name}。<span class="time">${getTime()}</span>`;
+                messageArea.appendChild(div);
+                return;
+            }
+            history.forEach(msg => {
+                const div = document.createElement('div');
+                const displayRole = msg.role === 'assistant' ? 'bot' : msg.role;
+                div.className = 'message ' + (displayRole === 'user' ? 'user' : 'bot');
+                if (msg.role === 'user') {
+                    div.innerHTML = msg.content + `<span class="time">${msg.time || getTime()}</span>`;
+                } else {
+                    const contentDiv = document.createElement('div');
+                    if (msg.type === 'image') {
+                        const img = document.createElement('img');
+                        img.src = msg.content;
+                        img.className = 'msg-image';
+                        img.onerror = () => { img.style.display = 'none'; };
+                        contentDiv.appendChild(img);
+                    } else if (msg.type === 'audio') {
+                        const duration = msg.duration || getMockDuration();
+                        const audioUI = createAudioUI(msg.content, duration);
+                        contentDiv.appendChild(audioUI);
+                    } else if (msg.type === 'combo') {
+                        if (msg.text) {
+                            const textP = document.createElement('div');
+                            textP.textContent = msg.text;
+                            contentDiv.appendChild(textP);
+                        }
+                        if (msg.image) {
+                            const img = document.createElement('img');
+                            img.src = msg.image;
+                            img.className = 'msg-image';
+                            img.onerror = () => { img.style.display = 'none'; };
+                            contentDiv.appendChild(img);
+                        }
+                        if (msg.audio) {
+                            const duration = msg.audioDuration || getMockDuration();
+                            const audioUI = createAudioUI(msg.audio, duration);
+                            contentDiv.appendChild(audioUI);
+                        }
+                    } else {
+                        const content = msg.content || '';
+                        if (isImagePath(content)) {
+                            const img = document.createElement('img');
+                            img.src = content;
+                            img.className = 'msg-image';
+                            img.onerror = () => { img.style.display = 'none'; };
+                            contentDiv.appendChild(img);
+                        } else if (isAudioPath(content)) {
+                            const duration = getMockDuration();
+                            const audioUI = createAudioUI(content, duration);
+                            contentDiv.appendChild(audioUI);
+                        } else {
+                            contentDiv.textContent = content;
+                        }
+                    }
+                    const timeSpan = document.createElement('span');
+                    timeSpan.className = 'time';
+                    timeSpan.textContent = msg.time || getTime();
+                    contentDiv.appendChild(timeSpan);
+                    div.appendChild(contentDiv);
+                }
+                messageArea.appendChild(div);
+            });
+            messageArea.scrollTop = messageArea.scrollHeight;
+            updateStatusTag();
+        }
+
+        // ============================================================
+        //  音频 UI
         // ============================================================
         function createAudioUI(audioSrc, duration) {
             const wrapper = document.createElement('div');
             wrapper.className = 'audio-wrapper';
-
             const btn = document.createElement('button');
             btn.className = 'audio-play-btn';
             btn.textContent = '▶';
-
             const wave = document.createElement('div');
             wave.className = 'audio-wave';
-
             const barCount = 20;
             const bars = [];
             for (let i = 0; i < barCount; i++) {
                 const bar = document.createElement('div');
                 bar.className = 'bar';
-                const height = 4 + Math.random() * 18;
-                bar.style.height = height + 'px';
+                bar.style.height = (4 + Math.random() * 18) + 'px';
                 wave.appendChild(bar);
                 bars.push(bar);
             }
-
             const durSpan = document.createElement('span');
             durSpan.className = 'audio-duration';
-            const minutes = Math.floor(duration / 60);
-            const seconds = duration % 60;
-            durSpan.textContent = minutes > 0 ? `${minutes}'${String(seconds).padStart(2, '0')}"` : `${seconds}"`;
-
+            const mins = Math.floor(duration / 60);
+            const secs = duration % 60;
+            durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
             wrapper.appendChild(btn);
             wrapper.appendChild(wave);
             wrapper.appendChild(durSpan);
 
             const audio = new Audio(audioSrc);
             audio.preload = 'metadata';
-
             let isPlaying = false;
             let progressInterval = null;
 
@@ -793,31 +1694,23 @@
                 const activeCount = Math.floor(progress * barCount);
                 bars.forEach((bar, idx) => {
                     bar.className = 'bar';
-                    if (idx < activeCount) {
-                        bar.classList.add('played');
-                    }
-                    if (idx === activeCount && idx < barCount - 1) {
-                        bar.classList.add('active');
-                    }
+                    if (idx < activeCount) bar.classList.add('played');
+                    if (idx === activeCount && idx < barCount - 1) bar.classList.add('active');
                 });
                 const curMin = Math.floor(audio.currentTime / 60);
                 const curSec = Math.floor(audio.currentTime % 60);
                 const totalMin = Math.floor(duration / 60);
                 const totalSec = duration % 60;
-                const totalStr = totalMin > 0 ? `${totalMin}'${String(totalSec).padStart(2, '0')}"` : `${totalSec}"`;
-                const curStr = curMin > 0 ? `${curMin}'${String(curSec).padStart(2, '0')}"` : `${curSec}"`;
-                durSpan.textContent = `${curStr} / ${totalStr}`;
+                durSpan.textContent =
+                    `${curMin > 0 ? curMin + "'" + String(curSec).padStart(2, '0') : curSec} / ${totalMin > 0 ? totalMin + "'" + String(totalSec).padStart(2, '0') : totalSec}`;
             }
 
             function resetWave() {
-                bars.forEach((bar) => {
+                bars.forEach(bar => {
                     bar.className = 'bar';
-                    const h = 4 + Math.random() * 18;
-                    bar.style.height = h + 'px';
+                    bar.style.height = (4 + Math.random() * 18) + 'px';
                 });
-                const totalMin = Math.floor(duration / 60);
-                const totalSec = duration % 60;
-                durSpan.textContent = totalMin > 0 ? `${totalMin}'${String(totalSec).padStart(2, '0')}"` : `${totalSec}"`;
+                durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
             }
 
             function togglePlay() {
@@ -836,16 +1729,12 @@
                             if (oldWave) {
                                 oldWave.querySelectorAll('.bar').forEach(bar => {
                                     bar.className = 'bar';
-                                    const h = 4 + Math.random() * 18;
-                                    bar.style.height = h + 'px';
+                                    bar.style.height = (4 + Math.random() * 18) + 'px';
                                 });
                             }
                             const oldDur = currentAudioWrapper.querySelector('.audio-duration');
                             if (oldDur) {
-                                const totalMin = Math.floor(duration / 60);
-                                const totalSec = duration % 60;
-                                oldDur.textContent = totalMin > 0 ? `${totalMin}'${String(totalSec).padStart(2, '0')}"` :
-                                    `${totalSec}"`;
+                                oldDur.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
                             }
                         }
                     }
@@ -889,8 +1778,7 @@
                 }
             });
 
-            audio.addEventListener('error', (e) => {
-                console.error('音频加载失败:', audioSrc, e);
+            audio.addEventListener('error', () => {
                 btn.textContent = '⚠';
                 btn.style.background = '#888';
                 durSpan.textContent = '加载失败';
@@ -900,7 +1788,6 @@
                 e.stopPropagation();
                 togglePlay();
             });
-
             wave.addEventListener('click', (e) => {
                 if (!audio.duration) return;
                 const rect = wave.getBoundingClientRect();
@@ -922,133 +1809,12 @@
         }
 
         // ============================================================
-        //  渲染
+        //  消息操作
         // ============================================================
-        function renderMessages() {
-            messageArea.innerHTML = '';
-            const history = getHistory();
-            if (history.length === 0) {
-                const div = document.createElement('div');
-                div.className = 'message bot';
-                div.innerHTML = `👋 你好，我是 ${currentPersona.name}。<span class="time">${getTime()}</span>`;
-                messageArea.appendChild(div);
-                return;
-            }
-
-            history.forEach(msg => {
-                const div = document.createElement('div');
-                const displayRole = msg.role === 'assistant' ? 'bot' : msg.role;
-                div.className = 'message ' + (displayRole === 'user' ? 'user' : 'bot');
-
-                if (msg.role === 'user') {
-                    div.innerHTML = msg.content + `<span class="time">${msg.time || getTime()}</span>`;
-                } else {
-                    const contentDiv = document.createElement('div');
-
-                    if (msg.type === 'image') {
-                        const img = document.createElement('img');
-                        img.src = msg.content;
-                        img.className = 'msg-image';
-                        img.onerror = () => {
-                            console.error('图片加载失败:', msg.content);
-                            img.style.display = 'none';
-                        };
-                        contentDiv.appendChild(img);
-                    } else if (msg.type === 'audio') {
-                        const duration = msg.duration || getMockDuration();
-                        const audioUI = createAudioUI(msg.content, duration);
-                        contentDiv.appendChild(audioUI);
-                    } else if (msg.type === 'combo') {
-                        if (msg.text) {
-                            const textP = document.createElement('div');
-                            textP.textContent = msg.text;
-                            contentDiv.appendChild(textP);
-                        }
-                        if (msg.image) {
-                            const img = document.createElement('img');
-                            img.src = msg.image;
-                            img.className = 'msg-image';
-                            img.onerror = () => {
-                                console.error('图片加载失败:', msg.image);
-                                img.style.display = 'none';
-                            };
-                            contentDiv.appendChild(img);
-                        }
-                        if (msg.audio) {
-                            const duration = msg.audioDuration || getMockDuration();
-                            const audioUI = createAudioUI(msg.audio, duration);
-                            contentDiv.appendChild(audioUI);
-                        }
-                    } else {
-                        const content = msg.content || '';
-                        if (isImagePath(content)) {
-                            const img = document.createElement('img');
-                            img.src = content;
-                            img.className = 'msg-image';
-                            img.onerror = () => {
-                                console.error('图片加载失败(兜底):', content);
-                                img.style.display = 'none';
-                            };
-                            contentDiv.appendChild(img);
-                        } else if (isAudioPath(content)) {
-                            const duration = getMockDuration();
-                            const audioUI = createAudioUI(content, duration);
-                            contentDiv.appendChild(audioUI);
-                        } else {
-                            contentDiv.textContent = content;
-                        }
-                    }
-
-                    const timeSpan = document.createElement('span');
-                    timeSpan.className = 'time';
-                    timeSpan.textContent = msg.time || getTime();
-                    contentDiv.appendChild(timeSpan);
-                    div.appendChild(contentDiv);
-                }
-                messageArea.appendChild(div);
-            });
-            messageArea.scrollTop = messageArea.scrollHeight;
-        }
-
-        function renderPersonas() {
-            personaBar.innerHTML = '';
-            PERSONAS.forEach(p => {
-                const div = document.createElement('div');
-                div.className = 'persona-item' + (p.id === currentPersona.id ? ' active' : '');
-                div.innerHTML = `<img class="pavatar" src="${p.avatar}"><span class="pname">${p.name}</span>`;
-                div.onclick = () => switchPersona(p.id);
-                personaBar.appendChild(div);
-            });
-        }
-
-        function switchPersona(id) {
-            const p = PERSONAS.find(p => p.id === id);
-            if (!p || p.id === currentPersona.id) return;
-            if (currentAudioElement) {
-                currentAudioElement.pause();
-                currentAudioElement = null;
-                currentAudioWrapper = null;
-            }
-            currentPersona = p;
-            headerAvatarImg.src = p.avatar;
-            headerName.textContent = p.name;
-            document.querySelectorAll('.persona-item').forEach(el => {
-                const nameEl = el.querySelector('.pname');
-                el.classList.toggle('active', nameEl && nameEl.textContent === p.name);
-            });
-            renderMessages();
-            userInput.focus();
-        }
-
         function addMessage(content, role, extra = {}) {
             const history = getHistory();
             const storeRole = role === 'bot' ? 'assistant' : role;
-            const msg = {
-                role: storeRole,
-                content: content,
-                time: getTime(),
-                ...extra
-            };
+            const msg = { role: storeRole, content, time: getTime(), timestamp: getFullTimestamp(), ...extra };
             history.push(msg);
             saveHistory(history);
             renderMessages();
@@ -1056,16 +1822,8 @@
 
         function addMediaMessage(type, path, extra = {}) {
             const history = getHistory();
-            const msg = {
-                role: 'assistant',
-                type: type,
-                content: path,
-                time: getTime(),
-                ...extra
-            };
-            if (type === 'audio') {
-                msg.duration = getMockDuration();
-            }
+            const msg = { role: 'assistant', type, content: path, time: getTime(), timestamp: getFullTimestamp(), ...extra };
+            if (type === 'audio') msg.duration = getMockDuration();
             history.push(msg);
             saveHistory(history);
             renderMessages();
@@ -1081,7 +1839,8 @@
                 audio: audioPath || null,
                 audioDuration: audioPath ? getMockDuration() : null,
                 content: text || '[多媒体消息]',
-                time: getTime()
+                time: getTime(),
+                timestamp: getFullTimestamp()
             };
             history.push(msg);
             saveHistory(history);
@@ -1110,89 +1869,120 @@
             if (el) el.remove();
         }
 
-        function clearChat() {
-            if (!confirm('确定清空与 ' + currentPersona.name + ' 的对话吗？')) return;
-            if (currentAudioElement) {
-                currentAudioElement.pause();
-                currentAudioElement = null;
-                currentAudioWrapper = null;
-            }
-            conversations[currentPersona.id] = [];
-            localStorage.setItem('chat_' + currentPersona.id, JSON.stringify([]));
-            renderMessages();
-            showSystemMessage('🧹 对话已清空');
-        }
-
         // ============================================================
         //  关键词触发
         // ============================================================
+        function containsKeyword(text, keywords) {
+            return keywords.some(kw => text.includes(kw));
+        }
+
+        const AUDIO_KEYWORDS = [
+            '声音', '说话', '歌', '歌声', '唱歌',
+            '笑声', '笑一下', '哈哈', '来一首', '听声音',
+            '语音', '嘿嘿', '嘻嘻', '哼两句', '说句话'
+        ];
+
+        const IMAGE_KEYWORDS = [
+            '照片', '自拍', '看看你', '美照', '发张照片',
+            '让我看看', '露脸', '瞅瞅', '在干嘛', '今天',
+            '现在', '穿什么', '来一张', '拍拍', '好久没看'
+        ];
+
+        const NAKED_KEYWORDS = [
+            '加减乘除', '加法', '减法', '乘法', '除法',
+            '根号', '小数点', '正号', '负号'
+        ];
+
+        const ALL_IMAGE_KEYWORDS = [...IMAGE_KEYWORDS, ...NAKED_KEYWORDS];
+        const COMBO_KEYWORDS = ['想你了', '晚安', '早安', '抱抱', '亲亲'];
+        const COMBO_REPLIES = {
+            '想你了': '我也想你呀～',
+            '晚安': '晚安，好梦～',
+            '早安': '早安呀～',
+            '抱抱': '抱抱～',
+            '亲亲': 'mua～'
+        };
+
         function handleKeywordTrigger(userText) {
-            const matchedCombo = getMatchedCombo(userText);
+            const matchedCombo = COMBO_KEYWORDS.find(kw => userText.includes(kw));
             const isAudio = containsKeyword(userText, AUDIO_KEYWORDS);
             const isImage = containsKeyword(userText, ALL_IMAGE_KEYWORDS);
             const isNaked = containsKeyword(userText, NAKED_KEYWORDS);
 
-            const shouldMedia = Math.random() < MEDIA_PROBABILITY;
-
-            console.log('🔍 关键词检测:', {
-                text: userText,
-                matchedCombo: matchedCombo,
-                isAudio: isAudio,
-                isImage: isImage,
-                isNaked: isNaked,
-                shouldMedia: shouldMedia,
-                probability: MEDIA_PROBABILITY
-            });
+            let shouldMedia;
+            if (isNaked) {
+                shouldMedia = Math.random() < NAKED_PROBABILITY;
+            } else {
+                shouldMedia = Math.random() < MEDIA_PROBABILITY;
+            }
 
             if (!shouldMedia) {
-                console.log('💬 未触发多媒体（概率未命中），走 API');
                 return null;
             }
 
             if (matchedCombo) {
-                const replyText = COMBO_REPLIES[matchedCombo] || '';
-                const imagePath = getRandomImagePath(isNaked);
-                const audioPath = getRandomAudioPath();
-                console.log('🎵 触发组合:', matchedCombo, imagePath, audioPath);
                 return {
                     type: 'combo',
-                    text: replyText,
-                    image: imagePath,
-                    audio: audioPath
+                    text: COMBO_REPLIES[matchedCombo] || '',
+                    image: getRandomImagePath(isNaked),
+                    audio: getRandomAudioPath()
                 };
             }
 
             if (isAudio && isImage) {
-                const imagePath = getRandomImagePath(isNaked);
-                const audioPath = getRandomAudioPath();
-                console.log('🎵 触发音频+图片');
                 return {
                     type: 'combo',
                     text: '',
-                    image: imagePath,
-                    audio: audioPath
+                    image: getRandomImagePath(isNaked),
+                    audio: getRandomAudioPath()
                 };
             }
 
             if (isAudio) {
-                const audioPath = getRandomAudioPath();
-                console.log('🎵 触发音频:', audioPath);
-                return {
-                    type: 'audio',
-                    path: audioPath
-                };
+                return { type: 'audio', path: getRandomAudioPath() };
             }
 
             if (isImage) {
-                const imagePath = getRandomImagePath(isNaked);
-                console.log('📷 触发图片:', imagePath);
-                return {
-                    type: 'image',
-                    path: imagePath
-                };
+                return { type: 'image', path: getRandomImagePath(isNaked) };
             }
 
             return null;
+        }
+
+        // ============================================================
+        //  用户生日
+        // ============================================================
+        const LUNAR_BIRTHDAYS = {
+            2024: '11-26',
+            2025: '12-15',
+            2026: '12-05',
+            2027: '11-24',
+            2028: '12-12',
+            2029: '12-01',
+            2030: '11-20'
+        };
+
+        function getUserBirthday() {
+            const year = new Date().getFullYear();
+            return LUNAR_BIRTHDAYS[year] || '12-05';
+        }
+
+        // ============================================================
+        //  每周总结
+        // ============================================================
+        function checkWeekSummary(now, userMessage) {
+            const weekday = now.getDay();
+            const hour = now.getHours();
+            if (weekday !== 0 || hour < 20) return null;
+
+            const key = 'week_summary_' + currentPersona.id + '_' + getDateStr();
+            if (localStorage.getItem(key)) return null;
+
+            const history = getHistory();
+            if (history.length < 2) return null;
+
+            localStorage.setItem(key, 'true');
+            return `（这周我们聊了好多呢～感觉你${Math.random() > 0.5 ? '工作有点忙' : '心情还不错'}，下周也要加油哦💪）`;
         }
 
         // ============================================================
@@ -1205,11 +1995,26 @@
                 return;
             }
 
-            const history = getHistory();
-            const textHistory = history.filter(msg => msg.role === 'user' || msg.role === 'assistant');
-            const context = textHistory.slice(-MAX_HISTORY);
+            const now = new Date();
+            if (shouldDefaultReply(currentPersona.id, now)) {
+                const reply = getDefaultReply(currentPersona.id);
+                addMessage(reply, 'bot');
+                return;
+            }
 
-            const systemPrompt = buildSystemPrompt(currentPersona, userMessage);
+            const summary = checkWeekSummary(now, userMessage);
+            if (summary) {
+                addMessage(summary, 'bot');
+            }
+
+            let weather = null;
+            if (isWeatherQuery(userMessage)) {
+                weather = await fetchWeather();
+            }
+
+            const systemPrompt = buildSystemPrompt(currentPersona, userMessage, weather);
+            const history = getHistory();
+            const context = history.slice(-MAX_HISTORY);
 
             const messages = [
                 { role: 'system', content: systemPrompt },
@@ -1261,7 +2066,6 @@
             userInput.style.height = '48px';
 
             const mediaResult = handleKeywordTrigger(text);
-
             if (mediaResult) {
                 if (mediaResult.type === 'combo') {
                     addComboMessage(mediaResult.text, mediaResult.image, mediaResult.audio);
@@ -1280,22 +2084,18 @@
         //  事件绑定
         // ============================================================
         sendBtn.onclick = handleSend;
-
         userInput.onkeydown = e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSend();
             }
         };
-
-        userInput.oninput = function() {
+        userInput.oninput = function () {
             this.style.height = '48px';
             this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         };
 
-        clearBtn.onclick = clearChat;
-
-        apiKeyInput.onchange = function() {
+        apiKeyInput.onchange = function () {
             const val = this.value.trim();
             if (val) {
                 localStorage.setItem('ai_api_key', val);
@@ -1324,17 +2124,20 @@
         }
 
         renderPersonas();
+        updateHeader();
         renderMessages();
 
-        console.log('💕 AI女友已启动 (完整版)');
-        console.log('📊 多媒体触发概率:', (MEDIA_PROBABILITY * 100) + '%');
-        console.log('📝 记忆回合数:', MAX_HISTORY);
-        console.log('📷 普通图片数量:', MAX_FILE_NUM);
-        console.log('📷 Naked图片数量:', MAX_NAKED_NUM);
-        console.log('🔑 数学关键词:', NAKED_KEYWORDS.join(', '));
-        console.log('👩‍❤️‍👩 场景支持: A单人评价 | B态度推测 | C比较 | D关系 | E假设');
-        console.log('🛡️ 兜底检测: 图片/音频路径自动识别');
+        setInterval(() => updateStatusTag(), 60000);
+
+        console.log('💕 AI女友已启动');
+        console.log('📊 当前角色:', currentPersona.name);
+        console.log('📝 记忆条数:', MAX_HISTORY);
+        console.log('🎯 普通触发概率:', MEDIA_PROBABILITY * 100 + '%');
+        console.log('🎯 Naked触发概率:', NAKED_PROBABILITY * 100 + '%');
+        console.log('🔐 配置密码已设置');
+        console.log('📱 点击右上角 ··· → 配置管理');
     </script>
 
 </body>
+
 </html>
