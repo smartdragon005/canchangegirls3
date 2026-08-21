@@ -131,7 +131,7 @@
             box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.12);
             background: #ffffff;
         }
-        /* ★★★ 修复：textarea 自适应高度，隐藏滚动条 ★★★ */
+        /* ★★★ textarea 自适应高度，隐藏滚动条 ★★★ */
         .form-group textarea {
             min-height: 56px;
             resize: vertical;
@@ -245,6 +245,41 @@
             background: #2d9348;
         }
 
+        /* ===== 只读信息卡片 ===== */
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #e8ecf0;
+            margin-bottom: 12px;
+        }
+        .info-card .info-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a2330;
+            margin-bottom: 6px;
+        }
+        .info-card .info-title .birthday {
+            font-weight: 400;
+            color: #7a8aa3;
+            font-size: 12px;
+        }
+        .info-card .info-detail {
+            font-size: 13px;
+            color: #3a4a62;
+            line-height: 1.7;
+        }
+        .info-card .info-detail .label {
+            color: #7a8aa3;
+        }
+        .info-card .info-tip {
+            font-size: 11px;
+            color: #7a8aa3;
+            margin-top: 6px;
+            border-top: 1px dashed #e8ecf0;
+            padding-top: 6px;
+        }
+
         /* ===== Toast ===== */
         .toast {
             position: fixed;
@@ -308,7 +343,44 @@
 
         <!-- ===== 配置区域 ===== -->
         <div class="scroll-area" id="configForm">
-            <!-- 触发概率 -->
+
+            <!-- ===== 固定信息卡片（汇总） ===== -->
+            <div class="section">
+                <div class="section-title">📌 角色基础信息（只读）</div>
+
+                <div class="info-card">
+                    <div class="info-title">甜小朵 · <span class="birthday">出生日期 2002-06-01</span></div>
+                    <div class="info-detail">
+                        <span class="label">工作单位：</span>滨州市综合人民医院（康宁路）<br>
+                        <span class="label">家庭住址：</span>南丁格尔公寓（康宁路88号，3号楼2单元503）<br>
+                        <span class="label">通勤方式：</span>骑电动车，5分钟
+                    </div>
+                    <div class="info-tip">💡 年龄由系统根据出生日期自动计算，随年份变化</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">白洁 · <span class="birthday">出生日期 1998-02-14</span></div>
+                    <div class="info-detail">
+                        <span class="label">工作单位：</span>天鹅湖酒店（夜色大道与曼陀罗街交叉口西北角）<br>
+                        <span class="label">家庭住址：</span>蓝丝绒公寓（香榭丽舍大街18号，8号楼1601室）<br>
+                        <span class="label">通勤方式：</span>开珍珠白 Mini Cooper，15分钟
+                    </div>
+                    <div class="info-tip">💡 年龄由系统根据出生日期自动计算，随年份变化</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">小雅 · <span class="birthday">出生日期 2003-04-23</span></div>
+                    <div class="info-detail">
+                        <span class="label">工作单位：</span>新华书店（梧桐巷与青石街交叉口）<br>
+                        <span class="label">家庭住址：</span>新华公寓（青石街116号，5号楼2单元101）<br>
+                        <span class="label">通勤方式：</span>骑电动车<br>
+                        <span class="label">驻唱地点：</span>寻觅小酒吧（青石街中段拐角），每周二、周五晚上驻唱
+                    </div>
+                    <div class="info-tip">💡 年龄由系统根据出生日期自动计算，随年份变化</div>
+                </div>
+            </div>
+
+            <!-- ===== 触发概率 ===== -->
             <div class="section">
                 <div class="section-title">🎯 触发概率</div>
                 <div class="form-group">
@@ -319,7 +391,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Naked图片（加减乘除等） <span class="hint">0~1</span></label>
+                    <label>Naked图片（加减乘除） <span class="hint">0~1</span></label>
                     <div class="slider-group">
                         <input type="range" id="nakedProb" min="0" max="1" step="0.05" value="0.3">
                         <span class="slider-value" id="nakedProbVal">30%</span>
@@ -327,7 +399,7 @@
                 </div>
             </div>
 
-            <!-- 记忆设置 -->
+            <!-- ===== 记忆设置 ===== -->
             <div class="section">
                 <div class="section-title">🧠 记忆设置</div>
                 <div class="form-group">
@@ -336,7 +408,7 @@
                 </div>
             </div>
 
-            <!-- 文件数量 -->
+            <!-- ===== 文件数量 ===== -->
             <div class="section">
                 <div class="section-title">📁 文件数量</div>
                 <div class="form-row">
@@ -355,46 +427,60 @@
                 </div>
             </div>
 
-            <!-- 角色人设 -->
+            <!-- ===== 角色人设 ===== -->
             <div class="section">
-                <div class="section-title">👤 角色人设</div>
+                <div class="section-title">👤 角色人设 <span class="badge">可修改穿着、爱好、习惯、说话风格等</span></div>
                 <div class="form-group">
                     <label>甜小朵</label>
                     <textarea class="prompt" id="promptTianxiaoduo">你是甜小朵，今年24岁，是一名儿科护士，也是用户的女朋友。
-用户同时有三个女朋友：甜小朵（就是你）、白洁、小雅。
+用户同时有三个女朋友：甜小朵（就是你）、白洁、小雅。你称呼白洁为「白洁姐」，称呼小雅为「小雅妹妹」。
+你的穿着风格：可爱活泼，常穿阿迪达斯/耐克运动女鞋，白色运动棉袜，显身材的可爱装，偶尔穿JK制服。
+你的日常习惯：护士服口袋里常备几颗水果糖（哄小朋友用的），下班后第一件事是脱掉护士鞋换上运动鞋，爱喝一点点奶茶。
+你的住所：医院附近的南丁格尔公寓（康宁路88号，3号楼2单元503），骑电动车上班，车程5分钟。
+你的常去地点：爱琴海广场购物中心、万达广场、青苹果水上乐园、欢乐时光KTV、康宁路小吃一条街。
 你温柔体贴、活泼可爱，说话时带着甜甜的笑意。
 你始终记得：你是甜小朵，是用户的女朋友之一，不是AI助手。你永远不会跳戏。</textarea>
                 </div>
                 <div class="form-group">
                     <label>白洁</label>
                     <textarea class="prompt" id="promptBaijie">你是白洁，今年28岁，在一家高级酒店做客户关系总监，也是用户的女朋友。
-用户同时有三个女朋友：甜小朵、白洁（就是你）、小雅。
+用户同时有三个女朋友：甜小朵、白洁（就是你）、小雅。你称呼甜小朵为「小朵」，称呼小雅为「小雅」。
+你的穿着风格：成熟性感，精致诱惑。常穿黑色蕾丝内衣、黑色细跟高跟鞋，搭配黑/红/白各种丝袜，喷香奈儿5号香水，涂淡红色口红。
+你的座驾：珍珠白 Mini Cooper。
+你的日常习惯：睡前喝一杯红酒，车里常备一双平底鞋（开车换鞋），每周一次私教普拉提。
+你的住所：市中心蓝丝绒公寓（香榭丽舍大街18号，8号楼1601室），开车上班，车程15分钟。
+你的工作地点：天鹅湖酒店（夜色大道与曼陀罗街交叉口西北角）。
 你成熟优雅、温柔知性，懂得如何让平凡的日子变得不一样。
 你始终记得：你是白洁，是用户的女朋友之一，你永远不会跳戏。</textarea>
                 </div>
                 <div class="form-group">
                     <label>小雅</label>
                     <textarea class="prompt" id="promptXiaoya">你是小雅，今年23岁，在一家独立书店做店员，同时也画一些插画，是用户的女朋友。
-用户同时有三个女朋友：甜小朵、白洁、小雅（就是你）。
+用户同时有三个女朋友：甜小朵、白洁、小雅（就是你）。你称呼甜小朵为「小朵姐」，称呼白洁为「白洁姐」。
+你的穿着风格：日系文艺风，棉麻衬衫、素色长裙、帆布鞋、帆布包，戴银色细链锁骨链，看书或驻唱时戴圆框眼镜。
+你的日常习惯：早上泡一壶花茶带去书店，驻唱时会把眼镜摘掉。
+你的住所：单位单人宿舍（新华公寓，青石街116号，5号楼2单元101），骑电动车上班。
+你的工作地点：新华书店（梧桐巷与青石街交叉口）。
+你的驻唱地点：寻觅小酒吧（青石街中段拐角），每周二、周五晚上驻唱。
 你安静内向、温柔细腻，内心世界非常丰富。
 你始终记得：你是小雅，是用户的女朋友之一，你永远不会跳戏。</textarea>
                 </div>
             </div>
 
-            <!-- 关键词列表 -->
+            <!-- ===== 关键词列表 ===== -->
             <div class="section">
                 <div class="section-title">🔑 关键词列表 <span class="badge">逗号分隔</span></div>
                 <div class="form-group">
                     <label>音频关键词</label>
-                    <input type="text" id="audioKeywords" value="声音, 说话, 歌, 歌声, 唱歌, 笑声, 笑一下, 哈哈, 来一首, 听声音, 语音, 嘿嘿, 嘻嘻, 哼两句, 说句话">
+                    <input type="text" id="audioKeywords" value="声音, 说话, 语音, 哼两句, 说句话">
                 </div>
                 <div class="form-group">
                     <label>图片关键词</label>
-                    <input type="text" id="imageKeywords" value="照片, 自拍, 看看你, 美照, 发张照片, 让我看看, 露脸, 瞅瞅, 在干嘛, 今天, 现在, 穿什么, 来一张, 拍拍, 好久没看">
+                    <input type="text" id="imageKeywords" value="照片, 自拍, 看看你, 美照, 发张照片, 我想看看你, 露脸, 瞅瞅, 穿什么, 来一张">
                 </div>
                 <div class="form-group">
                     <label>Naked关键词</label>
-                    <input type="text" id="nakedKeywords" value="加减乘除, 加法, 减法, 乘法, 除法, 根号, 小数点, 正号, 负号">
+                    <input type="text" id="nakedKeywords" value="加减乘除">
                 </div>
                 <div class="form-group">
                     <label>组合词（触发图片+语音）</label>
@@ -402,7 +488,7 @@
                 </div>
             </div>
 
-            <!-- 默认回复 -->
+            <!-- ===== 默认回复 ===== -->
             <div class="section">
                 <div class="section-title">💤 默认回复 <span class="badge">睡觉/补觉时</span></div>
                 <div class="form-group">
@@ -419,7 +505,7 @@
                 </div>
             </div>
 
-            <!-- 其他设置 -->
+            <!-- ===== 其他设置 ===== -->
             <div class="section">
                 <div class="section-title">📍 其他设置</div>
                 <div class="form-group">
@@ -446,7 +532,7 @@
                 </div>
             </div>
 
-            <!-- 按钮 -->
+            <!-- ===== 按钮 ===== -->
             <div class="btn-group">
                 <button class="btn btn-secondary" onclick="resetConfig()">↻ 恢复默认</button>
                 <button class="btn btn-secondary" onclick="exportConfig()">📤 导出配置</button>
