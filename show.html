@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Girls3 · 角色档案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            padding: 16px;
+            color: #1a2330;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px 18px 30px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== 头部 ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e8ecf0;
+            margin-bottom: 16px;
+        }
+        .header .left h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2330;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header .left h1 span {
+            font-size: 22px;
+        }
+        .header .left .sub {
+            font-size: 13px;
+            color: #7a8aa3;
+            margin-top: 2px;
+        }
+        .header .right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .header .right .refresh-btn {
+            background: #e8ecf0;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            color: #5b6e8a;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header .right .refresh-btn:hover {
+            background: #d1d5db;
+            color: #1a2330;
+        }
+        .header .right .refresh-btn:active {
+            transform: scale(0.92);
+        }
+        .header .right .refresh-btn.spinning {
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .header .close-btn {
+            background: #e8ecf0;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            color: #5b6e8a;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .header .close-btn:hover {
+            background: #d1d5db;
+            color: #1a2330;
+        }
+
+        /* ===== 加载状态 ===== */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7a8aa3;
+            font-size: 14px;
+        }
+        .loading .spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e8ecf0;
+            border-top-color: #3a7bd5;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        /* ===== 角色切换 ===== */
+        .role-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .role-tab {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid #e8ecf0;
+            border-radius: 12px;
+            background: #f8f9fa;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5b6e8a;
+        }
+        .role-tab:hover {
+            border-color: #d1d5db;
+            background: #f0f2f5;
+        }
+        .role-tab.active {
+            border-color: #3a7bd5;
+            background: #eef4fc;
+            color: #1a2330;
+        }
+        .role-tab .tab-emoji {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        @media (max-width: 480px) {
+            .role-tab {
+                font-size: 12px;
+                padding: 8px 4px;
+            }
+            .role-tab .tab-emoji {
+                font-size: 16px;
+            }
+        }
+
+        /* ===== 内容卡片 ===== */
+        .content-area {
+            display: none;
+        }
+        .content-area.active {
+            display: block;
+        }
+        .profile-card {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 18px 16px 16px;
+            border: 1px solid #e8ecf0;
+            margin-bottom: 12px;
+        }
+        .profile-card .field {
+            display: flex;
+            padding: 4px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .profile-card .field:last-child {
+            border-bottom: none;
+        }
+        .profile-card .field .label {
+            color: #7a8aa3;
+            min-width: 72px;
+            flex-shrink: 0;
+            font-weight: 400;
+        }
+        .profile-card .field .value {
+            color: #1a2330;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        .profile-card .field .value.avatar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .profile-card .field .value .avatar-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e8ecf0;
+        }
+        .profile-card .field .value .tag {
+            display: inline-block;
+            background: #e8ecf0;
+            color: #5b6e8a;
+            padding: 0 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .profile-card .field .value .tag.work {
+            background: #eef4fc;
+            color: #3a7bd5;
+        }
+        .profile-card .field .value .tag.place {
+            background: #f0f2f5;
+            color: #7a8aa3;
+        }
+        .profile-card .field .value .emoji {
+            font-size: 18px;
+            margin-right: 4px;
+        }
+
+        /* ===== 底部提示 ===== */
+        .footer-tip {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e8ecf0;
+            font-size: 12px;
+            color: #7a8aa3;
+            text-align: center;
+        }
+        .footer-tip code {
+            background: #e8ecf0;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #3a4a62;
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1a2330;
+            color: #edf2f7;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-size: 13px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background: #1a5a2a;
+        }
+        .toast.error {
+            background: #6a1a1a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+        <!-- ===== 头部 ===== -->
+        <div class="header">
+            <div class="left">
+                <h1><span>📖</span> Girls3</h1>
+                <div class="sub">角色档案 · 只读展示</div>
+            </div>
+            <div class="right">
+                <button class="refresh-btn" id="refreshBtn" onclick="reloadData()" title="刷新数据">🔄</button>
+                <button class="close-btn" onclick="window.close()">✕</button>
+            </div>
+        </div>
+
+        <!-- ===== 加载状态 ===== -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <div>加载角色数据...</div>
+        </div>
+
+        <!-- ===== 主内容 ===== -->
+        <div id="contentState" style="display:none;">
+
+            <!-- 角色切换标签 -->
+            <div class="role-tabs" id="roleTabs">
+                <!-- JS 动态生成 -->
+            </div>
+
+            <!-- 角色详情 -->
+            <div id="roleContent">
+                <!-- JS 动态生成 -->
+            </div>
+
+            <!-- 底部提示 -->
+            <div class="footer-tip">
+                💡 数据来自 <code>data.json</code> · 修改后点击 <code>🔄</code> 刷新
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Toast ===== -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        //  数据
+        // ============================================================
+        let CITY_DATA = null;
+        let currentRoleId = null;
+        let isLoading = false;
+
+        // ============================================================
+        //  加载数据
+        // ============================================================
+        async function loadData(showToastMsg = false) {
+            if (isLoading) return;
+            isLoading = true;
+            const btn = document.getElementById('refreshBtn');
+            if (btn) btn.classList.add('spinning');
+
+            try {
+                const resp = await fetch('data.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                CITY_DATA = data;
+                if (showToastMsg) {
+                    showToast('✅ 数据已刷新', 'success');
+                }
+                return data;
+            } catch (e) {
+                console.error('加载 data.json 失败:', e);
+                if (showToastMsg) {
+                    showToast('❌ 加载失败，请检查 data.json', 'error');
+                }
+                return null;
+            } finally {
+                isLoading = false;
+                if (btn) btn.classList.remove('spinning');
+            }
+        }
+
+        // ============================================================
+        //  渲染
+        // ============================================================
+
+        function renderRoleTabs() {
+            const container = document.getElementById('roleTabs');
+            if (!CITY_DATA || !CITY_DATA.personas) return;
+            container.innerHTML = '';
+            CITY_DATA.personas.forEach((p, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'role-tab' + (i === 0 ? ' active' : '');
+                btn.dataset.id = p.id;
+                btn.innerHTML = `<span class="tab-emoji">${p.emoji || '👤'}</span>${p.name}`;
+                btn.addEventListener('click', () => switchRole(p.id));
+                container.appendChild(btn);
+            });
+        }
+
+        function renderRoleDetail(roleId) {
+            const container = document.getElementById('roleContent');
+            if (!CITY_DATA || !CITY_DATA.personas) return;
+
+            const p = CITY_DATA.personas.find(r => r.id === roleId);
+            if (!p) return;
+
+            const age = calculateAge(p.birthday);
+
+            container.innerHTML = `
+                <div class="profile-card">
+                    <div class="field">
+                        <span class="label">头像</span>
+                        <span class="value avatar">
+                            <img class="avatar-img" src="${p.avatar}" alt="${p.name}" onerror="this.style.display='none'">
+                            <span class="tag ${p.tag ? 'work' : ''}">${p.tag || '✨'}</span>
+                        </span>
+                    </div>
+                    <div class="field">
+                        <span class="label">姓名</span>
+                        <span class="value">${p.emoji || '👤'} ${p.name}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label">年龄</span>
+                        <span class="value">${age}岁（${p.birthday}）</span>
+                    </div>
+                    <div class="field">
+                        <span class="label">性别</span>
+                        <span class="value">${p.gender || '女'}</span>
+                    </div>
+                    ${p.height ? `<div class="field"><span class="label">身高</span><span class="value">${p.height}cm</span></div>` : ''}
+                    ${p.weight ? `<div class="field"><span class="label">体重</span><span class="value">${p.weight}kg</span></div>` : ''}
+                    ${p.bust ? `<div class="field"><span class="label">三围</span><span class="value">${p.bust}</span></div>` : ''}
+                    ${p.shoe ? `<div class="field"><span class="label">鞋码</span><span class="value">${p.shoe}</span></div>` : ''}
+                    <div class="field">
+                        <span class="label">工作单位</span>
+                        <span class="value">${p.workplace || '未知'}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label">家庭住址</span>
+                        <span class="value">${p.address || '未知'}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label">所在区域</span>
+                        <span class="value">${p.district || '未知'}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label">通勤方式</span>
+                        <span class="value">${p.commute || '未知'}</span>
+                    </div>
+                    ${p.style ? `<div class="field"><span class="label">穿着风格</span><span class="value">${p.style}</span></div>` : ''}
+                    ${p.personality ? `<div class="field"><span class="label">性格特点</span><span class="value">${p.personality}</span></div>` : ''}
+                    ${p.habits ? `<div class="field"><span class="label">日常习惯</span><span class="value">${p.habits}</span></div>` : ''}
+                    ${p.places ? `<div class="field"><span class="label">常去地点</span><span class="value">${p.places}</span></div>` : ''}
+                </div>
+            `;
+
+            // 标记当前激活的标签
+            document.querySelectorAll('.role-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.id === roleId);
+            });
+        }
+
+        function calculateAge(birthday) {
+            if (!birthday) return '?';
+            const today = new Date();
+            const birth = new Date(birthday);
+            let age = today.getFullYear() - birth.getFullYear();
+            const m = today.getMonth() - birth.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+            return age;
+        }
+
+        function switchRole(roleId) {
+            if (roleId === currentRoleId) return;
+            currentRoleId = roleId;
+            renderRoleDetail(roleId);
+        }
+
+        function renderAll() {
+            if (!CITY_DATA || !CITY_DATA.personas) return;
+            renderRoleTabs();
+            currentRoleId = CITY_DATA.personas[0].id;
+            renderRoleDetail(currentRoleId);
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('contentState').style.display = 'block';
+        }
+
+        // ============================================================
+        //  刷新数据（外部调用）
+        // ============================================================
+        async function reloadData() {
+            const data = await loadData(true);
+            if (data) {
+                // 保持当前选中的角色
+                const currentId = currentRoleId;
+                renderAll();
+                if (currentId) {
+                    const stillExists = data.personas.some(p => p.id === currentId);
+                    if (stillExists) {
+                        switchRole(currentId);
+                    }
+                }
+            }
+        }
+
+        // ============================================================
+        //  Toast
+        // ============================================================
+        let toastTimer = null;
+
+        function showToast(msg, type = 'info') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast ' + type;
+            void el.offsetWidth;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                el.classList.remove('show');
+            }, 2200);
+        }
+
+        // ============================================================
+        //  初始化
+        // ============================================================
+        async function init() {
+            const data = await loadData(false);
+            if (data) {
+                renderAll();
+                console.log('📖 Girls3 · 角色档案已加载');
+                console.log('👤 共 ' + data.personas.length + ' 个角色');
+                console.log('🔄 点击右上角刷新按钮可重新加载 data.json');
+            } else {
+                document.getElementById('loadingState').innerHTML =
+                    '<div style="color:#cf6679;">❌ 加载失败，请检查 data.json 是否存在</div>';
+                console.error('加载失败');
+            }
+        }
+
+        // 暴露给全局，供 onclick 调用
+        window.reloadData = reloadData;
+
+        init();
+    </script>
+
+</body>
+</html>

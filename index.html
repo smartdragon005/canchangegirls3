@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,6 +12,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: #0b0e14;
@@ -21,6 +23,7 @@
             padding: 12px;
             color: #edf2f7;
         }
+
         .app {
             max-width: 480px;
             width: 100%;
@@ -33,12 +36,15 @@
             background: #141a24;
             position: relative;
         }
+
         ::-webkit-scrollbar {
             width: 3px;
         }
+
         ::-webkit-scrollbar-track {
             background: transparent;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #2b3a50;
             border-radius: 8px;
@@ -55,6 +61,7 @@
             background: #0f161e;
             flex-wrap: wrap;
         }
+
         .header .avatar {
             width: 44px;
             height: 44px;
@@ -63,25 +70,30 @@
             flex-shrink: 0;
             border: 2px solid #2b5ca8;
         }
+
         .header .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .header .info {
             flex: 1;
             min-width: 80px;
         }
+
         .header .info .name-row {
             display: flex;
             align-items: center;
             gap: 8px;
         }
+
         .header .info .name-row h1 {
             font-size: 17px;
             font-weight: 600;
             color: #edf2f7;
         }
+
         .header .info .status-row {
             display: flex;
             align-items: center;
@@ -90,6 +102,7 @@
             color: #7a8aa3;
             flex-wrap: wrap;
         }
+
         .header .info .status-row .dot {
             display: inline-block;
             width: 7px;
@@ -99,17 +112,21 @@
             margin-right: 2px;
             animation: pulse-dot 1.8s ease-in-out infinite;
         }
+
         @keyframes pulse-dot {
+
             0%,
             100% {
                 opacity: 0.4;
                 transform: scale(0.8);
             }
+
             50% {
                 opacity: 1;
                 transform: scale(1.2);
             }
         }
+
         .header .info .status-row .status-tag {
             padding: 1px 10px;
             border-radius: 12px;
@@ -119,22 +136,27 @@
             color: #8899bb;
             white-space: nowrap;
         }
+
         .status-tag.working {
             color: #4fc3f7;
             border-color: #2b5ca8;
         }
+
         .status-tag.resting {
             color: #ffb74d;
             border-color: #8d6e3f;
         }
+
         .status-tag.sleeping {
             color: #7986cb;
             border-color: #3949ab;
         }
+
         .status-tag.free {
             color: #81c784;
             border-color: #388e3c;
         }
+
         .status-tag.singing {
             color: #ff8a65;
             border-color: #d84315;
@@ -145,6 +167,7 @@
             position: relative;
             flex-shrink: 0;
         }
+
         .menu-btn {
             background: transparent;
             border: none;
@@ -157,10 +180,12 @@
             transition: 0.2s;
             letter-spacing: 2px;
         }
+
         .menu-btn:hover {
             background: #1e283a;
             color: #edf2f7;
         }
+
         .menu-dropdown {
             position: absolute;
             right: 0;
@@ -175,9 +200,11 @@
             z-index: 100;
             overflow: hidden;
         }
+
         .menu-dropdown.open {
             display: block;
         }
+
         .menu-dropdown .item {
             padding: 10px 16px;
             font-size: 13px;
@@ -193,17 +220,21 @@
             text-align: left;
             font-family: inherit;
         }
+
         .menu-dropdown .item:hover {
             background: #2a3344;
             color: #edf2f7;
         }
+
         .menu-dropdown .item.danger {
             color: #cf6679;
         }
+
         .menu-dropdown .item.danger:hover {
             background: #2a1418;
             color: #ff8a9e;
         }
+
         .menu-dropdown .divider {
             height: 1px;
             background: #2a3344;
@@ -221,9 +252,11 @@
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
+
         .persona-bar::-webkit-scrollbar {
             display: none;
         }
+
         .persona-item {
             display: flex;
             flex-direction: column;
@@ -237,10 +270,12 @@
             border: 2px solid transparent;
             background: transparent;
         }
+
         .persona-item.active {
             border-color: #2b5ca8;
             background: #1a2538;
         }
+
         .persona-item .pavatar {
             width: 48px;
             height: 48px;
@@ -248,14 +283,17 @@
             object-fit: cover;
             border: 2px solid #2f3b4e;
         }
+
         .persona-item.active .pavatar {
             border-color: #3a7bd5;
         }
+
         .persona-item .pname {
             font-size: 12px;
             color: #edf2f7;
             white-space: nowrap;
         }
+
         .persona-item.active .pname {
             color: #edf2f7;
             font-weight: 600;
@@ -272,10 +310,12 @@
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
+
         .api-row label {
             font-size: 12px;
             color: #5b6e8a;
         }
+
         .api-row input {
             flex: 1;
             min-width: 100px;
@@ -287,17 +327,21 @@
             font-size: 13px;
             font-family: inherit;
         }
+
         .api-row input:focus {
             outline: none;
             border-color: #3a7bd5;
         }
+
         .api-row input::placeholder {
             color: #4d627c;
         }
+
         .api-row .status {
             font-size: 11px;
             color: #4d627c;
         }
+
         .api-row .status.ready {
             color: #4caf50;
         }
@@ -324,16 +368,19 @@
             animation: fadeIn 0.25s ease-out;
             word-break: break-word;
         }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
                 transform: translateY(8px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .message.bot {
             align-self: flex-start;
             background: #1e283a;
@@ -341,18 +388,21 @@
             border-bottom-left-radius: 6px;
             border: 1px solid #2b354a;
         }
+
         .message.user {
             align-self: flex-end;
             background: #2b5ca8;
             color: white;
             border-bottom-right-radius: 6px;
         }
+
         .message .time {
             font-size: 10px;
             opacity: 0.5;
             margin-top: 4px;
             display: block;
         }
+
         .message.sys {
             font-size: 12px;
             color: #5b6e8a;
@@ -362,6 +412,7 @@
             border: none !important;
             padding: 4px 0 !important;
         }
+
         .message.bot .msg-image {
             max-width: 100%;
             max-height: 300px;
@@ -382,6 +433,7 @@
             cursor: pointer;
             user-select: none;
         }
+
         .audio-play-btn {
             width: 32px;
             height: 32px;
@@ -399,12 +451,15 @@
             padding: 0;
             line-height: 1;
         }
+
         .audio-play-btn:hover {
             background: #4f8ee8;
         }
+
         .audio-play-btn.playing {
             background: #e85a4f;
         }
+
         .audio-wave {
             flex: 1;
             height: 32px;
@@ -414,6 +469,7 @@
             min-width: 60px;
             position: relative;
         }
+
         .audio-wave .bar {
             flex: 1;
             height: 6px;
@@ -423,13 +479,16 @@
             min-height: 3px;
             max-height: 22px;
         }
+
         .audio-wave .bar.active {
             background: #3a7bd5;
         }
+
         .audio-wave .bar.played {
             background: #3a7bd5;
             opacity: 0.6;
         }
+
         .audio-duration {
             font-size: 12px;
             color: #8899bb;
@@ -450,6 +509,7 @@
             align-items: flex-end;
             background: #0f161e;
         }
+
         .input-area textarea {
             flex: 1;
             background: #1a2533;
@@ -464,17 +524,21 @@
             font-family: inherit;
             line-height: 1.5;
         }
+
         .input-area textarea:focus {
             outline: none;
             border-color: #3a7bd5;
         }
+
         .input-area textarea::placeholder {
             color: #4d627c;
         }
+
         .input-area textarea:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
+
         .input-area button {
             background: #2b5ca8;
             border: none;
@@ -490,12 +554,15 @@
             align-items: center;
             justify-content: center;
         }
+
         .input-area button:hover:not(:disabled) {
             background: #3a7bd5;
         }
+
         .input-area button:active:not(:disabled) {
             transform: scale(0.92);
         }
+
         .input-area button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
@@ -513,6 +580,7 @@
             border-radius: 32px;
             backdrop-filter: blur(2px);
         }
+
         .overlay.open {
             display: flex;
         }
@@ -528,23 +596,27 @@
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
             text-align: center;
         }
+
         .modal .modal-icon {
             font-size: 32px;
             margin-bottom: 12px;
             display: block;
         }
+
         .modal h2 {
             font-size: 18px;
             font-weight: 600;
             color: #edf2f7;
             margin-bottom: 6px;
         }
+
         .modal p {
             font-size: 14px;
             color: #a0b3cc;
             line-height: 1.6;
             margin-bottom: 16px;
         }
+
         .modal .file-input-row {
             display: flex;
             align-items: center;
@@ -556,6 +628,7 @@
             margin-bottom: 12px;
             text-align: left;
         }
+
         .modal .file-input-row label {
             background: #2b5ca8;
             color: white;
@@ -566,12 +639,15 @@
             flex-shrink: 0;
             transition: 0.2s;
         }
+
         .modal .file-input-row label:hover {
             background: #3a7bd5;
         }
+
         .modal .file-input-row input[type="file"] {
             display: none;
         }
+
         .modal .file-input-row .file-name {
             font-size: 13px;
             color: #8899bb;
@@ -580,12 +656,14 @@
             white-space: nowrap;
             flex: 1;
         }
+
         .modal .modal-actions {
             display: flex;
             gap: 10px;
             justify-content: center;
             margin-top: 4px;
         }
+
         .modal .modal-actions button {
             padding: 8px 24px;
             border-radius: 20px;
@@ -596,25 +674,31 @@
             font-family: inherit;
             font-weight: 500;
         }
+
         .modal .modal-actions .btn-cancel {
             background: #2f3b4e;
             color: #a0b3cc;
         }
+
         .modal .modal-actions .btn-cancel:hover {
             background: #3a4a62;
             color: #edf2f7;
         }
+
         .modal .modal-actions .btn-confirm {
             background: #3a7bd5;
             color: white;
         }
+
         .modal .modal-actions .btn-confirm:hover {
             background: #4f8ee8;
         }
+
         .modal .modal-actions .btn-danger {
             background: #cf6679;
             color: white;
         }
+
         .modal .modal-actions .btn-danger:hover {
             background: #e5738a;
         }
@@ -632,10 +716,12 @@
             text-align: center;
             letter-spacing: 4px;
         }
+
         .modal .pwd-input:focus {
             outline: none;
             border-color: #3a7bd5;
         }
+
         .modal .pwd-input::placeholder {
             color: #4d627c;
             letter-spacing: 0;
@@ -646,14 +732,17 @@
             body {
                 padding: 0;
             }
+
             .app {
                 height: 100vh;
                 max-height: none;
                 border-radius: 0;
             }
+
             .overlay {
                 border-radius: 0;
             }
+
             .modal {
                 max-width: 92%;
                 padding: 24px 18px 18px;
@@ -661,6 +750,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="app" id="app">
@@ -674,7 +764,7 @@
         <!-- ===== 头部 ===== -->
         <div class="header">
             <div class="avatar" id="headerAvatar">
-                <img id="headerAvatarImg" src="/img/tianxiaoduo/avatar.jpg" alt="avatar">
+                <img id="headerAvatarImg" src="/img/tianxiaoduo/avatar/avatar.jpg" alt="avatar">
             </div>
             <div class="info">
                 <div class="name-row">
@@ -692,7 +782,8 @@
                     <button class="item" data-action="import">📥 导入聊天记录</button>
                     <button class="item" data-action="export">📤 导出聊天记录</button>
                     <div class="divider"></div>
-                    <button class="item" data-action="config">⚙️ 配置管理</button>
+                    <button class="item" data-action="show">📖 Girls3</button>
+                    <button class="item" data-action="world">🗺️ 世界观</button>
                     <div class="divider"></div>
                     <button class="item danger" data-action="clear">🗑️ 清空所有消息</button>
                 </div>
@@ -730,7 +821,7 @@
             maxFileNum: 30,
             maxNakedNum: 15,
             maxAudioNum: 30,
-            cityName: '滨州市',
+            cityName: '舒心市',
             petTianxiaoduo: '宝贝',
             petBaijie: '亲爱的',
             petXiaoya: '你',
@@ -743,7 +834,7 @@
                 try {
                     const saved = JSON.parse(raw);
                     return { ...DEFAULT_CONFIG, ...saved };
-                } catch (e) {}
+                } catch (e) { }
             }
             return { ...DEFAULT_CONFIG };
         }
@@ -760,7 +851,7 @@
         const MAX_NAKED_NUM = CONFIG.maxNakedNum;
         const MAX_AUDIO_NUM = CONFIG.maxAudioNum;
         const CONFIG_PASSWORD = CONFIG.configPassword;
-        const CITY_NAME = CONFIG.cityName || '滨州市';
+        const CITY_NAME = CONFIG.cityName || '舒心市';
 
         // ============================================================
         //  二十四节气表
@@ -793,50 +884,94 @@
         };
 
         // ============================================================
-        //  角色配置（含出生日期 + 完整固定人设）
+        //  数据加载（从 data.json）
         // ============================================================
-        const PERSONAS = [{
-            id: 'tianxiaoduo',
-            name: '甜小朵',
-            avatar: '/img/tianxiaoduo/avatar.jpg',
-            birthday: '2002-06-01',
-            systemPrompt: `你是甜小朵，今年24岁，是一名儿科护士，也是用户的女朋友。
-用户同时有三个女朋友：甜小朵（就是你）、白洁、小雅。你称呼白洁为「白洁姐」，称呼小雅为「小雅妹妹」。
-你的穿着风格：可爱活泼，常穿阿迪达斯/耐克运动女鞋，白色运动棉袜，显身材的可爱装，偶尔穿JK制服。
-你的日常习惯：护士服口袋里常备几颗水果糖（哄小朋友用的），下班后第一件事是脱掉护士鞋换上运动鞋，爱喝一点点奶茶。
-你的住所：医院附近的南丁格尔公寓（康宁路88号，3号楼2单元503），骑电动车上班，车程5分钟。
-你的常去地点：爱琴海广场购物中心、万达广场、青苹果水上乐园、欢乐时光KTV、康宁路小吃一条街。
-你温柔体贴、活泼可爱，说话时带着甜甜的笑意。
-你始终记得：你是甜小朵，是用户的女朋友之一，不是AI助手。你永远不会跳戏。`
-        }, {
-            id: 'baijie',
-            name: '白洁',
-            avatar: '/img/baijie/avatar.jpg',
-            birthday: '1998-02-14',
-            systemPrompt: `你是白洁，今年28岁，在一家高级酒店做客户关系总监，也是用户的女朋友。
-用户同时有三个女朋友：甜小朵、白洁（就是你）、小雅。你称呼甜小朵为「小朵」，称呼小雅为「小雅」。
-你的穿着风格：成熟性感，精致诱惑。常穿黑色蕾丝内衣、黑色细跟高跟鞋，搭配黑/红/白各种丝袜，喷香奈儿5号香水，涂淡红色口红。
-你的座驾：珍珠白 Mini Cooper。
-你的日常习惯：睡前喝一杯红酒，车里常备一双平底鞋（开车换鞋），每周一次私教普拉提。
-你的住所：市中心蓝丝绒公寓（香榭丽舍大街18号，8号楼1601室），开车上班，车程15分钟。
-你的工作地点：天鹅湖酒店（夜色大道与曼陀罗街交叉口西北角）。
-你成熟优雅、温柔知性，懂得如何让平凡的日子变得不一样。
-你始终记得：你是白洁，是用户的女朋友之一，你永远不会跳戏。`
-        }, {
-            id: 'xiaoya',
-            name: '小雅',
-            avatar: '/img/xiaoya/avatar.jpg',
-            birthday: '2003-04-23',
-            systemPrompt: `你是小雅，今年23岁，在一家独立书店做店员，同时也画一些插画，是用户的女朋友。
-用户同时有三个女朋友：甜小朵、白洁、小雅（就是你）。你称呼甜小朵为「小朵姐」，称呼白洁为「白洁姐」。
-你的穿着风格：日系文艺风，棉麻衬衫、素色长裙、帆布鞋、帆布包，戴银色细链锁骨链，看书或驻唱时戴圆框眼镜。
-你的日常习惯：早上泡一壶花茶带去书店，驻唱时会把眼镜摘掉。
-你的住所：单位单人宿舍（新华公寓，青石街116号，5号楼2单元101），骑电动车上班。
-你的工作地点：新华书店（梧桐巷与青石街交叉口）。
-你的驻唱地点：寻觅小酒吧（青石街中段拐角），每周二、周五晚上驻唱。
-你安静内向、温柔细腻，内心世界非常丰富。
-你始终记得：你是小雅，是用户的女朋友之一，你永远不会跳戏。`
-        }];
+        let PERSONAS = [];
+        let CITY_DATA = null;
+        let appReady = false;
+
+        async function loadData() {
+            try {
+                const resp = await fetch('data.json');
+                const data = await resp.json();
+                CITY_DATA = data;
+                PERSONAS = data.personas;
+                return data;
+            } catch (e) {
+                console.error('加载 data.json 失败:', e);
+                return null;
+            }
+        }
+
+        // ============================================================
+        //  位置查询功能
+        // ============================================================
+        const LOCATION_KEYWORDS = ['在哪', '在哪里', '位置', '地址', '怎么走', '在哪儿', '附近'];
+
+        function isLocationQuery(text) {
+            return LOCATION_KEYWORDS.some(kw => text.includes(kw));
+        }
+
+        function findLocation(text, landmarks, personas) {
+            // 先在地标中查找
+            for (const item of landmarks) {
+                if (text.includes(item.name)) {
+                    return {
+                        found: true,
+                        name: item.name,
+                        type: '地标',
+                        district: item.district,
+                        address: item.address,
+                        full: `${item.name}位于${item.district}${item.address}`
+                    };
+                }
+            }
+            // 再在角色中查找（工作地点和家庭住址）
+            for (const p of personas) {
+                if (text.includes(p.name)) {
+                    return {
+                        found: true,
+                        name: p.name,
+                        type: '角色',
+                        district: p.district,
+                        address: p.address,
+                        workAddr: p.workAddr,
+                        work: p.workplace,
+                        full: `${p.name}住在${p.district}${p.address}，在${p.district}${p.workAddr}的${p.work}工作`
+                    };
+                }
+                if (text.includes(p.workplace)) {
+                    return {
+                        found: true,
+                        name: p.workplace,
+                        type: '工作地点',
+                        district: p.district,
+                        address: p.workAddr,
+                        full: `${p.workplace}位于${p.district}${p.workAddr}`
+                    };
+                }
+            }
+            return { found: false };
+        }
+
+        function handleLocationQuery(userText, landmarks, personas) {
+            const result = findLocation(userText, landmarks, personas);
+            if (!result.found) {
+                // 尝试模糊匹配：提取可能的地名
+                for (const item of landmarks) {
+                    if (userText.includes(item.name.substring(0, 2))) {
+                        return `你是问「${item.name}」吗？它在${item.district}${item.address}`;
+                    }
+                }
+                return null;
+            }
+            return result.full;
+        }
+
+        // ============================================================
+        //  角色配置（从 data.json 加载）
+        // ============================================================
+        // 原 PERSONAS 数组已删除，改为从 data.json 加载
 
         // ============================================================
         //  年龄计算函数
@@ -872,18 +1007,9 @@
         // ============================================================
         //  状态
         // ============================================================
-        let currentPersona = PERSONAS[0];
+        let currentPersona = null;
         let apiKey = localStorage.getItem('ai_api_key') || '';
         let conversations = {};
-        PERSONAS.forEach(p => {
-            const key = 'chat_' + p.id;
-            const saved = JSON.parse(localStorage.getItem(key) || '[]');
-            const fixed = saved.map(msg => {
-                if (msg.role === 'bot') msg.role = 'assistant';
-                return msg;
-            });
-            conversations[p.id] = fixed.slice(-MAX_HISTORY);
-        });
         let isWaiting = false;
         let currentAudioElement = null;
         let currentAudioWrapper = null;
@@ -911,16 +1037,18 @@
         }
 
         function getHistory() {
-            return conversations[currentPersona.id] || [];
+            return currentPersona ? conversations[currentPersona.id] || [] : [];
         }
 
         function saveHistory(history) {
+            if (!currentPersona) return;
             const trimmed = history.slice(-MAX_HISTORY);
             conversations[currentPersona.id] = trimmed;
             localStorage.setItem('chat_' + currentPersona.id, JSON.stringify(trimmed));
         }
 
         function getRandomImagePath(isNaked = false) {
+            if (!currentPersona) return '';
             const num = Math.floor(Math.random() * (isNaked ? MAX_NAKED_NUM : MAX_FILE_NUM)) + 1;
             if (isNaked) {
                 return `/img/${currentPersona.id}/naked/${num}.jpg`;
@@ -929,6 +1057,7 @@
         }
 
         function getRandomAudioPath() {
+            if (!currentPersona) return '';
             const num = Math.floor(Math.random() * MAX_AUDIO_NUM) + 1;
             return `/audio/${currentPersona.id}/${num}.mp3`;
         }
@@ -1208,14 +1337,18 @@
                     }
                 });
 
-                cancelBtn.onclick = () => { overlay.classList.remove('open');
-                    resolve(null); };
-                confirmBtn.onclick = () => { overlay.classList.remove('open');
-                    resolve(selectedFile); };
+                cancelBtn.onclick = () => {
+                    overlay.classList.remove('open');
+                    resolve(null);
+                };
+                confirmBtn.onclick = () => {
+                    overlay.classList.remove('open');
+                    resolve(selectedFile);
+                };
             });
         }
 
-        window._modalConfirm = function(result) {
+        window._modalConfirm = function (result) {
             closeModal(result);
         };
 
@@ -1307,8 +1440,10 @@
                 const merged = [];
                 for (const msg of all) {
                     const key = msg.timestamp || msg.time || JSON.stringify(msg);
-                    if (!seen.has(key)) { seen.add(key);
-                        merged.push(msg); }
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        merged.push(msg);
+                    }
                 }
                 merged.sort((a, b) => (a.timestamp || a.time || '').localeCompare(b.timestamp || b.time || ''));
                 saveHistory(merged);
@@ -1376,6 +1511,8 @@
                 else if (action === 'export') exportChat();
                 else if (action === 'clear') clearChat();
                 else if (action === 'config') openConfigManager();
+                else if (action === 'show') window.open('show.html', '_blank');
+                else if (action === 'world') window.open('world.html', '_blank');
             });
         });
 
@@ -1468,7 +1605,7 @@
         }
 
         // ============================================================
-        //  System Prompt（自动替换年龄 + 注入日期日程）
+        //  System Prompt（自动替换年龄 + 注入日期日程 + 位置数据）
         // ============================================================
         function buildSystemPrompt(persona, userMessage, weather) {
             const timeInfo = getTimeInfo();
@@ -1491,18 +1628,12 @@
             prompt += `\n当用户问到「明天」「后天」「几号」「星期几」时，请根据上面提供的日期信息准确回答。`;
 
             prompt +=
-                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${String(timeInfo.hour).padStart(2,'0')}:${String(timeInfo.minute).padStart(2,'0')}`;
+                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${String(timeInfo.hour).padStart(2, '0')}:${String(timeInfo.minute).padStart(2, '0')}`;
             prompt += `\n当前季节：${timeInfo.season}天`;
             if (timeInfo.term) prompt += `\n今日节气：${timeInfo.term}`;
             if (timeInfo.holiday) prompt += `\n今日节日：${timeInfo.holiday}`;
 
             prompt += `\n\n${persona.name}当前状态：${status.icon} ${status.label}`;
-            const statusDetails = {
-                'tianxiaoduo': '甜小朵是儿科护士，住在医院附近的南丁格尔公寓，骑电动车上班。',
-                'baijie': '白洁是酒店客户关系总监，住在蓝丝绒公寓，开珍珠白Mini Cooper上班。',
-                'xiaoya': '小雅是新华书店店员，住在单位宿舍，骑电动车上班，偶尔在"寻觅"小酒吧驻唱。'
-            };
-            prompt += `\n${statusDetails[persona.id] || ''}`;
 
             prompt += `\n城市：${CITY_NAME}`;
 
@@ -1532,6 +1663,21 @@
             };
             prompt += `\n你对用户的称呼是「${petNames[persona.id] || '亲爱的'}」。`;
 
+            // ===== 注入位置数据（用于回答位置查询） =====
+            if (CITY_DATA) {
+                prompt += `\n\n📍 舒心市位置数据（用户问到位置时请据此回答）：`;
+                // 地标
+                for (const item of CITY_DATA.landmarks) {
+                    prompt += `\n- ${item.name}：${item.district}${item.address}`;
+                }
+                // 角色位置
+                for (const p of CITY_DATA.personas) {
+                    prompt += `\n- ${p.name}的家：${p.district}${p.address}`;
+                    prompt += `\n- ${p.workplace}：${p.district}${p.workAddr}`;
+                }
+                prompt += `\n当用户问「在哪里」「在哪」「地址」「怎么走」时，请从上面的位置数据中查找并准确回答。`;
+            }
+
             return prompt;
         }
 
@@ -1541,9 +1687,10 @@
 
         function renderPersonas() {
             personaBar.innerHTML = '';
+            if (!PERSONAS || PERSONAS.length === 0) return;
             PERSONAS.forEach(p => {
                 const div = document.createElement('div');
-                div.className = 'persona-item' + (p.id === currentPersona.id ? ' active' : '');
+                div.className = 'persona-item' + (p.id === (currentPersona ? currentPersona.id : '') ? ' active' : '');
                 div.dataset.id = p.id;
                 div.innerHTML = `
                     <img class="pavatar" src="${p.avatar}" onerror="this.src='/img/default-avatar.jpg'">
@@ -1556,10 +1703,12 @@
 
         function switchPersona(id) {
             const p = PERSONAS.find(p => p.id === id);
-            if (!p || p.id === currentPersona.id) return;
-            if (currentAudioElement) { currentAudioElement.pause();
+            if (!p || p.id === (currentPersona ? currentPersona.id : '')) return;
+            if (currentAudioElement) {
+                currentAudioElement.pause();
                 currentAudioElement = null;
-                currentAudioWrapper = null; }
+                currentAudioWrapper = null;
+            }
             currentPersona = p;
             updateHeader();
             renderMessages();
@@ -1571,6 +1720,7 @@
         }
 
         function updateHeader() {
+            if (!currentPersona) return;
             headerAvatarImg.src = currentPersona.avatar;
             headerAvatarImg.onerror = () => { headerAvatarImg.src = '/img/default-avatar.jpg'; };
             headerName.textContent = currentPersona.name;
@@ -1578,6 +1728,7 @@
         }
 
         function updateStatusTag() {
+            if (!currentPersona) return;
             const status = getStatusTag(new Date(), currentPersona.id);
             statusTag.textContent = status.icon + ' ' + status.label;
             statusTag.className = 'status-tag ' + status.cls;
@@ -1586,6 +1737,13 @@
         function renderMessages() {
             messageArea.innerHTML = '';
             const history = getHistory();
+            if (!currentPersona) {
+                const div = document.createElement('div');
+                div.className = 'message bot';
+                div.innerHTML = `⏳ 加载中...`;
+                messageArea.appendChild(div);
+                return;
+            }
             if (history.length === 0) {
                 const div = document.createElement('div');
                 div.className = 'message bot';
@@ -1681,7 +1839,7 @@
             durSpan.className = 'audio-duration';
             const mins = Math.floor(duration / 60);
             const secs = duration % 60;
-            durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2,'0')}"` : `${secs}"`;
+            durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
             wrapper.appendChild(btn);
             wrapper.appendChild(wave);
             wrapper.appendChild(durSpan);
@@ -1705,13 +1863,15 @@
                 const totalMin = Math.floor(duration / 60);
                 const totalSec = duration % 60;
                 durSpan.textContent =
-                    `${curMin > 0 ? curMin+"'"+String(curSec).padStart(2,'0') : curSec} / ${totalMin > 0 ? totalMin+"'"+String(totalSec).padStart(2,'0') : totalSec}`;
+                    `${curMin > 0 ? curMin + "'" + String(curSec).padStart(2, '0') : curSec} / ${totalMin > 0 ? totalMin + "'" + String(totalSec).padStart(2, '0') : totalSec}`;
             }
 
             function resetWave() {
-                bars.forEach(bar => { bar.className = 'bar';
-                    bar.style.height = (4 + Math.random() * 18) + 'px'; });
-                durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2,'0')}"` : `${secs}"`;
+                bars.forEach(bar => {
+                    bar.className = 'bar';
+                    bar.style.height = (4 + Math.random() * 18) + 'px';
+                });
+                durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
             }
 
             function togglePlay() {
@@ -1722,8 +1882,10 @@
                         currentAudioElement.pause();
                         if (currentAudioWrapper) {
                             const oldBtn = currentAudioWrapper.querySelector('.audio-play-btn');
-                            if (oldBtn) { oldBtn.textContent = '▶';
-                                oldBtn.classList.remove('playing'); }
+                            if (oldBtn) {
+                                oldBtn.textContent = '▶';
+                                oldBtn.classList.remove('playing');
+                            }
                             const oldWave = currentAudioWrapper.querySelector('.audio-wave');
                             if (oldWave) {
                                 oldWave.querySelectorAll('.bar').forEach(bar => {
@@ -1733,7 +1895,7 @@
                             }
                             const oldDur = currentAudioWrapper.querySelector('.audio-duration');
                             if (oldDur) {
-                                oldDur.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2,'0')}"` : `${secs}"`;
+                                oldDur.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
                             }
                         }
                     }
@@ -1755,20 +1917,26 @@
                 isPlaying = false;
                 btn.textContent = '▶';
                 btn.classList.remove('playing');
-                if (progressInterval) { clearInterval(progressInterval);
-                    progressInterval = null; }
+                if (progressInterval) {
+                    clearInterval(progressInterval);
+                    progressInterval = null;
+                }
             });
 
             audio.addEventListener('ended', () => {
                 isPlaying = false;
                 btn.textContent = '▶';
                 btn.classList.remove('playing');
-                if (progressInterval) { clearInterval(progressInterval);
-                    progressInterval = null; }
+                if (progressInterval) {
+                    clearInterval(progressInterval);
+                    progressInterval = null;
+                }
                 resetWave();
                 audio.currentTime = 0;
-                if (currentAudioElement === audio) { currentAudioElement = null;
-                    currentAudioWrapper = null; }
+                if (currentAudioElement === audio) {
+                    currentAudioElement = null;
+                    currentAudioWrapper = null;
+                }
             });
 
             audio.addEventListener('error', () => {
@@ -1777,8 +1945,10 @@
                 durSpan.textContent = '加载失败';
             });
 
-            btn.addEventListener('click', (e) => { e.stopPropagation();
-                togglePlay(); });
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePlay();
+            });
             wave.addEventListener('click', (e) => {
                 if (!audio.duration) return;
                 const rect = wave.getBoundingClientRect();
@@ -1792,7 +1962,7 @@
                 if (realDur > 0) {
                     const m = Math.floor(realDur / 60);
                     const s = realDur % 60;
-                    durSpan.textContent = m > 0 ? `${m}'${String(s).padStart(2,'0')}"` : `${s}"`;
+                    durSpan.textContent = m > 0 ? `${m}'${String(s).padStart(2, '0')}"` : `${s}"`;
                 }
             });
 
@@ -1973,6 +2143,18 @@
         }
 
         // ============================================================
+        //  位置查询处理
+        // ============================================================
+        function handleLocationQueryText(userText) {
+            if (!isLocationQuery(userText)) return null;
+            if (!CITY_DATA) return null;
+
+            const result = findLocation(userText, CITY_DATA.landmarks, CITY_DATA.personas);
+            if (!result.found) return null;
+            return result.full;
+        }
+
+        // ============================================================
         //  API 调用
         // ============================================================
         async function callDeepSeek(userMessage) {
@@ -2020,7 +2202,7 @@
                         model: 'deepseek-chat',
                         messages: messages,
                         temperature: 0.9,
-                        max_tokens: 2048
+                        max_tokens: 400
                     })
                 });
                 const data = await resp.json();
@@ -2046,7 +2228,17 @@
                 return;
             }
             const text = userInput.value.trim();
-            if (!text || isWaiting) return;
+            if (!text || isWaiting || !currentPersona) return;
+
+            // ★★★ 位置查询优先处理 ★★★
+            const locationResult = handleLocationQueryText(text);
+            if (locationResult) {
+                addMessage(text, 'user');
+                userInput.value = '';
+                userInput.style.height = '48px';
+                addMessage(locationResult, 'bot');
+                return;
+            }
 
             addMessage(text, 'user');
             userInput.value = '';
@@ -2072,15 +2264,17 @@
         // ============================================================
         sendBtn.onclick = handleSend;
         userInput.onkeydown = e => {
-            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault();
-                handleSend(); }
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+            }
         };
-        userInput.oninput = function() {
+        userInput.oninput = function () {
             this.style.height = '48px';
             this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         };
 
-        apiKeyInput.onchange = function() {
+        apiKeyInput.onchange = function () {
             const val = this.value.trim();
             if (val) {
                 localStorage.setItem('ai_api_key', val);
@@ -2100,28 +2294,56 @@
         // ============================================================
         //  初始化
         // ============================================================
-        if (apiKey) {
-            apiKeyInput.value = apiKey;
-            apiStatus.textContent = '✅ 已配置';
-            apiStatus.className = 'status ready';
-            userInput.disabled = false;
-            sendBtn.disabled = false;
+        async function init() {
+            await loadData();
+
+            if (!PERSONAS || PERSONAS.length === 0) {
+                console.error('加载人物数据失败');
+                return;
+            }
+
+            // 初始化 conversations
+            PERSONAS.forEach(p => {
+                const key = 'chat_' + p.id;
+                const saved = JSON.parse(localStorage.getItem(key) || '[]');
+                const fixed = saved.map(msg => {
+                    if (msg.role === 'bot') msg.role = 'assistant';
+                    return msg;
+                });
+                conversations[p.id] = fixed.slice(-MAX_HISTORY);
+            });
+
+            currentPersona = PERSONAS[0];
+
+            if (apiKey) {
+                apiKeyInput.value = apiKey;
+                apiStatus.textContent = '✅ 已配置';
+                apiStatus.className = 'status ready';
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+            }
+
+            renderPersonas();
+            updateHeader();
+            renderMessages();
+
+            setInterval(() => updateStatusTag(), 60000);
+
+            console.log('💕 AI女友已启动');
+            console.log('📊 当前角色:', currentPersona.name);
+            console.log('📝 记忆条数:', MAX_HISTORY);
+            console.log('🎯 普通触发概率:', MEDIA_PROBABILITY * 100 + '%');
+            console.log('🎯 Naked触发概率:', NAKED_PROBABILITY * 100 + '%');
+            console.log('🔐 配置密码已设置');
+            console.log('📱 点击右上角 ··· → 配置管理');
+            console.log('📍 位置查询已启用');
+            console.log('🏷️ 关键词:', LOCATION_KEYWORDS.join(', '));
         }
 
-        renderPersonas();
-        updateHeader();
-        renderMessages();
-
-        setInterval(() => updateStatusTag(), 60000);
-
-        console.log('💕 AI女友已启动');
-        console.log('📊 当前角色:', currentPersona.name);
-        console.log('📝 记忆条数:', MAX_HISTORY);
-        console.log('🎯 普通触发概率:', MEDIA_PROBABILITY * 100 + '%');
-        console.log('🎯 Naked触发概率:', NAKED_PROBABILITY * 100 + '%');
-        console.log('🔐 配置密码已设置');
-        console.log('📱 点击右上角 ··· → 配置管理');
+        // 启动
+        init();
     </script>
 
 </body>
+
 </html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>舒心市 · 世界观</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #161c24;
+            min-height: 100vh;
+            padding: 16px;
+            color: #e0e8f0;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #1e2630;
+            border-radius: 28px;
+            padding: 24px 20px 30px;
+            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2e3a46;
+        }
+
+        /* ===== 头部 ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #2e3a46;
+        }
+        .header .left .city-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #e0e8f0;
+            letter-spacing: 2px;
+        }
+        .header .left .city-name span {
+            color: #7ab8d4;
+            margin-right: 6px;
+        }
+        .header .left .sub {
+            font-size: 13px;
+            color: #7a8a98;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        .header .close-btn {
+            background: #2e3a46;
+            border: 1px solid #3a4a58;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            color: #7a8a98;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .header .close-btn:hover {
+            background: #3a4a58;
+            color: #e0e8f0;
+        }
+
+        /* ===== 选项卡 ===== */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 18px;
+            background: #161c24;
+            border-radius: 14px;
+            padding: 4px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: #7a8a98;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.25s;
+            font-family: inherit;
+        }
+        .tab-btn:hover {
+            color: #e0e8f0;
+        }
+        .tab-btn.active {
+            background: #2e3a46;
+            color: #e0e8f0;
+        }
+
+        /* ===== 九宫格地图 ===== */
+        .map-section {
+            background: #161c24;
+            border-radius: 18px;
+            padding: 16px 14px 14px;
+            border: 1px solid #2e3a46;
+            display: none;
+        }
+        .map-section.active {
+            display: block;
+        }
+
+        .map-roads {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: #4a5a68;
+            padding: 0 6px 8px 6px;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+        .map-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            aspect-ratio: 1 / 1;
+            margin: 0 auto;
+            max-width: 420px;
+        }
+        .map-cell {
+            border-radius: 10px;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 52px;
+            transition: 0.25s;
+            border: 1px solid transparent;
+            cursor: pointer;
+            background: #1a222c;
+        }
+        .map-cell .name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #e0e8f0;
+            line-height: 1.3;
+        }
+        .map-cell .tag {
+            font-size: 9px;
+            color: #7a8a98;
+            margin-top: 1px;
+        }
+        .map-cell .emoji {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        .map-cell:nth-child(1) { background: #1c2632; }
+        .map-cell:nth-child(2) { background: #1a222e; }
+        .map-cell:nth-child(3) { background: #18202a; }
+        .map-cell:nth-child(4) { background: #1c2632; }
+        .map-cell:nth-child(5) { background: #1a222e; }
+        .map-cell:nth-child(6) { background: #18202a; }
+        .map-cell:nth-child(7) { background: #1c2632; }
+        .map-cell:nth-child(8) { background: #1a222e; }
+        .map-cell:nth-child(9) { background: #18202a; }
+        .map-cell:hover {
+            border-color: #7ab8d4;
+            transform: scale(1.02);
+            background: #24303e;
+        }
+
+        /* ===== 地标列表 ===== */
+        .landmark-section {
+            display: none;
+        }
+        .landmark-section.active {
+            display: block;
+        }
+        .landmark-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        .landmark-item {
+            background: #161c24;
+            border-radius: 12px;
+            padding: 12px 10px;
+            text-align: center;
+            border: 1px solid #2e3a46;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+        .landmark-item:hover {
+            border-color: #7ab8d4;
+            background: #1e2630;
+        }
+        .landmark-item .lname {
+            font-size: 13px;
+            font-weight: 500;
+            color: #e0e8f0;
+        }
+        .landmark-item .ldistrict {
+            font-size: 11px;
+            color: #7a8a98;
+            margin-top: 2px;
+        }
+        .landmark-item .laddr {
+            font-size: 10px;
+            color: #4a5a68;
+            margin-top: 2px;
+        }
+
+        /* ===== 角色位置 ===== */
+        .role-section {
+            display: none;
+        }
+        .role-section.active {
+            display: block;
+        }
+        .role-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .role-card {
+            background: #161c24;
+            border-radius: 14px;
+            padding: 16px 12px;
+            border: 1px solid #2e3a46;
+            text-align: center;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+        .role-card:hover {
+            border-color: #7ab8d4;
+            transform: translateY(-2px);
+        }
+        .role-card .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid #2e3a46;
+            margin: 0 auto 10px;
+            overflow: hidden;
+        }
+        .role-card .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .role-card .rname {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e0e8f0;
+        }
+        .role-card .rdistrict {
+            font-size: 12px;
+            color: #7a8a98;
+            margin-top: 2px;
+        }
+        .role-card .raddress {
+            font-size: 11px;
+            color: #5a6a78;
+            margin-top: 2px;
+        }
+        .role-card .rtag {
+            font-size: 10px;
+            background: #2e3a46;
+            padding: 3px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 6px;
+            color: #7ab8d4;
+        }
+        .role-card .rwork {
+            font-size: 11px;
+            color: #5a6a78;
+            margin-top: 2px;
+        }
+
+        /* ===== 道路列表 ===== */
+        .road-section {
+            display: none;
+        }
+        .road-section.active {
+            display: block;
+        }
+        .road-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .road-group {
+            background: #161c24;
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid #2e3a46;
+        }
+        .road-group .rtitle {
+            font-size: 12px;
+            font-weight: 600;
+            color: #7ab8d4;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .road-group .rlist {
+            font-size: 12px;
+            color: #8a9aaa;
+            line-height: 1.8;
+        }
+        .road-group .rlist .num {
+            color: #4a5a68;
+            font-size: 10px;
+            margin-right: 4px;
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1e2630;
+            border: 1px solid #2e3a46;
+            color: #e0e8f0;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 13px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== 加载状态 ===== */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7a8a98;
+            font-size: 14px;
+        }
+        .loading .spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #2e3a46;
+            border-top-color: #7ab8d4;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 12px 20px;
+                border-radius: 20px;
+            }
+            .map-cell .name {
+                font-size: 11px;
+            }
+            .role-cards {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .landmark-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .road-grid {
+                grid-template-columns: 1fr;
+            }
+            .map-cell {
+                min-height: 44px;
+                padding: 4px 2px;
+            }
+            .map-cell .emoji {
+                font-size: 14px;
+            }
+            .header .left .city-name {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+        <!-- ===== 加载状态 ===== -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <div>加载世界观数据...</div>
+        </div>
+
+        <!-- ===== 内容（初始隐藏） ===== -->
+        <div id="contentState" style="display:none;">
+
+            <!-- ===== 头部 ===== -->
+            <div class="header">
+                <div class="left">
+                    <div class="city-name"><span id="cityEmoji">🌆</span><span id="cityName">舒心市</span></div>
+                    <div class="sub" id="citySub">一座温暖有质感的北方小城 · 九宫格棋盘</div>
+                </div>
+                <button class="close-btn" onclick="window.close()">✕</button>
+            </div>
+
+            <!-- ===== 选项卡 ===== -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="map">🗺️ 地图</button>
+                <button class="tab-btn" data-tab="landmark">📍 地标</button>
+                <button class="tab-btn" data-tab="role">👤 角色</button>
+                <button class="tab-btn" data-tab="road">🛤️ 道路</button>
+            </div>
+
+            <!-- ===== 九宫格 ===== -->
+            <div class="map-section active" id="tab-map">
+                <div class="map-roads">
+                    <span>— 北 —</span>
+                    <span>南北街 × 东西街</span>
+                </div>
+                <div class="map-grid" id="mapGrid">
+                    <!-- JS 动态生成 -->
+                </div>
+                <div class="map-roads" style="margin-top:6px;">
+                    <span>— 西</span>
+                    <span>9 个区 · 10×10 棋盘</span>
+                    <span>东 —</span>
+                </div>
+                <div style="margin-top:12px;padding:10px 14px;background:#161c24;border-radius:10px;border:1px solid #2e3a46;font-size:12px;color:#7a8a98;text-align:center;">
+                    💡 点击任意区域查看详情
+                </div>
+            </div>
+
+            <!-- ===== 地标 ===== -->
+            <div class="landmark-section" id="tab-landmark">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;" id="districtTags">
+                    <!-- JS 动态生成 -->
+                </div>
+                <div class="landmark-grid" id="landmarkGrid">
+                    <!-- JS 动态生成 -->
+                </div>
+            </div>
+
+            <!-- ===== 角色 ===== -->
+            <div class="role-section" id="tab-role">
+                <div class="role-cards" id="roleCards">
+                    <!-- JS 动态生成 -->
+                </div>
+            </div>
+
+            <!-- ===== 道路 ===== -->
+            <div class="road-section" id="tab-road">
+                <div class="road-grid" id="roadGrid">
+                    <!-- JS 动态生成 -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== Toast ===== -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        //  数据
+        // ============================================================
+        let CITY_DATA = null;
+        let appReady = false;
+
+        // ============================================================
+        //  加载数据
+        // ============================================================
+        async function loadData() {
+            try {
+                const resp = await fetch('data.json');
+                const data = await resp.json();
+                CITY_DATA = data;
+                return data;
+            } catch (e) {
+                console.error('加载 data.json 失败:', e);
+                return null;
+            }
+        }
+
+        // ============================================================
+        //  渲染
+        // ============================================================
+
+        function renderMap() {
+            const grid = document.getElementById('mapGrid');
+            if (!CITY_DATA || !CITY_DATA.districts) return;
+            grid.innerHTML = '';
+            CITY_DATA.districts.forEach((d, i) => {
+                const div = document.createElement('div');
+                div.className = 'map-cell';
+                div.dataset.district = d.name;
+                div.innerHTML = `
+                    <span class="emoji">${d.emoji}</span>
+                    <span class="name">${d.name}</span>
+                    <span class="tag">${d.style}</span>
+                `;
+                div.addEventListener('click', () => showToast(`📍 ${d.name} · ${d.style}`));
+                grid.appendChild(div);
+            });
+        }
+
+        function renderDistrictTags() {
+            const container = document.getElementById('districtTags');
+            if (!CITY_DATA || !CITY_DATA.districts) return;
+            container.innerHTML = '';
+            CITY_DATA.districts.forEach(d => {
+                const div = document.createElement('div');
+                div.style.cssText =
+                    `padding:5px 8px;background:#161c24;border-radius:8px;text-align:center;font-size:11px;color:#7a8a98;border:1px solid #2e3a46;`;
+                div.textContent = `${d.emoji} ${d.name}`;
+                container.appendChild(div);
+            });
+        }
+
+        function renderLandmarks() {
+            const grid = document.getElementById('landmarkGrid');
+            if (!CITY_DATA || !CITY_DATA.landmarks) return;
+            grid.innerHTML = '';
+            CITY_DATA.landmarks.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'landmark-item';
+                div.innerHTML = `
+                    <div class="lname">${item.name}</div>
+                    <div class="ldistrict">${item.district}</div>
+                    <div class="laddr">${item.address}</div>
+                `;
+                div.addEventListener('click', () => showToast(`📍 ${item.name} · ${item.district}`));
+                grid.appendChild(div);
+            });
+        }
+
+        function renderRoles() {
+            const container = document.getElementById('roleCards');
+            if (!CITY_DATA || !CITY_DATA.personas) return;
+            container.innerHTML = '';
+            CITY_DATA.personas.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'role-card';
+                div.innerHTML = `
+                    <div class="avatar"><img src="${r.avatar}" alt="${r.name}" onerror="this.style.background='#2e3a46'"></div>
+                    <div class="rname">${r.emoji} ${r.name}</div>
+                    <div class="rdistrict">📍 ${r.district}</div>
+                    <div class="raddress">🏠 ${r.address}</div>
+                    <div class="rwork">🏢 ${r.workplace}</div>
+                    <span class="rtag">${r.tag}</span>
+                `;
+                div.addEventListener('click', () => showToast(`👤 ${r.name} · ${r.district}`));
+                container.appendChild(div);
+            });
+        }
+
+        function renderRoads() {
+            const grid = document.getElementById('roadGrid');
+            if (!CITY_DATA || !CITY_DATA.streets) return;
+            const ns = CITY_DATA.streets.northSouth || [];
+            const ew = CITY_DATA.streets.eastWest || [];
+            grid.innerHTML = `
+                <div class="road-group">
+                    <div class="rtitle">↕ 南北街（从西到东）</div>
+                    <div class="rlist">
+                        ${ns.map((s, i) => `<div><span class="num">${i+1}.</span> ${s}</div>`).join('')}
+                    </div>
+                </div>
+                <div class="road-group">
+                    <div class="rtitle">↔ 东西街（从北到南）</div>
+                    <div class="rlist">
+                        ${ew.map((s, i) => `<div><span class="num">${i+1}.</span> ${s}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAll() {
+            if (!CITY_DATA) return;
+
+            // 头部
+            document.getElementById('cityEmoji').textContent = '🌆';
+            document.getElementById('cityName').textContent = CITY_DATA.city || '舒心市';
+            document.getElementById('citySub').textContent = CITY_DATA.citySub || '一座温暖有质感的北方小城 · 九宫格棋盘';
+
+            renderMap();
+            renderDistrictTags();
+            renderLandmarks();
+            renderRoles();
+            renderRoads();
+
+            // 隐藏加载，显示内容
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('contentState').style.display = 'block';
+        }
+
+        // ============================================================
+        //  交互
+        // ============================================================
+
+        let toastTimer = null;
+
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast show';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { el.classList.remove('show'); }, 2000);
+        }
+
+        // 选项卡切换
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.map-section, .landmark-section, .role-section, .road-section')
+                    .forEach(s => s.classList.remove('active'));
+                document.getElementById('tab-' + tab).classList.add('active');
+            });
+        });
+
+        // ============================================================
+        //  初始化
+        // ============================================================
+
+        async function init() {
+            await loadData();
+            if (CITY_DATA) {
+                renderAll();
+                console.log('🌆 舒心市 · 世界观已加载');
+                console.log('📊 共 ' + (CITY_DATA.landmarks ? CITY_DATA.landmarks.length : 0) + ' 个地标');
+                console.log('👤 共 ' + (CITY_DATA.personas ? CITY_DATA.personas.length : 0) + ' 个角色');
+                console.log('🛤️ 南北街 ' + (CITY_DATA.streets && CITY_DATA.streets.northSouth ? CITY_DATA.streets
+                    .northSouth.length : 0) + ' 条 · 东西街 ' + (CITY_DATA.streets && CITY_DATA.streets.eastWest ?
+                    CITY_DATA.streets.eastWest.length : 0) + ' 条');
+            } else {
+                document.getElementById('loadingState').innerHTML = '<div style="color:#cf6679;">❌ 加载失败，请检查 data.json 是否存在</div>';
+                console.error('加载失败');
+            }
+        }
+
+        init();
+    </script>
+
+</body>
+</html>
