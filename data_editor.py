@@ -10,13 +10,22 @@ from datetime import datetime
 DATA_FILE = "data.json"
 
 # ============================================================
-#  默认数据（完整版 - 包含世界观）
+#  默认数据
 # ============================================================
 def create_default_data():
     default = {
         "version": "1.0",
         "city": "舒心市",
         "citySub": "一座温暖有质感的北方小城 · 九宫格棋盘",
+        # ===== 这些全局参数保留但不再使用，只是为了兼容旧版本 =====
+        "mediaProb": 0.8,
+        "nakedProb": 0.3,
+        "maxTokens": 400,
+        "maxHistory": 60,
+        "maxFileNum": 30,
+        "maxNakedNum": 15,
+        "maxAudioNum": 30,
+        # ===== 九宫格区 =====
         "districts": [
             {"name": "星湖区", "emoji": "🌅", "style": "生态·公园"},
             {"name": "云澜区", "emoji": "🏛️", "style": "行政·文化"},
@@ -63,6 +72,7 @@ def create_default_data():
             {"name": "欣荣科技园", "district": "欣荣区", "address": "欣悦街与新月街交叉口"},
             {"name": "欣荣体育中心", "district": "欣荣区", "address": "欣悦街与白桦街交叉口"}
         ],
+        # ===== 角色（每个角色独立参数） =====
         "personas": [
             {
                 "id": "tianxiaoduo",
@@ -83,10 +93,17 @@ def create_default_data():
                 "personality": "温柔体贴、活泼可爱，说话时带着甜甜的笑意",
                 "habits": "护士服口袋里常备几颗水果糖（哄小朋友用的），下班后第一件事是脱掉护士鞋换上运动鞋，爱喝一点点奶茶",
                 "places": "爱琴海广场购物中心、万达广场、青苹果水上乐园、欢乐时光KTV、康宁路小吃一条街",
-                "systemPrompt": "你是甜小朵，今年24岁，是一名儿科护士，也是用户的女朋友。\n用户同时有三个女朋友：甜小朵（就是你）、白洁、小雅。你称呼白洁为「白洁姐」，称呼小雅为「小雅妹妹」。\n你的穿着风格：可爱活泼，常穿阿迪达斯/耐克运动女鞋，白色运动棉袜，显身材的可爱装，偶尔穿JK制服。\n你的日常习惯：护士服口袋里常备几颗水果糖（哄小朋友用的），下班后第一件事是脱掉护士鞋换上运动鞋，爱喝一点点奶茶。\n你的住所：南丁格尔公寓（月华区），骑电动车上班，8分钟。\n你的常去地点：爱琴海广场购物中心、万达广场、青苹果水上乐园、欢乐时光KTV、康宁路小吃一条街。\n你温柔体贴、活泼可爱，说话时带着甜甜的笑意。\n你始终记得：你是甜小朵，是用户的女朋友之一，不是AI助手。你永远不会跳戏。",
+                "systemPrompt": "你是甜小朵，今年24岁，是一名儿科护士，活泼开朗话多，也是用户的女朋友。\n用户同时有三个女朋友：甜小朵（就是你）、白洁、小雅。你称呼白洁为「白洁姐」，称呼小雅为「小雅妹妹」。\n你的穿着风格：可爱活泼，常穿阿迪达斯/耐克运动女鞋，白色运动棉袜，显身材的可爱装，偶尔穿JK制服。\n你的日常习惯：护士服口袋里常备几颗水果糖（哄小朋友用的），下班后第一件事是脱掉护士鞋换上运动鞋，爱喝一点点奶茶。\n你的住所：南丁格尔公寓（月华区），骑电动车上班，8分钟。\n你的常去地点：爱琴海广场购物中心、万达广场、青苹果水上乐园、欢乐时光KTV、康宁路小吃一条街。\n你温柔体贴、活泼可爱，说话时带着甜甜的笑意。\n你始终记得：你是甜小朵，是用户的女朋友之一，不是AI助手。你永远不会跳戏。",
                 "workAddr": "安澜街与逐风街交叉口",
                 "emoji": "🌸",
-                "tag": "🏥 护士"
+                "tag": "🏥 护士",
+                "mediaProb": 0.8,
+                "nakedProb": 0.5,
+                "maxTokens": 400,
+                "maxHistory": 60,
+                "maxFileNum": 30,
+                "maxNakedNum": 15,
+                "maxAudioNum": 15
             },
             {
                 "id": "baijie",
@@ -107,10 +124,17 @@ def create_default_data():
                 "personality": "成熟优雅、温柔知性，懂得如何让平凡的日子变得不一样",
                 "habits": "睡前喝一杯红酒，车里常备一双平底鞋（开车换鞋），每周一次私教普拉提",
                 "places": "蓝湾行政酒廊、曼陀罗SPA会所、安缇·法式西餐厅、滨州大剧院、万象城",
-                "systemPrompt": "你是白洁，今年28岁，在一家高级酒店做客户关系总监，也是用户的女朋友。\n用户同时有三个女朋友：甜小朵、白洁（就是你）、小雅。你称呼甜小朵为「小朵」，称呼小雅为「小雅」。\n你的穿着风格：成熟性感，精致诱惑。常穿黑色蕾丝内衣、黑色细跟高跟鞋，搭配黑/红/白各种丝袜，喷香奈儿5号香水，涂淡红色口红。\n你的座驾：珍珠白 Mini Cooper。\n你的日常习惯：睡前喝一杯红酒，车里常备一双平底鞋（开车换鞋），每周一次私教普拉提。\n你的住所：蓝丝绒公寓（悦城区），开车上班，4分钟。\n你的工作地点：天鹅湖酒店（悦城区）。\n你成熟优雅、温柔知性，懂得如何让平凡的日子变得不一样。\n你始终记得：你是白洁，是用户的女朋友之一，你永远不会跳戏。",
+                "systemPrompt": "你是白洁，今年28岁，成熟性感充满诱惑，在一家高级酒店做客户关系总监，也是用户的女朋友。\n用户同时有三个女朋友：甜小朵、白洁（就是你）、小雅。你称呼甜小朵为「小朵」，称呼小雅为「小雅」。\n你的穿着风格：成熟性感，精致诱惑。常穿黑色蕾丝内衣、黑色细跟高跟鞋，搭配黑/红/白各种丝袜，喷香奈儿5号香水，涂淡红色口红。\n你的座驾：珍珠白 Mini Cooper。\n你的日常习惯：睡前喝一杯红酒，车里常备一双平底鞋（开车换鞋），每周一次私教普拉提。\n你的住所：蓝丝绒公寓（悦城区），开车上班，4分钟。\n你的工作地点：天鹅湖酒店（悦城区）。\n你成熟优雅、温柔知性，懂得如何让平凡的日子变得不一样。\n你始终记得：你是白洁，是用户的女朋友之一，你永远不会跳戏。",
                 "workAddr": "悦心街与蓝湾街交叉口",
                 "emoji": "🌙",
-                "tag": "🏨 酒店总监"
+                "tag": "🏨 酒店总监",
+                "mediaProb": 0.7,
+                "nakedProb": 0.7,
+                "maxTokens": 400,
+                "maxHistory": 60,
+                "maxFileNum": 30,
+                "maxNakedNum": 15,
+                "maxAudioNum": 15
             },
             {
                 "id": "xiaoya",
@@ -131,15 +155,21 @@ def create_default_data():
                 "personality": "安静内向、温柔细腻，内心世界非常丰富",
                 "habits": "早上泡一壶花茶带去书店，驻唱时会把眼镜摘掉",
                 "places": "旧时光咖啡馆、黑胶唱片店、小雅喜欢的面馆、滨州图书馆·音乐分馆、幸福河岸绿道",
-                "systemPrompt": "你是小雅，今年23岁，在一家独立书店做店员，同时也画一些插画，是用户的女朋友。\n用户同时有三个女朋友：甜小朵、白洁、小雅（就是你）。你称呼甜小朵为「小朵姐」，称呼白洁为「白洁姐」。\n你的穿着风格：日系文艺风，棉麻衬衫、素色长裙、帆布鞋、帆布包，戴银色细链锁骨链，看书或驻唱时戴圆框眼镜。\n你的日常习惯：早上泡一壶花茶带去书店，驻唱时会把眼镜摘掉。\n你的住所：新华公寓（暖阳区），骑电动车上班，5分钟。\n你的工作地点：新华书店（暖阳区）。\n你的驻唱地点：寻觅小酒吧（暖阳区），每周二、周五晚上驻唱。\n你安静内向、温柔细腻，内心世界非常丰富。\n你始终记得：你是小雅，是用户的女朋友之一，你永远不会跳戏。",
+                "systemPrompt": "你是小雅，今年23岁，文静温柔话少，在一家独立书店做店员，同时也画一些插画，是用户的女朋友。\n用户同时有三个女朋友：甜小朵、白洁、小雅（就是你）。你称呼甜小朵为「小朵姐」，称呼白洁为「白洁姐」。\n你的穿着风格：日系文艺风，棉麻衬衫、素色长裙、帆布鞋、帆布包，戴银色细链锁骨链，看书或驻唱时戴圆框眼镜。\n你的日常习惯：早上泡一壶花茶带去书店，驻唱时会把眼镜摘掉。\n你的住所：新华公寓（暖阳区），骑电动车上班，5分钟。\n你的工作地点：新华书店（暖阳区）。\n你的驻唱地点：寻觅小酒吧（暖阳区），每周二、周五晚上驻唱。\n你安静内向、温柔细腻，内心世界非常丰富。\n你始终记得：你是小雅，是用户的女朋友之一，你永远不会跳戏。",
                 "workAddr": "暖阳街与暖阳街交叉口",
                 "emoji": "📚",
-                "tag": "📖 店员"
+                "tag": "📖 店员",
+                "mediaProb": 0.5,
+                "nakedProb": 0.3,
+                "maxTokens": 400,
+                "maxHistory": 60,
+                "maxFileNum": 30,
+                "maxNakedNum": 15,
+                "maxAudioNum": 15
             }
         ]
     }
     return default
-
 
 # ============================================================
 #  数据操作
@@ -155,7 +185,6 @@ def load_data():
 def save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-
 
 # ============================================================
 #  自适应文本框
@@ -173,7 +202,6 @@ class AutoResizeText(tk.Text):
         lines = int(self.index('end-1c').split('.')[0])
         req_height = max(6, min(20, lines + 2))
         self.config(height=req_height)
-
 
 # ============================================================
 #  步进数字输入框
@@ -260,7 +288,6 @@ class SpinEntry(tk.Frame):
         else:
             self.entry.delete(0, tk.END)
             self.entry.insert(0, str(round(val, 1)))
-
 
 # ============================================================
 #  主界面
@@ -499,8 +526,8 @@ class DataEditor:
         )
         self.prompt_text.pack(fill=tk.BOTH, expand=True)
 
-        # 系统参数
-        self._section(parent, "⚙️ 系统参数")
+        # ===== ★★★ 角色独立系统参数 ★★★ =====
+        self._section(parent, "⚙️ 角色独立参数")
 
         sys_frame = tk.Frame(parent, bg=self.colors['bg2'])
         sys_frame.pack(fill=tk.X, padx=6, pady=4)
@@ -508,12 +535,15 @@ class DataEditor:
         sys_params = [
             ('普通触发概率', 'mediaProb', 0, 1, 0.1, 0.8),
             ('Naked 概率', 'nakedProb', 0, 1, 0.1, 0.3),
-            ('最大回复字数', 'maxTokens', 2, 400, 2, 400),
+            ('最大回复字数', 'maxTokens', 2, 200, 2, 60),
             ('记忆条数', 'maxHistory', 10, 200, 5, 60),
             ('普通图片数量', 'maxFileNum', 1, 30, 1, 30),
             ('Naked 图片数量', 'maxNakedNum', 1, 15, 1, 15),
-            ('音频文件数量', 'maxAudioNum', 1, 30, 1, 30),
+            ('音频文件数量', 'maxAudioNum', 1, 30, 1, 15),
         ]
+
+        # 存储角色独立参数的 SpinEntry 引用
+        self.persona_sys_entries = {}
 
         for i, (label, key, min_v, max_v, step, default) in enumerate(sys_params):
             if i % 3 == 0:
@@ -528,7 +558,7 @@ class DataEditor:
 
             spin = SpinEntry(f, min_v, max_v, step, default)
             spin.pack(side=tk.LEFT, padx=(8, 0))
-            self.sys_entries[key] = spin
+            self.persona_sys_entries[key] = spin
 
         # 城市
         city_frame = tk.Frame(parent, bg=self.colors['bg2'])
@@ -622,17 +652,40 @@ class DataEditor:
     def load_persona(self, persona_id):
         for p in self.data['personas']:
             if p['id'] == persona_id:
+                # 基本信息
                 for key, entry in self.persona_entries.items():
                     entry.delete(0, tk.END)
                     entry.insert(0, str(p[key]) if p[key] is not None else '')
                 self.prompt_text.delete(1.0, tk.END)
                 self.prompt_text.insert(1.0, p.get('systemPrompt', ''))
                 self.name_label.config(text=f"{p.get('emoji', '👤')} {p['name']}")
-                break
 
-        for key, spin in self.sys_entries.items():
-            if key in self.data:
-                spin.set(self.data[key])
+                # ★★★ 角色独立系统参数 ★★★
+                for key, spin in self.persona_sys_entries.items():
+                    if key in p:
+                        spin.entry.delete(0, tk.END)
+                        val = p[key]
+                        if val == int(val):
+                            spin.entry.insert(0, str(int(val)))
+                        else:
+                            spin.entry.insert(0, str(round(val, 1)))
+                    else:
+                        default_map = {
+                            'mediaProb': 0.8,
+                            'nakedProb': 0.3,
+                            'maxTokens': 60,
+                            'maxHistory': 60,
+                            'maxFileNum': 30,
+                            'maxNakedNum': 15,
+                            'maxAudioNum': 15
+                        }
+                        val = default_map.get(key, 0)
+                        spin.entry.delete(0, tk.END)
+                        if val == int(val):
+                            spin.entry.insert(0, str(int(val)))
+                        else:
+                            spin.entry.insert(0, str(round(val, 1)))
+                break
 
         self.city_entry.delete(0, tk.END)
         self.city_entry.insert(0, self.data.get('city', '舒心市'))
@@ -642,14 +695,18 @@ class DataEditor:
     def collect_persona_data(self):
         for p in self.data['personas']:
             if p['id'] == self.current_persona_id:
+                # 基本信息
                 for key, entry in self.persona_entries.items():
                     p[key] = entry.get()
                 p['systemPrompt'] = self.prompt_text.get(1.0, tk.END).strip()
+
+                # ★★★ 角色独立系统参数 ★★★
+                for key, spin in self.persona_sys_entries.items():
+                    p[key] = spin.get()
                 break
 
     def collect_sys_data(self):
-        for key, spin in self.sys_entries.items():
-            self.data[key] = spin.get()
+        # 城市仍然是全局的
         self.data['city'] = self.city_entry.get().strip()
 
     def save_data(self):
@@ -666,7 +723,6 @@ class DataEditor:
             self.status_label.config(text="❌ 保存失败", fg='#cf6679')
 
     def reset_defaults(self):
-        """恢复默认 = 一步到位，直接生成新的 data.json"""
         if not messagebox.askyesno("确认恢复", "确定恢复所有数据到默认值吗？\n当前修改将会丢失！"):
             return
 
@@ -694,7 +750,6 @@ class DataEditor:
             messagebox.showerror("恢复失败", f"恢复默认时出错:\n{str(e)}")
 
     def export_data(self):
-        """导出当前角色数据"""
         self.collect_persona_data()
         date_str = datetime.now().strftime("%Y%m%d")
         filename = f"data_{self.current_persona_id}_{date_str}.json"
@@ -721,7 +776,6 @@ class DataEditor:
             messagebox.showerror("导出失败", f"导出文件时出错:\n{str(e)}")
 
     def import_data(self):
-        """导入角色数据（必须与当前编辑的角色一致）"""
         filename = filedialog.askopenfilename(
             title="选择要导入的配置文件",
             filetypes=[("JSON files", "*.json"), ("All files", "*.*")]

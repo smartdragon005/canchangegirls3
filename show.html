@@ -26,7 +26,6 @@
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
         }
 
-        /* ===== 头部 ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -103,7 +102,6 @@
             color: #1a2330;
         }
 
-        /* ===== 加载状态 ===== */
         .loading {
             text-align: center;
             padding: 40px 20px;
@@ -121,7 +119,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===== 角色切换 ===== */
         .role-tabs {
             display: flex;
             gap: 8px;
@@ -165,7 +162,6 @@
             }
         }
 
-        /* ===== 内容卡片 ===== */
         .content-area {
             display: none;
         }
@@ -225,16 +221,55 @@
             background: #eef4fc;
             color: #3a7bd5;
         }
-        .profile-card .field .value .tag.place {
-            background: #f0f2f5;
+
+        /* ===== 系统参数 ===== */
+        .sys-section {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid #e8ecf0;
+            margin-bottom: 12px;
+        }
+        .sys-section .sys-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #3a4a62;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sys-section .sys-title span {
+            font-size: 16px;
+        }
+        .sys-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 16px;
+        }
+        .sys-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .sys-item:last-child {
+            border-bottom: none;
+        }
+        .sys-item .label {
             color: #7a8aa3;
         }
-        .profile-card .field .value .emoji {
-            font-size: 18px;
-            margin-right: 4px;
+        .sys-item .value {
+            color: #1a2330;
+            font-weight: 500;
+        }
+        @media (max-width: 480px) {
+            .sys-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* ===== 底部提示 ===== */
         .footer-tip {
             margin-top: 16px;
             padding: 12px 16px;
@@ -253,7 +288,6 @@
             color: #3a4a62;
         }
 
-        /* ===== Toast ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -286,7 +320,6 @@
 <body>
 
     <div class="container" id="app">
-        <!-- ===== 头部 ===== -->
         <div class="header">
             <div class="left">
                 <h1><span>📖</span> Girls3</h1>
@@ -298,46 +331,42 @@
             </div>
         </div>
 
-        <!-- ===== 加载状态 ===== -->
         <div id="loadingState" class="loading">
             <div class="spinner"></div>
             <div>加载角色数据...</div>
         </div>
 
-        <!-- ===== 主内容 ===== -->
         <div id="contentState" style="display:none;">
+            <div class="role-tabs" id="roleTabs"></div>
+            <div id="roleContent"></div>
 
-            <!-- 角色切换标签 -->
-            <div class="role-tabs" id="roleTabs">
-                <!-- JS 动态生成 -->
+            <div class="sys-section">
+                <div class="sys-title"><span>⚙️</span> 系统参数（只读）</div>
+                <div class="sys-grid" id="sysParams">
+                    <div class="sys-item"><span class="label">普通触发概率</span><span class="value" id="sysMediaProb">--</span></div>
+                    <div class="sys-item"><span class="label">Naked 概率</span><span class="value" id="sysNakedProb">--</span></div>
+                    <div class="sys-item"><span class="label">最大回复字数</span><span class="value" id="sysMaxTokens">--</span></div>
+                    <div class="sys-item"><span class="label">记忆条数</span><span class="value" id="sysMaxHistory">--</span></div>
+                    <div class="sys-item"><span class="label">普通图片数量</span><span class="value" id="sysMaxFileNum">--</span></div>
+                    <div class="sys-item"><span class="label">Naked 图片数量</span><span class="value" id="sysMaxNakedNum">--</span></div>
+                    <div class="sys-item"><span class="label">音频文件数量</span><span class="value" id="sysMaxAudioNum">--</span></div>
+                    <div class="sys-item"><span class="label">城市名称</span><span class="value" id="sysCity">--</span></div>
+                </div>
             </div>
 
-            <!-- 角色详情 -->
-            <div id="roleContent">
-                <!-- JS 动态生成 -->
-            </div>
-
-            <!-- 底部提示 -->
             <div class="footer-tip">
                 💡 数据来自 <code>data.json</code> · 修改后点击 <code>🔄</code> 刷新
             </div>
         </div>
     </div>
 
-    <!-- ===== Toast ===== -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // ============================================================
-        //  数据
-        // ============================================================
         let CITY_DATA = null;
         let currentRoleId = null;
         let isLoading = false;
 
-        // ============================================================
-        //  加载数据
-        // ============================================================
         async function loadData(showToastMsg = false) {
             if (isLoading) return;
             isLoading = true;
@@ -364,10 +393,6 @@
                 if (btn) btn.classList.remove('spinning');
             }
         }
-
-        // ============================================================
-        //  渲染
-        // ============================================================
 
         function renderRoleTabs() {
             const container = document.getElementById('roleTabs');
@@ -440,10 +465,32 @@
                 </div>
             `;
 
-            // 标记当前激活的标签
             document.querySelectorAll('.role-tab').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.id === roleId);
             });
+
+            // ★★★ 渲染系统参数（从当前角色读取） ★★★
+            renderSysParams(p);
+        }
+
+        function renderSysParams(p) {
+            if (!p) return;
+
+            const map = {
+                sysMediaProb: (p.mediaProb !== undefined ? p.mediaProb : 0.8) * 100 + '%',
+                sysNakedProb: (p.nakedProb !== undefined ? p.nakedProb : 0.3) * 100 + '%',
+                sysMaxTokens: p.maxTokens !== undefined ? p.maxTokens : 400,
+                sysMaxHistory: p.maxHistory !== undefined ? p.maxHistory : 60,
+                sysMaxFileNum: p.maxFileNum !== undefined ? p.maxFileNum : 30,
+                sysMaxNakedNum: p.maxNakedNum !== undefined ? p.maxNakedNum : 15,
+                sysMaxAudioNum: p.maxAudioNum !== undefined ? p.maxAudioNum : 30,
+                sysCity: CITY_DATA.city || '舒心市'
+            };
+
+            for (const [id, val] of Object.entries(map)) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            }
         }
 
         function calculateAge(birthday) {
@@ -471,13 +518,9 @@
             document.getElementById('contentState').style.display = 'block';
         }
 
-        // ============================================================
-        //  刷新数据（外部调用）
-        // ============================================================
         async function reloadData() {
             const data = await loadData(true);
             if (data) {
-                // 保持当前选中的角色
                 const currentId = currentRoleId;
                 renderAll();
                 if (currentId) {
@@ -489,9 +532,6 @@
             }
         }
 
-        // ============================================================
-        //  Toast
-        // ============================================================
         let toastTimer = null;
 
         function showToast(msg, type = 'info') {
@@ -506,15 +546,13 @@
             }, 2200);
         }
 
-        // ============================================================
-        //  初始化
-        // ============================================================
         async function init() {
             const data = await loadData(false);
             if (data) {
                 renderAll();
                 console.log('📖 Girls3 · 角色档案已加载');
                 console.log('👤 共 ' + data.personas.length + ' 个角色');
+                console.log('⚙️ 各角色独立系统参数已加载');
                 console.log('🔄 点击右上角刷新按钮可重新加载 data.json');
             } else {
                 document.getElementById('loadingState').innerHTML =
@@ -523,11 +561,8 @@
             }
         }
 
-        // 暴露给全局，供 onclick 调用
         window.reloadData = reloadData;
-
         init();
     </script>
-
 </body>
 </html>

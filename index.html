@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -12,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: #0b0e14;
@@ -23,7 +21,6 @@
             padding: 12px;
             color: #edf2f7;
         }
-
         .app {
             max-width: 480px;
             width: 100%;
@@ -36,15 +33,12 @@
             background: #141a24;
             position: relative;
         }
-
         ::-webkit-scrollbar {
             width: 3px;
         }
-
         ::-webkit-scrollbar-track {
             background: transparent;
         }
-
         ::-webkit-scrollbar-thumb {
             background: #2b3a50;
             border-radius: 8px;
@@ -61,7 +55,6 @@
             background: #0f161e;
             flex-wrap: wrap;
         }
-
         .header .avatar {
             width: 44px;
             height: 44px;
@@ -70,30 +63,25 @@
             flex-shrink: 0;
             border: 2px solid #2b5ca8;
         }
-
         .header .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .header .info {
             flex: 1;
             min-width: 80px;
         }
-
         .header .info .name-row {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .header .info .name-row h1 {
             font-size: 17px;
             font-weight: 600;
             color: #edf2f7;
         }
-
         .header .info .status-row {
             display: flex;
             align-items: center;
@@ -102,7 +90,6 @@
             color: #7a8aa3;
             flex-wrap: wrap;
         }
-
         .header .info .status-row .dot {
             display: inline-block;
             width: 7px;
@@ -112,21 +99,17 @@
             margin-right: 2px;
             animation: pulse-dot 1.8s ease-in-out infinite;
         }
-
         @keyframes pulse-dot {
-
             0%,
             100% {
                 opacity: 0.4;
                 transform: scale(0.8);
             }
-
             50% {
                 opacity: 1;
                 transform: scale(1.2);
             }
         }
-
         .header .info .status-row .status-tag {
             padding: 1px 10px;
             border-radius: 12px;
@@ -136,27 +119,22 @@
             color: #8899bb;
             white-space: nowrap;
         }
-
         .status-tag.working {
             color: #4fc3f7;
             border-color: #2b5ca8;
         }
-
         .status-tag.resting {
             color: #ffb74d;
             border-color: #8d6e3f;
         }
-
         .status-tag.sleeping {
             color: #7986cb;
             border-color: #3949ab;
         }
-
         .status-tag.free {
             color: #81c784;
             border-color: #388e3c;
         }
-
         .status-tag.singing {
             color: #ff8a65;
             border-color: #d84315;
@@ -167,7 +145,6 @@
             position: relative;
             flex-shrink: 0;
         }
-
         .menu-btn {
             background: transparent;
             border: none;
@@ -180,12 +157,10 @@
             transition: 0.2s;
             letter-spacing: 2px;
         }
-
         .menu-btn:hover {
             background: #1e283a;
             color: #edf2f7;
         }
-
         .menu-dropdown {
             position: absolute;
             right: 0;
@@ -200,11 +175,9 @@
             z-index: 100;
             overflow: hidden;
         }
-
         .menu-dropdown.open {
             display: block;
         }
-
         .menu-dropdown .item {
             padding: 10px 16px;
             font-size: 13px;
@@ -220,21 +193,17 @@
             text-align: left;
             font-family: inherit;
         }
-
         .menu-dropdown .item:hover {
             background: #2a3344;
             color: #edf2f7;
         }
-
         .menu-dropdown .item.danger {
             color: #cf6679;
         }
-
         .menu-dropdown .item.danger:hover {
             background: #2a1418;
             color: #ff8a9e;
         }
-
         .menu-dropdown .divider {
             height: 1px;
             background: #2a3344;
@@ -252,11 +221,9 @@
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
-
         .persona-bar::-webkit-scrollbar {
             display: none;
         }
-
         .persona-item {
             display: flex;
             flex-direction: column;
@@ -270,12 +237,10 @@
             border: 2px solid transparent;
             background: transparent;
         }
-
         .persona-item.active {
             border-color: #2b5ca8;
             background: #1a2538;
         }
-
         .persona-item .pavatar {
             width: 48px;
             height: 48px;
@@ -283,17 +248,14 @@
             object-fit: cover;
             border: 2px solid #2f3b4e;
         }
-
         .persona-item.active .pavatar {
             border-color: #3a7bd5;
         }
-
         .persona-item .pname {
             font-size: 12px;
             color: #edf2f7;
             white-space: nowrap;
         }
-
         .persona-item.active .pname {
             color: #edf2f7;
             font-weight: 600;
@@ -310,12 +272,10 @@
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
-
         .api-row label {
             font-size: 12px;
             color: #5b6e8a;
         }
-
         .api-row input {
             flex: 1;
             min-width: 100px;
@@ -327,21 +287,17 @@
             font-size: 13px;
             font-family: inherit;
         }
-
         .api-row input:focus {
             outline: none;
             border-color: #3a7bd5;
         }
-
         .api-row input::placeholder {
             color: #4d627c;
         }
-
         .api-row .status {
             font-size: 11px;
             color: #4d627c;
         }
-
         .api-row .status.ready {
             color: #4caf50;
         }
@@ -368,19 +324,16 @@
             animation: fadeIn 0.25s ease-out;
             word-break: break-word;
         }
-
         @keyframes fadeIn {
             0% {
                 opacity: 0;
                 transform: translateY(8px);
             }
-
             100% {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
         .message.bot {
             align-self: flex-start;
             background: #1e283a;
@@ -388,21 +341,18 @@
             border-bottom-left-radius: 6px;
             border: 1px solid #2b354a;
         }
-
         .message.user {
             align-self: flex-end;
             background: #2b5ca8;
             color: white;
             border-bottom-right-radius: 6px;
         }
-
         .message .time {
             font-size: 10px;
             opacity: 0.5;
             margin-top: 4px;
             display: block;
         }
-
         .message.sys {
             font-size: 12px;
             color: #5b6e8a;
@@ -412,7 +362,6 @@
             border: none !important;
             padding: 4px 0 !important;
         }
-
         .message.bot .msg-image {
             max-width: 100%;
             max-height: 300px;
@@ -433,7 +382,6 @@
             cursor: pointer;
             user-select: none;
         }
-
         .audio-play-btn {
             width: 32px;
             height: 32px;
@@ -451,15 +399,12 @@
             padding: 0;
             line-height: 1;
         }
-
         .audio-play-btn:hover {
             background: #4f8ee8;
         }
-
         .audio-play-btn.playing {
             background: #e85a4f;
         }
-
         .audio-wave {
             flex: 1;
             height: 32px;
@@ -469,7 +414,6 @@
             min-width: 60px;
             position: relative;
         }
-
         .audio-wave .bar {
             flex: 1;
             height: 6px;
@@ -479,16 +423,13 @@
             min-height: 3px;
             max-height: 22px;
         }
-
         .audio-wave .bar.active {
             background: #3a7bd5;
         }
-
         .audio-wave .bar.played {
             background: #3a7bd5;
             opacity: 0.6;
         }
-
         .audio-duration {
             font-size: 12px;
             color: #8899bb;
@@ -509,7 +450,6 @@
             align-items: flex-end;
             background: #0f161e;
         }
-
         .input-area textarea {
             flex: 1;
             background: #1a2533;
@@ -524,21 +464,17 @@
             font-family: inherit;
             line-height: 1.5;
         }
-
         .input-area textarea:focus {
             outline: none;
             border-color: #3a7bd5;
         }
-
         .input-area textarea::placeholder {
             color: #4d627c;
         }
-
         .input-area textarea:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
-
         .input-area button {
             background: #2b5ca8;
             border: none;
@@ -554,15 +490,12 @@
             align-items: center;
             justify-content: center;
         }
-
         .input-area button:hover:not(:disabled) {
             background: #3a7bd5;
         }
-
         .input-area button:active:not(:disabled) {
             transform: scale(0.92);
         }
-
         .input-area button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
@@ -580,7 +513,6 @@
             border-radius: 32px;
             backdrop-filter: blur(2px);
         }
-
         .overlay.open {
             display: flex;
         }
@@ -596,27 +528,23 @@
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
             text-align: center;
         }
-
         .modal .modal-icon {
             font-size: 32px;
             margin-bottom: 12px;
             display: block;
         }
-
         .modal h2 {
             font-size: 18px;
             font-weight: 600;
             color: #edf2f7;
             margin-bottom: 6px;
         }
-
         .modal p {
             font-size: 14px;
             color: #a0b3cc;
             line-height: 1.6;
             margin-bottom: 16px;
         }
-
         .modal .file-input-row {
             display: flex;
             align-items: center;
@@ -628,7 +556,6 @@
             margin-bottom: 12px;
             text-align: left;
         }
-
         .modal .file-input-row label {
             background: #2b5ca8;
             color: white;
@@ -639,15 +566,12 @@
             flex-shrink: 0;
             transition: 0.2s;
         }
-
         .modal .file-input-row label:hover {
             background: #3a7bd5;
         }
-
         .modal .file-input-row input[type="file"] {
             display: none;
         }
-
         .modal .file-input-row .file-name {
             font-size: 13px;
             color: #8899bb;
@@ -656,14 +580,12 @@
             white-space: nowrap;
             flex: 1;
         }
-
         .modal .modal-actions {
             display: flex;
             gap: 10px;
             justify-content: center;
             margin-top: 4px;
         }
-
         .modal .modal-actions button {
             padding: 8px 24px;
             border-radius: 20px;
@@ -674,31 +596,25 @@
             font-family: inherit;
             font-weight: 500;
         }
-
         .modal .modal-actions .btn-cancel {
             background: #2f3b4e;
             color: #a0b3cc;
         }
-
         .modal .modal-actions .btn-cancel:hover {
             background: #3a4a62;
             color: #edf2f7;
         }
-
         .modal .modal-actions .btn-confirm {
             background: #3a7bd5;
             color: white;
         }
-
         .modal .modal-actions .btn-confirm:hover {
             background: #4f8ee8;
         }
-
         .modal .modal-actions .btn-danger {
             background: #cf6679;
             color: white;
         }
-
         .modal .modal-actions .btn-danger:hover {
             background: #e5738a;
         }
@@ -716,12 +632,10 @@
             text-align: center;
             letter-spacing: 4px;
         }
-
         .modal .pwd-input:focus {
             outline: none;
             border-color: #3a7bd5;
         }
-
         .modal .pwd-input::placeholder {
             color: #4d627c;
             letter-spacing: 0;
@@ -732,17 +646,14 @@
             body {
                 padding: 0;
             }
-
             .app {
                 height: 100vh;
                 max-height: none;
                 border-radius: 0;
             }
-
             .overlay {
                 border-radius: 0;
             }
-
             .modal {
                 max-width: 92%;
                 padding: 24px 18px 18px;
@@ -750,7 +661,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <div class="app" id="app">
@@ -834,7 +744,7 @@
                 try {
                     const saved = JSON.parse(raw);
                     return { ...DEFAULT_CONFIG, ...saved };
-                } catch (e) { }
+                } catch (e) {}
             }
             return { ...DEFAULT_CONFIG };
         }
@@ -842,14 +752,8 @@
         const CONFIG = loadConfig();
 
         // ============================================================
-        //  常量
+        //  常量（全局参数，作为后备）
         // ============================================================
-        const MEDIA_PROBABILITY = CONFIG.mediaProb;
-        const NAKED_PROBABILITY = CONFIG.nakedProb;
-        const MAX_HISTORY = CONFIG.maxHistory;
-        const MAX_FILE_NUM = CONFIG.maxFileNum;
-        const MAX_NAKED_NUM = CONFIG.maxNakedNum;
-        const MAX_AUDIO_NUM = CONFIG.maxAudioNum;
         const CONFIG_PASSWORD = CONFIG.configPassword;
         const CITY_NAME = CONFIG.cityName || '舒心市';
 
@@ -904,6 +808,24 @@
         }
 
         // ============================================================
+        //  获取当前角色的参数（带后备默认值）
+        // ============================================================
+        function getPersonaParam(paramName, defaultValue) {
+            if (currentPersona && currentPersona[paramName] !== undefined) {
+                return currentPersona[paramName];
+            }
+            return defaultValue;
+        }
+
+        function getMediaProb() { return getPersonaParam('mediaProb', 0.8); }
+        function getNakedProb() { return getPersonaParam('nakedProb', 0.3); }
+        function getMaxTokens() { return getPersonaParam('maxTokens', 400); }
+        function getMaxHistory() { return getPersonaParam('maxHistory', 60); }
+        function getMaxFileNum() { return getPersonaParam('maxFileNum', 30); }
+        function getMaxNakedNum() { return getPersonaParam('maxNakedNum', 15); }
+        function getMaxAudioNum() { return getPersonaParam('maxAudioNum', 30); }
+
+        // ============================================================
         //  位置查询功能
         // ============================================================
         const LOCATION_KEYWORDS = ['在哪', '在哪里', '位置', '地址', '怎么走', '在哪儿', '附近'];
@@ -913,7 +835,6 @@
         }
 
         function findLocation(text, landmarks, personas) {
-            // 先在地标中查找
             for (const item of landmarks) {
                 if (text.includes(item.name)) {
                     return {
@@ -926,7 +847,6 @@
                     };
                 }
             }
-            // 再在角色中查找（工作地点和家庭住址）
             for (const p of personas) {
                 if (text.includes(p.name)) {
                     return {
@@ -957,7 +877,6 @@
         function handleLocationQuery(userText, landmarks, personas) {
             const result = findLocation(userText, landmarks, personas);
             if (!result.found) {
-                // 尝试模糊匹配：提取可能的地名
                 for (const item of landmarks) {
                     if (userText.includes(item.name.substring(0, 2))) {
                         return `你是问「${item.name}」吗？它在${item.district}${item.address}`;
@@ -967,11 +886,6 @@
             }
             return result.full;
         }
-
-        // ============================================================
-        //  角色配置（从 data.json 加载）
-        // ============================================================
-        // 原 PERSONAS 数组已删除，改为从 data.json 加载
 
         // ============================================================
         //  年龄计算函数
@@ -1042,14 +956,16 @@
 
         function saveHistory(history) {
             if (!currentPersona) return;
-            const trimmed = history.slice(-MAX_HISTORY);
+            const maxHistory = getMaxHistory();
+            const trimmed = history.slice(-maxHistory);
             conversations[currentPersona.id] = trimmed;
             localStorage.setItem('chat_' + currentPersona.id, JSON.stringify(trimmed));
         }
 
         function getRandomImagePath(isNaked = false) {
             if (!currentPersona) return '';
-            const num = Math.floor(Math.random() * (isNaked ? MAX_NAKED_NUM : MAX_FILE_NUM)) + 1;
+            const maxNum = isNaked ? getMaxNakedNum() : getMaxFileNum();
+            const num = Math.floor(Math.random() * maxNum) + 1;
             if (isNaked) {
                 return `/img/${currentPersona.id}/naked/${num}.jpg`;
             }
@@ -1058,7 +974,8 @@
 
         function getRandomAudioPath() {
             if (!currentPersona) return '';
-            const num = Math.floor(Math.random() * MAX_AUDIO_NUM) + 1;
+            const maxNum = getMaxAudioNum();
+            const num = Math.floor(Math.random() * maxNum) + 1;
             return `/audio/${currentPersona.id}/${num}.mp3`;
         }
 
@@ -1337,18 +1254,14 @@
                     }
                 });
 
-                cancelBtn.onclick = () => {
-                    overlay.classList.remove('open');
-                    resolve(null);
-                };
-                confirmBtn.onclick = () => {
-                    overlay.classList.remove('open');
-                    resolve(selectedFile);
-                };
+                cancelBtn.onclick = () => { overlay.classList.remove('open');
+                    resolve(null); };
+                confirmBtn.onclick = () => { overlay.classList.remove('open');
+                    resolve(selectedFile); };
             });
         }
 
-        window._modalConfirm = function (result) {
+        window._modalConfirm = function(result) {
             closeModal(result);
         };
 
@@ -1440,10 +1353,8 @@
                 const merged = [];
                 for (const msg of all) {
                     const key = msg.timestamp || msg.time || JSON.stringify(msg);
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        merged.push(msg);
-                    }
+                    if (!seen.has(key)) { seen.add(key);
+                        merged.push(msg); }
                 }
                 merged.sort((a, b) => (a.timestamp || a.time || '').localeCompare(b.timestamp || b.time || ''));
                 saveHistory(merged);
@@ -1510,7 +1421,6 @@
                 if (action === 'import') importChat();
                 else if (action === 'export') exportChat();
                 else if (action === 'clear') clearChat();
-                else if (action === 'config') openConfigManager();
                 else if (action === 'show') window.open('show.html', '_blank');
                 else if (action === 'world') window.open('world.html', '_blank');
             });
@@ -1612,10 +1522,9 @@
             const status = getStatusTag(timeInfo.now, persona.id);
             const age = calculateAge(persona.birthday);
 
-            // 替换人设中的年龄
             let prompt = persona.systemPrompt.replace(/今年\d+岁/, `今年${age}岁`);
 
-            // ===== 注入日期和日程信息 =====
+            // 日期和日程
             const dateInfo = getDateInfo();
             const todaySchedule = getSchedule(persona.id, dateInfo.today.weekday);
             const tomorrowSchedule = getSchedule(persona.id, dateInfo.tomorrow.weekday);
@@ -1628,7 +1537,7 @@
             prompt += `\n当用户问到「明天」「后天」「几号」「星期几」时，请根据上面提供的日期信息准确回答。`;
 
             prompt +=
-                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${String(timeInfo.hour).padStart(2, '0')}:${String(timeInfo.minute).padStart(2, '0')}`;
+                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${String(timeInfo.hour).padStart(2,'0')}:${String(timeInfo.minute).padStart(2,'0')}`;
             prompt += `\n当前季节：${timeInfo.season}天`;
             if (timeInfo.term) prompt += `\n今日节气：${timeInfo.term}`;
             if (timeInfo.holiday) prompt += `\n今日节日：${timeInfo.holiday}`;
@@ -1663,14 +1572,12 @@
             };
             prompt += `\n你对用户的称呼是「${petNames[persona.id] || '亲爱的'}」。`;
 
-            // ===== 注入位置数据（用于回答位置查询） =====
+            // 位置数据
             if (CITY_DATA) {
                 prompt += `\n\n📍 舒心市位置数据（用户问到位置时请据此回答）：`;
-                // 地标
                 for (const item of CITY_DATA.landmarks) {
                     prompt += `\n- ${item.name}：${item.district}${item.address}`;
                 }
-                // 角色位置
                 for (const p of CITY_DATA.personas) {
                     prompt += `\n- ${p.name}的家：${p.district}${p.address}`;
                     prompt += `\n- ${p.workplace}：${p.district}${p.workAddr}`;
@@ -1704,11 +1611,9 @@
         function switchPersona(id) {
             const p = PERSONAS.find(p => p.id === id);
             if (!p || p.id === (currentPersona ? currentPersona.id : '')) return;
-            if (currentAudioElement) {
-                currentAudioElement.pause();
+            if (currentAudioElement) { currentAudioElement.pause();
                 currentAudioElement = null;
-                currentAudioWrapper = null;
-            }
+                currentAudioWrapper = null; }
             currentPersona = p;
             updateHeader();
             renderMessages();
@@ -1839,7 +1744,7 @@
             durSpan.className = 'audio-duration';
             const mins = Math.floor(duration / 60);
             const secs = duration % 60;
-            durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
+            durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2,'0')}"` : `${secs}"`;
             wrapper.appendChild(btn);
             wrapper.appendChild(wave);
             wrapper.appendChild(durSpan);
@@ -1863,15 +1768,13 @@
                 const totalMin = Math.floor(duration / 60);
                 const totalSec = duration % 60;
                 durSpan.textContent =
-                    `${curMin > 0 ? curMin + "'" + String(curSec).padStart(2, '0') : curSec} / ${totalMin > 0 ? totalMin + "'" + String(totalSec).padStart(2, '0') : totalSec}`;
+                    `${curMin > 0 ? curMin+"'"+String(curSec).padStart(2,'0') : curSec} / ${totalMin > 0 ? totalMin+"'"+String(totalSec).padStart(2,'0') : totalSec}`;
             }
 
             function resetWave() {
-                bars.forEach(bar => {
-                    bar.className = 'bar';
-                    bar.style.height = (4 + Math.random() * 18) + 'px';
-                });
-                durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
+                bars.forEach(bar => { bar.className = 'bar';
+                    bar.style.height = (4 + Math.random() * 18) + 'px'; });
+                durSpan.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2,'0')}"` : `${secs}"`;
             }
 
             function togglePlay() {
@@ -1882,10 +1785,8 @@
                         currentAudioElement.pause();
                         if (currentAudioWrapper) {
                             const oldBtn = currentAudioWrapper.querySelector('.audio-play-btn');
-                            if (oldBtn) {
-                                oldBtn.textContent = '▶';
-                                oldBtn.classList.remove('playing');
-                            }
+                            if (oldBtn) { oldBtn.textContent = '▶';
+                                oldBtn.classList.remove('playing'); }
                             const oldWave = currentAudioWrapper.querySelector('.audio-wave');
                             if (oldWave) {
                                 oldWave.querySelectorAll('.bar').forEach(bar => {
@@ -1895,7 +1796,7 @@
                             }
                             const oldDur = currentAudioWrapper.querySelector('.audio-duration');
                             if (oldDur) {
-                                oldDur.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2, '0')}"` : `${secs}"`;
+                                oldDur.textContent = mins > 0 ? `${mins}'${String(secs).padStart(2,'0')}"` : `${secs}"`;
                             }
                         }
                     }
@@ -1917,26 +1818,20 @@
                 isPlaying = false;
                 btn.textContent = '▶';
                 btn.classList.remove('playing');
-                if (progressInterval) {
-                    clearInterval(progressInterval);
-                    progressInterval = null;
-                }
+                if (progressInterval) { clearInterval(progressInterval);
+                    progressInterval = null; }
             });
 
             audio.addEventListener('ended', () => {
                 isPlaying = false;
                 btn.textContent = '▶';
                 btn.classList.remove('playing');
-                if (progressInterval) {
-                    clearInterval(progressInterval);
-                    progressInterval = null;
-                }
+                if (progressInterval) { clearInterval(progressInterval);
+                    progressInterval = null; }
                 resetWave();
                 audio.currentTime = 0;
-                if (currentAudioElement === audio) {
-                    currentAudioElement = null;
-                    currentAudioWrapper = null;
-                }
+                if (currentAudioElement === audio) { currentAudioElement = null;
+                    currentAudioWrapper = null; }
             });
 
             audio.addEventListener('error', () => {
@@ -1945,10 +1840,8 @@
                 durSpan.textContent = '加载失败';
             });
 
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                togglePlay();
-            });
+            btn.addEventListener('click', (e) => { e.stopPropagation();
+                togglePlay(); });
             wave.addEventListener('click', (e) => {
                 if (!audio.duration) return;
                 const rect = wave.getBoundingClientRect();
@@ -1962,7 +1855,7 @@
                 if (realDur > 0) {
                     const m = Math.floor(realDur / 60);
                     const s = realDur % 60;
-                    durSpan.textContent = m > 0 ? `${m}'${String(s).padStart(2, '0')}"` : `${s}"`;
+                    durSpan.textContent = m > 0 ? `${m}'${String(s).padStart(2,'0')}"` : `${s}"`;
                 }
             });
 
@@ -2031,7 +1924,7 @@
         }
 
         // ============================================================
-        //  关键词触发
+        //  关键词触发（★ 从当前角色读取独立参数 ★）
         // ============================================================
         function containsKeyword(text, keywords) {
             return keywords.some(kw => text.includes(kw));
@@ -2066,11 +1959,15 @@
             const isImage = containsKeyword(userText, ALL_IMAGE_KEYWORDS);
             const isNaked = containsKeyword(userText, NAKED_KEYWORDS);
 
+            // ★★★ 从当前角色读取独立参数 ★★★
+            const mediaProb = getMediaProb();
+            const nakedProb = getNakedProb();
+
             let shouldMedia;
             if (isNaked) {
-                shouldMedia = Math.random() < NAKED_PROBABILITY;
+                shouldMedia = Math.random() < nakedProb;
             } else {
-                shouldMedia = Math.random() < MEDIA_PROBABILITY;
+                shouldMedia = Math.random() < mediaProb;
             }
 
             if (!shouldMedia) {
@@ -2155,7 +2052,7 @@
         }
 
         // ============================================================
-        //  API 调用
+        //  API 调用（★ 从当前角色读取 maxTokens ★）
         // ============================================================
         async function callDeepSeek(userMessage) {
             const key = apiKeyInput.value.trim();
@@ -2183,12 +2080,16 @@
 
             const systemPrompt = buildSystemPrompt(currentPersona, userMessage, weather);
             const history = getHistory();
-            const context = history.slice(-MAX_HISTORY);
+            const maxHistory = getMaxHistory();
+            const context = history.slice(-maxHistory);
 
             const messages = [
                 { role: 'system', content: systemPrompt },
                 ...context.map(h => ({ role: h.role, content: h.content }))
             ];
+
+            // ★★★ 从当前角色读取 maxTokens ★★★
+            const maxTokens = getMaxTokens();
 
             isWaiting = true;
             sendBtn.disabled = true;
@@ -2202,7 +2103,7 @@
                         model: 'deepseek-chat',
                         messages: messages,
                         temperature: 0.9,
-                        max_tokens: 400
+                        max_tokens: maxTokens
                     })
                 });
                 const data = await resp.json();
@@ -2230,7 +2131,7 @@
             const text = userInput.value.trim();
             if (!text || isWaiting || !currentPersona) return;
 
-            // ★★★ 位置查询优先处理 ★★★
+            // 位置查询优先
             const locationResult = handleLocationQueryText(text);
             if (locationResult) {
                 addMessage(text, 'user');
@@ -2264,17 +2165,15 @@
         // ============================================================
         sendBtn.onclick = handleSend;
         userInput.onkeydown = e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-            }
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault();
+                handleSend(); }
         };
-        userInput.oninput = function () {
+        userInput.oninput = function() {
             this.style.height = '48px';
             this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         };
 
-        apiKeyInput.onchange = function () {
+        apiKeyInput.onchange = function() {
             const val = this.value.trim();
             if (val) {
                 localStorage.setItem('ai_api_key', val);
@@ -2310,7 +2209,9 @@
                     if (msg.role === 'bot') msg.role = 'assistant';
                     return msg;
                 });
-                conversations[p.id] = fixed.slice(-MAX_HISTORY);
+                // 使用角色自己的 maxHistory 进行初始截断
+                const maxHistory = p.maxHistory !== undefined ? p.maxHistory : 60;
+                conversations[p.id] = fixed.slice(-maxHistory);
             });
 
             currentPersona = PERSONAS[0];
@@ -2329,15 +2230,11 @@
 
             setInterval(() => updateStatusTag(), 60000);
 
-            console.log('💕 AI女友已启动');
+            console.log('💕 AI女友已启动 (角色独立参数版)');
             console.log('📊 当前角色:', currentPersona.name);
-            console.log('📝 记忆条数:', MAX_HISTORY);
-            console.log('🎯 普通触发概率:', MEDIA_PROBABILITY * 100 + '%');
-            console.log('🎯 Naked触发概率:', NAKED_PROBABILITY * 100 + '%');
+            console.log('📝 各角色参数独立配置');
             console.log('🔐 配置密码已设置');
-            console.log('📱 点击右上角 ··· → 配置管理');
-            console.log('📍 位置查询已启用');
-            console.log('🏷️ 关键词:', LOCATION_KEYWORDS.join(', '));
+            console.log('📱 点击右上角 ··· → 查看 Girls3 或 世界观');
         }
 
         // 启动
@@ -2345,5 +2242,4 @@
     </script>
 
 </body>
-
 </html>
