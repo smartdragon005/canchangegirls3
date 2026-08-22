@@ -10,16 +10,59 @@ from datetime import datetime
 DATA_FILE = "data.json"
 
 # ============================================================
-#  默认数据
+#  默认数据（完整版 - 包含世界观）
 # ============================================================
 def create_default_data():
     default = {
         "version": "1.0",
         "city": "舒心市",
         "citySub": "一座温暖有质感的北方小城 · 九宫格棋盘",
-        "districts": [],
-        "streets": {"northSouth": [], "eastWest": []},
-        "landmarks": [],
+        "districts": [
+            {"name": "星湖区", "emoji": "🌅", "style": "生态·公园"},
+            {"name": "云澜区", "emoji": "🏛️", "style": "行政·文化"},
+            {"name": "晴川区", "emoji": "🌉", "style": "滨河·休闲"},
+            {"name": "暖阳区", "emoji": "📖", "style": "文艺·书店"},
+            {"name": "锦华区", "emoji": "🏙️", "style": "高端·CBD"},
+            {"name": "悦城区", "emoji": "🌙", "style": "商务·酒店"},
+            {"name": "安澜区", "emoji": "🌿", "style": "生态·静谧"},
+            {"name": "月华区", "emoji": "🌸", "style": "商业·繁华"},
+            {"name": "欣荣区", "emoji": "⚡", "style": "产业·活力"}
+        ],
+        "streets": {
+            "northSouth": ["星光街", "晨光街", "阳光街", "和风街", "暖阳街", "花园街", "香樟街", "白桦街", "蓝湾街", "新月街"],
+            "eastWest": ["望湖街", "听海街", "临江街", "观澜街", "悦心街", "怡景街", "乐居街", "安澜街", "宁和街", "欣悦街"]
+        },
+        "landmarks": [
+            {"name": "星湖公园", "district": "星湖区", "address": "望湖街与星光街交叉口"},
+            {"name": "星湖美术馆", "district": "星湖区", "address": "望湖街与晨光街交叉口"},
+            {"name": "舒心市图书馆", "district": "云澜区", "address": "望湖街与和风街交叉口"},
+            {"name": "舒心大剧院", "district": "云澜区", "address": "望湖街与暖阳街交叉口"},
+            {"name": "晴川河畔", "district": "晴川区", "address": "听海街与蓝湾街交叉口"},
+            {"name": "晴川咖啡馆", "district": "晴川区", "address": "临江街与蓝湾街交叉口"},
+            {"name": "新华书店", "district": "暖阳区", "address": "暖阳街与暖阳街交叉口"},
+            {"name": "寻觅小酒吧", "district": "暖阳区", "address": "乐居街与和风街交叉口"},
+            {"name": "旧时光咖啡馆", "district": "暖阳区", "address": "暖阳街与星光街交叉口"},
+            {"name": "黑胶唱片店", "district": "暖阳区", "address": "乐居街与星光街交叉口"},
+            {"name": "锦华购物中心", "district": "锦华区", "address": "悦心街与花园街交叉口"},
+            {"name": "锦华金融中心", "district": "锦华区", "address": "怡景街与花园街交叉口"},
+            {"name": "天鹅湖酒店", "district": "悦城区", "address": "悦心街与蓝湾街交叉口"},
+            {"name": "夜色大道", "district": "悦城区", "address": "乐居街与蓝湾街交叉口"},
+            {"name": "蓝湾行政酒廊", "district": "悦城区", "address": "乐居街与蓝湾街交叉口"},
+            {"name": "安缇·法式西餐厅", "district": "悦城区", "address": "悦心街与蓝湾街交叉口"},
+            {"name": "曼陀罗SPA会所", "district": "悦城区", "address": "怡景街与蓝湾街交叉口"},
+            {"name": "万象城", "district": "悦城区", "address": "悦心街与白桦街交叉口"},
+            {"name": "安澜公园", "district": "安澜区", "address": "安澜街与星光街交叉口"},
+            {"name": "竹林茶舍", "district": "安澜区", "address": "安澜街与香樟街交叉口"},
+            {"name": "舒心市综合人民医院", "district": "月华区", "address": "安澜街与逐风街交叉口"},
+            {"name": "万达广场", "district": "月华区", "address": "月华街与阳光街交叉口"},
+            {"name": "爱琴海广场", "district": "月华区", "address": "月华街与和风街交叉口"},
+            {"name": "月华步行街", "district": "月华区", "address": "月华街与暖阳街交叉口"},
+            {"name": "欢乐时光KTV", "district": "月华区", "address": "安澜街与阳光街交叉口"},
+            {"name": "小吃一条街", "district": "月华区", "address": "安澜街与暖阳街交叉口"},
+            {"name": "一点点奶茶店", "district": "月华区", "address": "月华街与阳光街交叉口"},
+            {"name": "欣荣科技园", "district": "欣荣区", "address": "欣悦街与新月街交叉口"},
+            {"name": "欣荣体育中心", "district": "欣荣区", "address": "欣悦街与白桦街交叉口"}
+        ],
         "personas": [
             {
                 "id": "tianxiaoduo",
@@ -97,6 +140,7 @@ def create_default_data():
     }
     return default
 
+
 # ============================================================
 #  数据操作
 # ============================================================
@@ -111,6 +155,7 @@ def load_data():
 def save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
 
 # ============================================================
 #  自适应文本框
@@ -128,6 +173,7 @@ class AutoResizeText(tk.Text):
         lines = int(self.index('end-1c').split('.')[0])
         req_height = max(6, min(20, lines + 2))
         self.config(height=req_height)
+
 
 # ============================================================
 #  步进数字输入框
@@ -214,6 +260,7 @@ class SpinEntry(tk.Frame):
         else:
             self.entry.delete(0, tk.END)
             self.entry.insert(0, str(round(val, 1)))
+
 
 # ============================================================
 #  主界面
@@ -693,14 +740,12 @@ class DataEditor:
             imported_persona = import_data['persona']
             imported_id = imported_persona.get('id')
 
-            # 获取当前角色名称
             current_name = ""
             for p in self.data['personas']:
                 if p['id'] == self.current_persona_id:
                     current_name = p['name']
                     break
 
-            # ★★★ 检查导入的角色是否与当前编辑的角色一致 ★★★
             if imported_id != self.current_persona_id:
                 imported_name = imported_persona.get('name', '未知')
                 messagebox.showerror(
@@ -709,7 +754,6 @@ class DataEditor:
                 )
                 return
 
-            # 角色匹配：加载到界面预览
             self.collect_persona_data()
 
             for p in self.data['personas']:
