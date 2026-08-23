@@ -261,33 +261,96 @@
             font-weight: 600;
         }
 
-        /* ===== API Row ===== */
-        .api-row {
-            padding: 6px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* ===== API 配置折叠面板 ===== */
+        .api-panel {
             flex-shrink: 0;
-            flex-wrap: wrap;
             background: #0c131c;
             border-bottom: 1px solid #1a2330;
         }
+        .api-panel-header {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .api-panel-header:hover {
+            background: #101a26;
+        }
+        .api-panel-header .toggle-icon {
+            font-size: 8px;
+            color: #5b6e8a;
+            width: 14px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .api-panel.open .api-panel-header .toggle-icon {
+            color: #3a7bd5;
+        }
+        .api-panel-header .title {
+            font-size: 12px;
+            color: #7a8aa3;
+            flex: 1;
+        }
+        .api-panel-header .stat-dots {
+            display: flex;
+            gap: 6px;
+            font-size: 11px;
+        }
+        .api-panel-header .stat-dots .dot-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .api-panel-header .stat-dots .ok { color: #4caf50; }
+        .api-panel-header .stat-dots .no { color: #7a8aa3; }
+
+        .api-panel-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s;
+            padding: 0 16px;
+        }
+        .api-panel.open .api-panel-body {
+            max-height: 1000px;
+            padding: 4px 16px 12px 16px;
+        }
+
+        .api-section-title {
+            font-size: 11px;
+            color: #5b6e8a;
+            margin: 10px 0 6px;
+            padding-left: 2px;
+            border-left: 2px solid #3a7bd5;
+            padding-left: 6px;
+        }
+        .api-row {
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
         .api-row label {
             font-size: 12px;
-            color: #5b6e8a;
+            color: #7a8aa3;
+            min-width: 68px;
         }
-        .api-row input {
+        .api-row input,
+        .api-row select {
             flex: 1;
-            min-width: 100px;
-            padding: 5px 12px;
-            border-radius: 20px;
+            min-width: 120px;
+            padding: 6px 12px;
+            border-radius: 18px;
             border: 1px solid #2f3b4e;
             background: #1a2533;
             color: #edf2f7;
             font-size: 13px;
             font-family: inherit;
         }
-        .api-row input:focus {
+        .api-row input:focus,
+        .api-row select:focus {
             outline: none;
             border-color: #3a7bd5;
         }
@@ -297,10 +360,22 @@
         .api-row .status {
             font-size: 11px;
             color: #4d627c;
+            min-width: 56px;
         }
         .api-row .status.ready {
             color: #4caf50;
         }
+        .api-row .test-btn {
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 14px;
+            background: #2a3e5c;
+            color: #cfe0ff;
+            border: none;
+            cursor: pointer;
+        }
+        .api-row .test-btn:hover { background: #355078; }
+        .api-row .test-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* ===== 消息区 ===== */
         .message-area {
@@ -703,11 +778,68 @@
         <!-- ===== 角色切换栏 ===== -->
         <div class="persona-bar" id="personaBar"></div>
 
-        <!-- ===== API Key ===== -->
-        <div class="api-row">
-            <label>🔑</label>
-            <input type="password" id="apiKeyInput" placeholder="DeepSeek API Key">
-            <span class="status" id="apiStatus">未配置</span>
+        <!-- ===== API 配置折叠面板 ===== -->
+        <div class="api-panel" id="apiPanel">
+            <div class="api-panel-header" id="apiPanelToggle">
+                <span class="toggle-icon">●</span>
+                <span class="title">⚙️ API 配置 & 语音设置</span>
+                <div class="stat-dots">
+                    <span class="dot-item"><span id="dsDot" class="no">●</span>文字</span>
+                    <span class="dot-item"><span id="ttsDot" class="no">●</span>语音</span>
+                </div>
+            </div>
+            <div class="api-panel-body">
+                <div class="api-section-title">🧠 文字对话 (DeepSeek)</div>
+                <div class="api-row">
+                    <label>API Key</label>
+                    <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxx...">
+                    <span class="status" id="apiStatus">未配置</span>
+                </div>
+
+                <div class="api-section-title">🎙️ 语音合成 (阿里云百炼)</div>
+                <div class="api-row">
+                    <label>API Key</label>
+                    <input type="password" id="ttsKeyInput" placeholder="sk-xxxxxxxx...">
+                    <span class="status" id="ttsStatus">未配置</span>
+                </div>
+                <div class="api-row">
+                    <label>甜小朵声音</label>
+                    <select id="voiceTianxiaoduo">
+                        <option value="Cherry">Cherry（温柔女声·推荐）</option>
+                        <option value="Serena">Serena（知性女声）</option>
+                        <option value="Luna">Luna（活泼少女）</option>
+                        <option value="Katherine">Katherine（甜美女声）</option>
+                        <option value="longanhuan_v3.6">longanhuan_v3.6（安远女声）</option>
+                    </select>
+                </div>
+                <div class="api-row">
+                    <label>白洁声音</label>
+                    <select id="voiceBaijie">
+                        <option value="Serena">Serena（知性女声·推荐）</option>
+                        <option value="Cherry">Cherry（温柔女声）</option>
+                        <option value="Luna">Luna（活泼少女）</option>
+                        <option value="Katherine">Katherine（甜美女声）</option>
+                        <option value="longanyang">longanyang（安洋男声-可选）</option>
+                    </select>
+                </div>
+                <div class="api-row">
+                    <label>小雅声音</label>
+                    <select id="voiceXiaoya">
+                        <option value="Luna">Luna（活泼少女·推荐）</option>
+                        <option value="Cherry">Cherry（温柔女声）</option>
+                        <option value="Serena">Serena（知性女声）</option>
+                        <option value="Katherine">Katherine（甜美女声）</option>
+                    </select>
+                </div>
+                <div class="api-row">
+                    <label>TTS模型</label>
+                    <select id="ttsModelSelect">
+                        <option value="qwen3-tts-flash">qwen3-tts-flash（推荐·快）</option>
+                        <option value="qwen-audio-3.0-tts-flash">qwen-audio-3.0-tts-flash</option>
+                        <option value="cosyvoice-v3-flash">cosyvoice-v3-flash</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <!-- ===== 消息区 ===== -->
@@ -731,11 +863,19 @@
             maxFileNum: 30,
             maxNakedNum: 15,
             maxAudioNum: 30,
-            cityName: '舒心市',
+            cityName: '舒心市',        // 剧情里的虚构城市名
+            weatherCity: '滨州市',     // 真实天气查询用的城市（wttr.in 支持中文名或拼音 Binzhou）
             petTianxiaoduo: '宝贝',
             petBaijie: '亲爱的',
             petXiaoya: '你',
-            configPassword: 'wlaoshi520'
+            configPassword: 'wlaoshi520',
+            // ===== TTS 语音合成配置 =====
+            ttsModel: 'qwen3-tts-flash',
+            ttsEndpoint: 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation',
+            ttsVoiceTianxiaoduo: 'Cherry',
+            ttsVoiceBaijie: 'Serena',
+            ttsVoiceXiaoya: 'Luna',
+            ttsFallbackToText: true   // TTS失败时显示文字内容
         };
 
         function loadConfig() {
@@ -756,6 +896,7 @@
         // ============================================================
         const CONFIG_PASSWORD = CONFIG.configPassword;
         const CITY_NAME = CONFIG.cityName || '舒心市';
+        const WEATHER_CITY = CONFIG.weatherCity || '滨州市';
 
         // ============================================================
         //  二十四节气表
@@ -786,6 +927,111 @@
             '12-07': '大雪',
             '12-21': '冬至'
         };
+
+        // ============================================================
+        //  固定公历日期的节日表（中国+国际重要节日）
+        // ============================================================
+        const HOLIDAYS_FIXED = {
+            // ========== 国际/公历节日 ==========
+            '01-01': '元旦',
+            '02-14': '情人节',
+            '03-08': '妇女节',
+            '03-12': '植树节',
+            '04-01': '愚人节',
+            '05-01': '劳动节',
+            '05-04': '青年节',
+            '06-01': '儿童节',
+            '07-01': '建党节',
+            '08-01': '建军节',
+            '09-10': '教师节',
+            '10-01': '国庆节',
+            '10-31': '万圣节',
+            '11-01': '万圣夜',
+            '12-24': '平安夜',
+            '12-25': '圣诞节',
+            // ========== 母亲节/父亲节（按某月第几个星期计算，这里放占位，下面函数精确算） ==========
+            // 母亲节：5月第2个周日；父亲节：6月第3个周日；感恩节：11月第4个周四
+            // ========== 角色节日 ==========
+            '04-23': '小雅的生日'
+        };
+
+        // ============================================================
+        //  农历节日（2024-2030 对应公历日期表，准确值）
+        //  含：春节(正月初一)、元宵节(正月十五)、端午节(五月初五)、
+        //      七夕节(七月初七)、中秋节(八月十五)、重阳节(九月初九)
+        // ============================================================
+        const LUNAR_HOLIDAYS = {
+            2024: { '春节': '02-10', '元宵节': '02-24', '端午节': '06-10', '七夕节': '08-10', '中秋节': '09-17', '重阳节': '10-11' },
+            2025: { '春节': '01-29', '元宵节': '02-12', '端午节': '05-31', '七夕节': '08-29', '中秋节': '10-06', '重阳节': '10-29' },
+            2026: { '春节': '02-17', '元宵节': '03-03', '端午节': '06-19', '七夕节': '08-19', '中秋节': '09-25', '重阳节': '10-18' },
+            2027: { '春节': '02-06', '元宵节': '02-20', '端午节': '06-09', '七夕节': '08-08', '中秋节': '09-15', '重阳节': '10-08' },
+            2028: { '春节': '01-26', '元宵节': '02-09', '端午节': '05-28', '七夕节': '08-27', '中秋节': '10-03', '重阳节': '10-26' },
+            2029: { '春节': '02-13', '元宵节': '02-27', '端午节': '06-16', '七夕节': '08-16', '中秋节': '09-22', '重阳节': '10-15' },
+            2030: { '春节': '02-03', '元宵节': '02-17', '端午节': '06-05', '七夕节': '08-05', '中秋节': '09-12', '重阳节': '10-05' }
+        };
+
+        // 24节气中当作"节日问候"的节气（清明/冬至/立春/立夏/立秋/立冬 这6个重要节气）
+        const TERMS_AS_HOLIDAY = new Set(['清明', '冬至', '立春', '立夏', '立秋', '立冬']);
+
+        // ============================================================
+        //  获取某一年完整的节日映射表
+        //  返回格式：{ 'MM-DD': ['节日名1', '节日名2'] }
+        // ============================================================
+        function buildYearHolidayMap(year) {
+            const map = {};
+            const addHoliday = (dateKey, name) => {
+                if (!map[dateKey]) map[dateKey] = [];
+                if (!map[dateKey].includes(name)) map[dateKey].push(name);
+            };
+
+            // 1) 固定公历节日
+            for (const [k, v] of Object.entries(HOLIDAYS_FIXED)) addHoliday(k, v);
+
+            // 2) 农历节日（查表）
+            const lunar = LUNAR_HOLIDAYS[year] || LUNAR_HOLIDAYS[2026];
+            for (const [name, dateKey] of Object.entries(lunar)) addHoliday(dateKey, name);
+
+            // 3) 节气类节日（立春/清明/立夏/立秋/立冬/冬至）
+            for (const [dateKey, termName] of Object.entries(SOLAR_TERMS)) {
+                if (TERMS_AS_HOLIDAY.has(termName)) addHoliday(dateKey, termName + '节气');
+            }
+
+            // 4) 动态节日（母亲节/父亲节/感恩节）
+            //    母亲节：5月第二个周日
+            const secondSunMay = nthWeekdayOf(year, 5, 0, 2);
+            if (secondSunMay) addHoliday(toDateKey(secondSunMay), '母亲节');
+            //    父亲节：6月第三个周日
+            const thirdSunJun = nthWeekdayOf(year, 6, 0, 3);
+            if (thirdSunJun) addHoliday(toDateKey(thirdSunJun), '父亲节');
+            //    感恩节：11月第四个周四
+            const fourthThuNov = nthWeekdayOf(year, 11, 4, 4);
+            if (fourthThuNov) addHoliday(toDateKey(fourthThuNov), '感恩节');
+
+            // 5) 用户生日（农历10月26 → 每年查表得公历）
+            try {
+                const bdKey = getUserBirthday(year);
+                if (bdKey) addHoliday(bdKey, USER_BIRTHDAY_NAME || '男朋友生日');
+            } catch (e) { /* getUserBirthday 还没定义时忽略（定义顺序） */ }
+
+            return map;
+        }
+
+        // 工具：返回第n个星期X的日期（month 1-12, weekday 0=周日..6=周六, nth 1..5）
+        function nthWeekdayOf(year, month, weekday, nth) {
+            const first = new Date(year, month - 1, 1);
+            let daysToFirst = (weekday - first.getDay() + 7) % 7;
+            let day = 1 + daysToFirst + (nth - 1) * 7;
+            const d = new Date(year, month - 1, day);
+            if (d.getMonth() !== month - 1) return null;
+            return d;
+        }
+        function toDateKey(d) {
+            return String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        }
+        function getDateStr(dateOrNow) {
+            const d = dateOrNow || new Date();
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        }
 
         // ============================================================
         //  数据加载（从 data.json）
@@ -917,12 +1163,24 @@
         const menuDropdown = document.getElementById('menuDropdown');
         const overlay = document.getElementById('overlay');
         const modalContent = document.getElementById('modalContent');
+        // ===== TTS DOM =====
+        const apiPanel = document.getElementById('apiPanel');
+        const apiPanelToggle = document.getElementById('apiPanelToggle');
+        const ttsKeyInput = document.getElementById('ttsKeyInput');
+        const ttsStatus = document.getElementById('ttsStatus');
+        const voiceTianxiaoduo = document.getElementById('voiceTianxiaoduo');
+        const voiceBaijie = document.getElementById('voiceBaijie');
+        const voiceXiaoya = document.getElementById('voiceXiaoya');
+        const ttsModelSelect = document.getElementById('ttsModelSelect');
+        const dsDot = document.getElementById('dsDot');
+        const ttsDot = document.getElementById('ttsDot');
 
         // ============================================================
         //  状态
         // ============================================================
         let currentPersona = null;
         let apiKey = localStorage.getItem('ai_api_key') || '';
+        let ttsApiKey = localStorage.getItem('ai_tts_api_key') || '';
         let conversations = {};
         let isWaiting = false;
         let currentAudioElement = null;
@@ -1001,6 +1259,7 @@
             const day = now.getDate();
             const hour = now.getHours();
             const minute = now.getMinutes();
+            const second = now.getSeconds();
             const weekday = now.getDay();
             const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
             const dateKey = String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
@@ -1011,18 +1270,19 @@
                 { name: '冬', months: [12, 1, 2] }
             ];
             const season = seasons.find(s => s.months.includes(month))?.name || '冬';
+            const ampm = hour < 12 ? '上午' : '下午';
             const term = SOLAR_TERMS[dateKey] || null;
-            const HOLIDAYS = {
-                '01-01': '元旦',
-                '02-14': '情人节',
-                '03-08': '妇女节',
-                '04-23': '小雅的生日',
-                '05-01': '劳动节',
-                '06-01': '儿童节',
-                '10-01': '国庆节',
-                '12-25': '圣诞节'
-            };
-            const holiday = HOLIDAYS[dateKey] || null;
+            // ===== 用新的全年节日表取今天所有节日 =====
+            const yearMap = buildYearHolidayMap(year);
+            // holidaysToday: 数组（可能多个节日同一天），或者 null
+            let holidaysToday = (yearMap[dateKey] && yearMap[dateKey].length) ? [...yearMap[dateKey]] : null;
+            // ===== 标记：今天是不是用户生日 =====
+            const isUserBirthday = !!(holidaysToday && holidaysToday.includes(USER_BIRTHDAY_NAME));
+            // （男朋友生日这个条目放在最前面）
+            if (isUserBirthday) {
+                holidaysToday = [USER_BIRTHDAY_NAME, ...holidaysToday.filter(n => n !== USER_BIRTHDAY_NAME)];
+            }
+            const holiday = holidaysToday ? holidaysToday.join('、') : null;
             return {
                 now,
                 year,
@@ -1030,13 +1290,31 @@
                 day,
                 hour,
                 minute,
+                second,
                 weekday: weekdays[weekday],
+                ampm,
                 dateKey,
                 season,
                 term,
-                holiday,
+                holiday,                 // 字符串（多个用顿号）兼容旧逻辑
+                holidaysToday,           // 数组，新逻辑用
+                isUserBirthday,          // 男朋友生日专属标记
                 isWeekend: weekday === 0 || weekday === 6
             };
+        }
+
+        // ============================================================
+        //  今天第一轮聊天检测（每个角色每天一个标记）
+        //  返回 { firstTime: true/false, key: '存储用的key' }
+        // ============================================================
+        function checkDailyFirst(personaId, now) {
+            const todayStr = getDateStr(now);          // YYYY-MM-DD
+            const key = `daily_greet_${todayStr}_${personaId}`;
+            const firstTime = !localStorage.getItem(key);
+            return { firstTime, key };
+        }
+        function markDailyDone(key) {
+            try { localStorage.setItem(key, '1'); } catch (e) {}
         }
 
         // ============================================================
@@ -1049,30 +1327,61 @@
             const weekday = now.getDay();
             const total = h * 60 + m;
 
+            // ============================================================
+            //  7天周期循环工具（用于甜小朵大夜班：每7天1个大夜班≈每月4-5天）
+            // ============================================================
+            const BASE_DATE = new Date(2026, 0, 1); // 2026-01-01 作为基准
+            const diffDays = Math.floor((now.getTime() - BASE_DATE.getTime()) / (1000 * 60 * 60 * 24));
+            const mod7 = ((diffDays % 7) + 7) % 7; // 0 ~ 6
+            // 余数 = 0 → 大夜班日（每7天1天≈每月4-5天，符合B方案）
+            const isTXDBigNight = (mod7 === 0) && (personaId === 'tianxiaoduo');
+
             if (personaId === 'tianxiaoduo') {
+                // ============= 大夜班日（优先级最高，不管周几）=============
+                if (isTXDBigNight) {
+                    // 20:00 ~ 次日 08:00 通宵值班（儿科病房不关门）
+                    if (total >= 20 * 60 || total < 8 * 60) return { icon: '🌙', label: '大夜班中', cls: 'working' };
+                    // 08:00 ~ 20:00 补觉（刚下夜班回家睡觉）
+                    return { icon: '😴', label: '补觉中', cls: 'sleeping' };
+                }
+
+                // ============= 非大夜班日：周日休息 ============
                 const isSunday = weekday === 0;
                 if (isSunday) {
                     if (total >= 23 * 60 || total < 8 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
                     return { icon: '☕', label: '休息日', cls: 'free' };
                 }
-                if (total >= 23 * 60 || total < 7 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
-                if (total < 8 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
-                if (total < 11 * 60) return { icon: '💉', label: '上班中', cls: 'working' };
-                if (total < 15 * 60) return { icon: '🍜', label: '午休中', cls: 'resting' };
+
+                // ============= 非大夜班+非周日：正常护士白班 ============
+                if (total >= 22 * 60 + 30 || total < 6 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                if (total < 11 * 60 + 30) return { icon: '💉', label: '上班中', cls: 'working' };
+                if (total < 13 * 60 + 30) return { icon: '🍜', label: '午休中', cls: 'resting' };
                 if (total < 17 * 60) return { icon: '💉', label: '上班中', cls: 'working' };
                 return { icon: '🏠', label: '已下班', cls: 'free' };
             }
 
             if (personaId === 'baijie') {
                 const isFirstHalf = day <= 15;
+                const isSunday = weekday === 0;
+
+                // ========== 周日：休息日（不管上下半月）==========
+                if (isSunday) {
+                    // 23:00~9:00 睡觉，其余休息（含睡前红酒/SPA，0-3点也醒——因为是休息日熬夜一下合理）
+                    if (total >= 3 * 60 && total < 9 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    return { icon: '☕', label: '周日休息', cls: 'free' };
+                }
+
                 if (isFirstHalf) {
-                    if (total >= 4 * 60 && total < 11 * 60) return { icon: '😴', label: '补觉中', cls: 'sleeping' };
-                    if (total >= 20 * 60 || total < 4 * 60) return { icon: '🌙', label: '夜班中', cls: 'working' };
+                    // ===== 上半月：夜班（行政酒廊/VIP应酬，工作到凌晨5点）=====
+                    if (total >= 5 * 60 && total < 11 * 60) return { icon: '😴', label: '补觉中', cls: 'sleeping' };
+                    if (total >= 20 * 60 || total < 5 * 60) return { icon: '🌙', label: '夜班中', cls: 'working' };
                     return { icon: '🏠', label: '自由活动', cls: 'free' };
                 } else {
-                    if (total >= 1 * 60 && total < 9 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    // ===== 下半月：白班（客户关系总监·0-3点夜生活/客户微信/红酒SPA）=====
+                    if (total >= 3 * 60 && total < 9 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
                     if (total < 10 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
                     if (total < 18 * 60) return { icon: '💼', label: '上班中', cls: 'working' };
+                    // 18点~次日3点：自由活动+红酒/SPA/客户线上维系
                     return { icon: '🏠', label: '已下班', cls: 'free' };
                 }
             }
@@ -1082,29 +1391,29 @@
                 const isFri = weekday === 5;
                 const isWed = weekday === 3;
                 const isSat = weekday === 6;
-                const isRest = isWed || isSat;
-                const isSing = isTue || isFri;
+                const isRest = isWed || isSat;        // 周三/周六休息日
+                const isSing = isTue || isFri;        // 周二/周五驻唱日
 
                 if (isRest) {
-                    if (total >= 22 * 60 || total < 6 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    // ===== 周三/周六休息日：文艺青年熬夜画插画到3点 =====
+                    if (total >= 3 * 60 && total < 8 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
+                    // 0~3点：熬夜画画；8点以后：咖啡馆/绿道/唱片店
                     return { icon: '☕', label: '休息日', cls: 'free' };
                 }
                 if (isSing) {
-                    if (total >= 1 * 60 && total < 10 * 60) return { icon: '😴', label: '补觉中', cls: 'sleeping' };
-                    if (total >= 21 * 60 || total < 1 * 60) return { icon: '🎤', label: '驻唱中', cls: 'singing' };
-                    if (total < 8 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
-                    if (total < 11 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
-                    if (total < 14 * 60) return { icon: '🍜', label: '午休中', cls: 'resting' };
-                    if (total < 17 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
-                    if (total < 21 * 60) return { icon: '🏠', label: '自由活动', cls: 'free' };
-                    return { icon: '🎤', label: '准备驻唱', cls: 'singing' };
+                    // ===== 周二/周五驻唱日：驻唱收尾到凌晨5点，之后补觉 =====
+                    if (total >= 5 * 60 && total < 12 * 60) return { icon: '😴', label: '补觉中', cls: 'sleeping' };
+                    if (total < 19 * 60) return { icon: '📚', label: '上班中', cls: 'working' };   // 12-19点书店下午班
+                    if (total >= 21 * 60 || total < 5 * 60) return { icon: '🎤', label: '驻唱中', cls: 'singing' }; // 21点后~5点前都算驻唱/收尾
+                    return { icon: '🏠', label: '驻唱准备', cls: 'free' };   // 19-21点换衣服/赶路
                 }
-                if (total >= 22 * 60 || total < 6 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
-                if (total < 8 * 60) return { icon: '🪥', label: '刚起床', cls: 'free' };
+                // ===== 普通工作日（一/四/日）=====
+                if (total >= 22 * 60 || total < 7 * 60) return { icon: '🌙', label: '已休息', cls: 'sleeping' };
                 if (total < 11 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
                 if (total < 14 * 60) return { icon: '🍜', label: '午休中', cls: 'resting' };
                 if (total < 17 * 60) return { icon: '📚', label: '上班中', cls: 'working' };
-                return { icon: '🏠', label: '已下班', cls: 'free' };
+                if (total < 22 * 60) return { icon: '🏠', label: '已下班', cls: 'free' };
+                return { icon: '🌙', label: '已休息', cls: 'sleeping' };
             }
             return { icon: '💬', label: '在线', cls: 'free' };
         }
@@ -1143,15 +1452,30 @@
             const day = now.getDate();
             const weekday = now.getDay();
 
+            // ============= 和getStatusTag用同一套7天周期判断 =============
+            const BASE_DATE = new Date(2026, 0, 1);
+            const diffDays = Math.floor((now.getTime() - BASE_DATE.getTime()) / (1000 * 60 * 60 * 24));
+            const mod7 = ((diffDays % 7) + 7) % 7;
+            const isTXDBigNight = (mod7 === 0) && (personaId === 'tianxiaoduo');
+
             if (personaId === 'tianxiaoduo') {
+                // 大夜班日：8-20点补觉（睡觉→触发默认回复）；20-次日8点在线不触发
+                if (isTXDBigNight) return total >= 8 * 60 && total < 20 * 60;
+
                 const isSunday = weekday === 0;
                 if (isSunday) return total >= 23 * 60 || total < 8 * 60;
-                return total >= 23 * 60 || total < 7 * 60;
+                // 非大夜班+非周日：22:30~次日6:00 睡觉
+                return total >= 22 * 60 + 30 || total < 6 * 60;
             }
             if (personaId === 'baijie') {
                 const isFirstHalf = day <= 15;
-                if (isFirstHalf) return total >= 4 * 60 && total < 11 * 60;
-                return total >= 1 * 60 && total < 9 * 60;
+                const isSunday = weekday === 0;
+                // 周日：3-9点才睡觉，0-3点醒（红酒/SPA熬夜）不触发
+                if (isSunday) return total >= 3 * 60 && total < 9 * 60;
+                // 上半月夜班：5-11点补觉；0-5点工作（在线）
+                if (isFirstHalf) return total >= 5 * 60 && total < 11 * 60;
+                // 下半月白班：3-9点睡觉；0-3点夜生活（在线）
+                return total >= 3 * 60 && total < 9 * 60;
             }
             if (personaId === 'xiaoya') {
                 const isTue = weekday === 2;
@@ -1160,9 +1484,12 @@
                 const isSat = weekday === 6;
                 const isRest = isWed || isSat;
                 const isSing = isTue || isFri;
-                if (isRest) return total >= 22 * 60 || total < 6 * 60;
-                if (isSing) return total >= 1 * 60 && total < 10 * 60;
-                return total >= 22 * 60 || total < 6 * 60;
+                // 休息日（三/六）：3-8点睡觉；0-3点熬夜画画
+                if (isRest) return total >= 3 * 60 && total < 8 * 60;
+                // 驻唱日（二/五）：5-12点补觉；0-5点驻唱收尾
+                if (isSing) return total >= 5 * 60 && total < 12 * 60;
+                // 普通工作日（一/四/日）：22-次日7点睡觉
+                return total >= 22 * 60 || total < 7 * 60;
             }
             return false;
         }
@@ -1441,19 +1768,29 @@
             try {
                 const controller = new AbortController();
                 const timeout = setTimeout(() => controller.abort(), 5000);
-                const city = encodeURIComponent(CITY_NAME);
-                const resp = await fetch(`https://wttr.in/${city}?format=%C+%t`, { signal: controller.signal });
-                clearTimeout(timeout);
-                if (!resp.ok) throw new Error('API失败');
-                const text = await resp.text();
-                const match = text.match(/(.+?)\s+([+-]?\d+°C)/);
-                if (match) {
-                    weatherCache.data = { condition: match[1].trim(), temperature: match[2] };
-                } else {
-                    weatherCache.data = { condition: text.trim(), temperature: '?' };
+                // wttr.in 支持拼音/中文名优先；失败 fallback。剧情城市=舒心市（虚构），天气查真实滨州。
+                const candidates = [WEATHER_CITY, 'Binzhou', 'Binzhou+Shandong'];
+                let lastErr = null;
+                for (const c of candidates) {
+                    try {
+                        const city = encodeURIComponent(c);
+                        const resp = await fetch(`https://wttr.in/${city}?format=%C+%t&lang=zh`, { signal: controller.signal });
+                        if (!resp.ok) { lastErr = new Error('HTTP ' + resp.status); continue; }
+                        const text = await resp.text();
+                        if (!text || text.includes('ERROR') || text.includes('Unknown location')) { continue; }
+                        const match = text.match(/(.+?)\s+([+-]?\d+°C)/);
+                        if (match) {
+                            weatherCache.data = { condition: match[1].trim(), temperature: match[2] };
+                        } else {
+                            weatherCache.data = { condition: text.trim(), temperature: '?' };
+                        }
+                        weatherCache.time = now;
+                        clearTimeout(timeout);
+                        return weatherCache.data;
+                    } catch (inner) { lastErr = inner; }
                 }
-                weatherCache.time = now;
-                return weatherCache.data;
+                clearTimeout(timeout);
+                throw lastErr || new Error('查不到滨州天气');
             } catch (e) {
                 console.warn('天气获取失败:', e);
                 const fallbacks = [
@@ -1471,30 +1808,175 @@
         }
 
         // ============================================================
-        //  日程表（按星期判断）
+        //  时间推算：问"明天/后天/星期X/X号/几点 有空吗/约吗/吃饭吗"
+        //  返回：{ hit, targetDate, hourHint, period, rawPhrase }  或  null
+        //    targetDate：只保证年月日正确，时分设为12点
+        //    hourHint：0-23 或 null
+        //    period：'凌晨'|'早上'|'上午'|'中午'|'下午'|'晚上'|null
         // ============================================================
-        function getSchedule(personaId, weekday) {
-            const dayName = typeof weekday === 'string' ? weekday : ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][weekday];
+        const TIME_Q_KEYWORDS = ['有空', '约', '吃饭', '见面', '逛街', '看电影', '玩', '出来', '一起', '约会', '时间', '方便', '去', '订', '聚会'];
+        const PERIOD_MAP = [
+            { name: '凌晨', start: 0, end: 5, hour: 3 },
+            { name: '早上', start: 6, end: 8, hour: 7 },
+            { name: '上午', start: 9, end: 11, hour: 10 },
+            { name: '中午', start: 12, end: 13, hour: 12 },
+            { name: '下午', start: 14, end: 17, hour: 15 },
+            { name: '晚上', start: 19, end: 22, hour: 20 },
+            { name: '夜里', start: 22, end: 24, hour: 23 }
+        ];
 
-            if (personaId === 'tianxiaoduo') {
-                if (dayName === '周日') return '休息日，不上班';
+        function parseTimeQuestion(text, now) {
+            const n = now || new Date();
+            // 1) 必须有"未来时间"或"有空/约..."关键词之一
+            const hasScheduleKW = TIME_Q_KEYWORDS.some(kw => text.includes(kw));
+
+            // 2) 日期偏移：明天 / 后天 / 大后天 / N天后 / 下周X / 星期X / X月X号 / 今天
+            let offsetDays = null;
+            let rawDate = '';
+
+            if (text.includes('大后天'))      { offsetDays = 3; rawDate = '大后天'; }
+            else if (text.includes('后天'))    { offsetDays = 2; rawDate = '后天'; }
+            else if (text.includes('明天'))    { offsetDays = 1; rawDate = '明天'; }
+            else if (text.includes('今天'))    { offsetDays = 0; rawDate = '今天'; }
+            else {
+                const afterDays = text.match(/(\d+)\s*(天|日)\s*(后|之后|以后)/);
+                if (afterDays) { offsetDays = parseInt(afterDays[1], 10); rawDate = afterDays[0]; }
+            }
+
+            // —— 星期判断（周一...周日 / 下周一）
+            if (offsetDays === null) {
+                const weekdayNameMap = { '日':0,'天':0,'一':1,'二':2,'三':3,'四':4,'五':5,'六':6 };
+                const weekMatch = text.match(/(下下|下|这|本)?\s*星期([日天一二三四五六])/);
+                if (weekMatch) {
+                    const prefix = weekMatch[1] || '';  // 下/这/下下/空
+                    const targetW = weekdayNameMap[weekMatch[2]];
+                    const curW = n.getDay();
+                    let diff = (targetW - curW + 7) % 7;
+                    if (prefix === '下' || prefix === '下个') {
+                        // 下星期X = diff===0则+7，否则在原来的diff基础上"下周"语义：
+                        // 如果是"下周一"且今天<=周一 → diff + 7
+                        if (diff === 0) diff = 7;
+                        else diff = diff;  // 实际日常"下周一"如果今天是周三，下周一就是6天后（diff=5）→ 不用再加7
+                        // 最稳实现：按"下周"指的是下一个日历周（周日为界）——这里按用户常见语义 diff直接用即可
+                    } else if (prefix === '下下') {
+                        diff = diff === 0 ? 14 : diff + 7;
+                    } else {
+                        // 这/本周或无前缀：如果diff=0指今天；用户说"周三有空吗"今天是周三=今天
+                        if (diff === 0 && !hasScheduleKW) return null;
+                    }
+                    offsetDays = diff;
+                    rawDate = weekMatch[0];
+                }
+            }
+
+            // —— X月X号 / X月X日
+            if (offsetDays === null) {
+                const md = text.match(/(\d{1,2})\s*月\s*(\d{1,2})\s*[号日]/);
+                if (md) {
+                    const targetMonth = parseInt(md[1], 10);
+                    const targetDay = parseInt(md[2], 10);
+                    let year = n.getFullYear();
+                    let td = new Date(year, targetMonth - 1, targetDay);
+                    if (td.getTime() < n.setHours(0,0,0,0)) td = new Date(year + 1, targetMonth - 1, targetDay);
+                    offsetDays = Math.round((td.getTime() - new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime()) / 86400000);
+                    rawDate = md[0];
+                }
+            }
+
+            // 如果没有日期偏移，也没有"今天/明天"等——但如果同时有"几点+有空"，也当作问今天此刻之后有没有空
+            let hourHint = null;
+            let period = null;
+
+            // 3) 时段匹配：上午/下午/晚上/中午/凌晨/早上/夜里
+            for (const p of PERIOD_MAP) {
+                if (text.includes(p.name)) { period = p.name; hourHint = p.hour; break; }
+            }
+
+            // 4) 具体几点：9点 / 15:30 / 下午3点半
+            const hourMatch = text.match(/(凌晨|早上|上午|中午|下午|晚上|夜里)?\s*(\d{1,2})\s*(点|:|时)\s*(\d{1,2})?(半|分)?/);
+            if (hourMatch) {
+                let h = parseInt(hourMatch[2], 10);
+                const m = hourMatch[4] ? parseInt(hourMatch[4], 10) : 0;
+                const prefixP = hourMatch[1];
+                // 如果是"下午3点"这种，+12
+                if ((prefixP === '下午' || prefixP === '晚上' || prefixP === '夜里') && h < 12) h += 12;
+                if (prefixP === '中午' && h === 12) h = 12;
+                hourHint = h;
+                // 精确时段名
+                for (const p of PERIOD_MAP) {
+                    if (h >= p.start && h <= p.end) { period = p.name; break; }
+                }
+                rawDate = (rawDate ? rawDate + ' ' : '') + hourMatch[0];
+            }
+
+            // 5) 最终命中判定：必须 (offsetDays!==null 或 今天日期已识别) 且 (hasScheduleKW 或 hourHint 或 period)
+            const hasTimeLike = (offsetDays !== null) || hourHint !== null || period;
+            if (!hasTimeLike || !(hasScheduleKW || hourHint !== null || period || offsetDays !== null)) {
+                // 宽松点：只要识别到了日期偏移，就算是问"那天空不空"
+                if (offsetDays === null) return null;
+            }
+            if (offsetDays === null) offsetDays = 0; // 默认今天
+
+            // 构造 targetDate（目标日12:00，或指定hour）
+            const targetDate = new Date(n.getFullYear(), n.getMonth(), n.getDate() + offsetDays,
+                (hourHint !== null ? hourHint : 12),
+                (hourMatch && hourMatch[4] ? parseInt(hourMatch[4],10) : 0));
+
+            return {
+                hit: true,
+                targetDate,
+                hourHint,
+                period,
+                rawPhrase: rawDate || '今天',
+                offsetDays
+            };
+        }
+
+        // ============================================================
+        //  日程表（按真实日期判断，支持未来日期 → 复用 getStatusTag 的精确逻辑）
+        //  返回：当天一句话描述（粗略级别）
+        // ============================================================
+        function getScheduleByDate(personaId, dateOrWeekday) {
+            const targetDate = (dateOrWeekday instanceof Date)
+                ? dateOrWeekday
+                : null;
+
+            // 兼容旧调用：如果传的是weekday（数字/字符串），就继续用粗粒度
+            if (!targetDate) {
+                const dayName = typeof dateOrWeekday === 'string' ? dateOrWeekday : ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][dateOrWeekday];
+                // 旧逻辑保留，只是为了兼容可能的直接调用；实际 buildSystemPrompt 会传Date
+                if (personaId === 'tianxiaoduo') return (dayName === '周日') ? '休息日，不上班' : '正常白班（如有大夜班则是通宵值班）';
+                if (personaId === 'baijie') return '白班/夜班随日期上下半月切换';
+                if (personaId === 'xiaoya') {
+                    if (dayName === '周三' || dayName === '周六') return '休息日';
+                    if (dayName === '周二' || dayName === '周五') return '书店上班 + 晚上驻唱';
+                    return '书店上班';
+                }
                 return '上班';
             }
 
-            if (personaId === 'baijie') {
-                const now = new Date();
-                const day = now.getDate();
-                if (day <= 15) return '夜班（晚上8点到次日凌晨4点），工作轻松可聊天';
-                return '白班（上午10点到下午6点），工作轻松可聊天';
-            }
-
-            if (personaId === 'xiaoya') {
-                if (dayName === '周三' || dayName === '周六') return '休息日，不上班';
-                if (dayName === '周二' || dayName === '周五') return '上班，晚上去寻觅小酒吧驻唱';
-                return '上班';
-            }
-
-            return '上班';
+            // 传了真实 Date → 用 getStatusTag 在 9/14/21 三个点取样，拼接一句话
+            const dayOnly = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+            const morning = getStatusTag(new Date(dayOnly.getTime() + 10 * 3600 * 1000), personaId); // 上午10点
+            const afternoon = getStatusTag(new Date(dayOnly.getTime() + 15 * 3600 * 1000), personaId); // 下午15点
+            const evening = getStatusTag(new Date(dayOnly.getTime() + 21 * 3600 * 1000), personaId); // 晚上21点
+            const parts = [];
+            if (morning.cls === 'working') parts.push(`上午${morning.label.replace(/中$/,'')}`);
+            else if (morning.cls === 'sleeping') parts.push('上午补觉');
+            else if (morning.label && morning.label !== '在线') parts.push(`上午${morning.label}`);
+            if (afternoon.cls === 'working') parts.push(`下午${afternoon.label.replace(/中$/,'')}`);
+            else if (afternoon.cls === 'resting') parts.push('下午午休');
+            else if (afternoon.cls === 'sleeping') parts.push('下午补觉');
+            else if (afternoon.label && afternoon.label !== '在线') parts.push(`下午${afternoon.label}`);
+            if (evening.cls === 'singing') parts.push('晚上驻唱');
+            else if (evening.cls === 'working') parts.push(`晚上${evening.label.replace(/中$/,'')}`);
+            else if (evening.cls === 'sleeping') parts.push('晚上已休息');
+            else if (evening.label === '休息日') parts.push('晚上休息');
+            return parts.length ? parts.join('，') : '自由活动';
+        }
+        // 兼容旧函数名 getSchedule → 指向新的 getScheduleByDate
+        function getSchedule(personaId, dateOrWeekday) {
+            return getScheduleByDate(personaId, dateOrWeekday);
         }
 
         // 获取今天、明天、后天的日期信息
@@ -1522,13 +2004,19 @@
             const status = getStatusTag(timeInfo.now, persona.id);
             const age = calculateAge(persona.birthday);
 
+            // ============ 今天第一轮聊天检测 ============
+            const dailyInfo = checkDailyFirst(persona.id, timeInfo.now);
+
             let prompt = persona.systemPrompt.replace(/今年\d+岁/, `今年${age}岁`);
 
-            // 日期和日程
+            // 日期和日程（升级：传真实 Date 给 getSchedule → 得到精确状态，包含大夜班/上下半月/驻唱/周日休息）
             const dateInfo = getDateInfo();
-            const todaySchedule = getSchedule(persona.id, dateInfo.today.weekday);
-            const tomorrowSchedule = getSchedule(persona.id, dateInfo.tomorrow.weekday);
-            const dayAfterSchedule = getSchedule(persona.id, dateInfo.dayAfter.weekday);
+            const todayDate = new Date(timeInfo.now.getFullYear(), timeInfo.now.getMonth(), timeInfo.now.getDate());
+            const tomorrowDate = new Date(todayDate.getTime() + 86400000);
+            const dayAfterDate = new Date(todayDate.getTime() + 86400000 * 2);
+            const todaySchedule = getSchedule(persona.id, todayDate);
+            const tomorrowSchedule = getSchedule(persona.id, tomorrowDate);
+            const dayAfterSchedule = getSchedule(persona.id, dayAfterDate);
 
             prompt += `\n\n📅 日期信息：`;
             prompt += `\n今天（${dateInfo.today.month}月${dateInfo.today.date}日 ${dateInfo.today.weekday}）：${todaySchedule}`;
@@ -1536,21 +2024,83 @@
             prompt += `\n后天（${dateInfo.dayAfter.month}月${dateInfo.dayAfter.date}日 ${dateInfo.dayAfter.weekday}）：${dayAfterSchedule}`;
             prompt += `\n当用户问到「明天」「后天」「几号」「星期几」时，请根据上面提供的日期信息准确回答。`;
 
+            // ========== 时间推算精准化：问"明天X点有空吗/约吗" ==========
+            const tq = parseTimeQuestion(userMessage || '', timeInfo.now);
+            if (tq && tq.hit) {
+                try {
+                    // 1) 指定时段的精确状态（传给getStatusTag用的就是targetDate的年月日时分 → 上下半月/星期/mod7大夜班 都自动算对）
+                    const exactStatus = getStatusTag(tq.targetDate, persona.id);
+                    const td = tq.targetDate;
+                    const weekdaysArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+                    const dateStr = `${td.getFullYear()}-${td.getMonth()+1}-${td.getDate()} ${weekdaysArr[td.getDay()]}`;
+                    const timeStr = tq.hourHint !== null
+                        ? `${String(tq.hourHint).padStart(2,'0')}:${String(td.getMinutes()).padStart(2,'0')}（${tq.period || ''}）`
+                        : (tq.period ? tq.period : '全天');
+                    prompt += `\n\n⏰【用户询问未来时间（排班真实情况提醒）】`;
+                    prompt += `\n用户问的时间是：「${tq.rawPhrase}」→ 对应 ${dateStr} ${timeStr}`;
+                    prompt += `\n你（${persona.name}）在该时点的真实排班状态是：【${exactStatus.icon} ${exactStatus.label}】（类别=${exactStatus.cls}）`;
+                    prompt += `\n请严格按照这个真实状态回答：`;
+                    prompt += `\n- 如果是 working=上班/大夜班/驻唱 → 就说上班忙/没时间/只有休息时间有空/约下班后；`;
+                    prompt += `\n- 如果是 sleeping=睡觉/补觉 → 就说那个时候在睡觉，不太方便；`;
+                    prompt += `\n- 如果是 resting=午休 → 就说午休时间可以聊几句但不方便出门；`;
+                    prompt += `\n- 如果是 free=休息/已下班/休息日 → 就说有空/可以约，语气开心期待。`;
+                    prompt += `\n绝对不要瞎编，不要说"我不确定/可能有空"这种含糊话，就按上面事实回答。`;
+
+                    // 2) 额外给 AI 列一下当天"上午10 / 下午15 / 晚上21"三个时段的状态，方便回答整天
+                    const d0 = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+                    const s1 = getStatusTag(new Date(d0.getTime() + 10*3600*1000), persona.id);
+                    const s2 = getStatusTag(new Date(d0.getTime() + 15*3600*1000), persona.id);
+                    const s3 = getStatusTag(new Date(d0.getTime() + 21*3600*1000), persona.id);
+                    prompt += `\n（当天参考：上午10点=${s1.icon}${s1.label} / 下午3点=${s2.icon}${s2.label} / 晚上9点=${s3.icon}${s3.label}）`;
+                } catch (e) { console.warn('时间推算注入失败', e); }
+            }
+
             prompt +=
-                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${String(timeInfo.hour).padStart(2,'0')}:${String(timeInfo.minute).padStart(2,'0')}`;
+                `\n\n当前时间：${timeInfo.year}年${timeInfo.month}月${timeInfo.day}日 ${timeInfo.weekday} ${timeInfo.ampm} ${String(timeInfo.hour).padStart(2,'0')}:${String(timeInfo.minute).padStart(2,'0')}:${String(timeInfo.second).padStart(2,'0')}`;
             prompt += `\n当前季节：${timeInfo.season}天`;
             if (timeInfo.term) prompt += `\n今日节气：${timeInfo.term}`;
             if (timeInfo.holiday) prompt += `\n今日节日：${timeInfo.holiday}`;
 
+            // ============ 第一轮聊天主动问候：节日/节气（立春/清明/立夏/立秋/立冬/冬至） + 男朋友生日 ============
+            if (dailyInfo.firstTime) {
+                // 1) 如果今天是男朋友生日 → 优先级最高，甜蜜祝福必须放在回复最开头
+                if (timeInfo.isUserBirthday) {
+                    prompt += `\n\n【🔥 第一轮聊天 · 男朋友生日！】：这是今天${timeInfo.year}-${timeInfo.month}-${timeInfo.day}你和用户的第一次对话！`;
+                    prompt += `\n今天是${persona.name}的男朋友（也就是用户）的生日！`;
+                    prompt += `你必须以${persona.name}自己的角色身份和语气，在【回复的第一句话】主动送上一句甜蜜又自然的生日祝福，`;
+                    prompt += `要像女朋友撒娇/撩汉的口吻（可以说爱你、么么哒、想给你一个拥抱、晚上一起吃蛋糕、准备了小惊喜、祝你每天开心之类），`;
+                    prompt += `控制在20~50个字，不要生硬，不要加括号，不要写"祝福"二字。`;
+                } else {
+                    // 2) 普通节日/节气问候
+                    const greetTargets = [];
+                    if (timeInfo.holidaysToday && timeInfo.holidaysToday.length) {
+                        greetTargets.push(...timeInfo.holidaysToday);
+                    }
+                    if (timeInfo.term && TERMS_AS_HOLIDAY.has(timeInfo.term)) {
+                        greetTargets.push(timeInfo.term + '节气');
+                    }
+                    if (greetTargets.length) {
+                        const greetStr = Array.from(new Set(greetTargets)).join('、');
+                        prompt += `\n\n【第一轮聊天提醒】：这是今天${timeInfo.year}-${timeInfo.month}-${timeInfo.day}用户和你的第一次对话。`;
+                        prompt += `今天是「${greetStr}」，请用你自己（${persona.name}）的角色风格和语气，`;
+                        prompt += `主动在回复开头自然送上一句简短的${greetStr}问候或小提醒（不要超过30个字，不要生硬，像女朋友随口提的）。`;
+                    }
+                }
+            } else if (timeInfo.isUserBirthday) {
+                // 3) 不是第一轮，但今天是男朋友生日 → 提醒AI聊天里可以随时提到生日
+                prompt += `\n\n💡 今天是男朋友的生日！聊天中如果有自然的机会，可以随时送上祝福或聊到生日相关的话题。`;
+            }
+
             prompt += `\n\n${persona.name}当前状态：${status.icon} ${status.label}`;
 
             prompt += `\n城市：${CITY_NAME}`;
+            prompt += `\n真实天气查询城市：${WEATHER_CITY}（剧情里的${CITY_NAME}是虚构城市，闲聊时请仍然说${CITY_NAME}）`;
 
             if (weather) {
                 if (weather.fallback) {
                     prompt += `\n天气：${weather.fallback}`;
                 } else {
-                    prompt += `\n当前天气：${weather.condition}，${weather.temperature}`;
+                    prompt += `\n当前${WEATHER_CITY}的天气：${weather.condition}，${weather.temperature}`;
                 }
             }
 
@@ -1585,7 +2135,8 @@
                 prompt += `\n当用户问「在哪里」「在哪」「地址」「怎么走」时，请从上面的位置数据中查找并准确回答。`;
             }
 
-            return prompt;
+            // 返回 { prompt, dailyInfo }——调用方用完prompt后自己mark daily done
+            return { prompt, dailyInfo };
         }
 
         // ============================================================
@@ -1763,12 +2314,7 @@
                     if (idx < activeCount) bar.classList.add('played');
                     if (idx === activeCount && idx < barCount - 1) bar.classList.add('active');
                 });
-                const curMin = Math.floor(audio.currentTime / 60);
-                const curSec = Math.floor(audio.currentTime % 60);
-                const totalMin = Math.floor(duration / 60);
-                const totalSec = duration % 60;
-                durSpan.textContent =
-                    `${curMin > 0 ? curMin+"'"+String(curSec).padStart(2,'0') : curSec} / ${totalMin > 0 ? totalMin+"'"+String(totalSec).padStart(2,'0') : totalSec}`;
+                // 时长数字固定显示总时长，不随播放变动
             }
 
             function resetWave() {
@@ -1924,6 +2470,177 @@
         }
 
         // ============================================================
+        //  TTS 阿里云百炼语音合成
+        // ============================================================
+
+        // 根据当前角色获取配置的声音
+        function getCurrentVoice() {
+            if (!currentPersona) return CONFIG.ttsVoiceTianxiaoduo || 'Cherry';
+            const id = currentPersona.id;
+            // 从localStorage覆盖值读取，没有则用CONFIG默认
+            const override = localStorage.getItem('ai_tts_voice_' + id);
+            if (override) return override;
+            if (id === 'tianxiaoduo') return CONFIG.ttsVoiceTianxiaoduo || 'Cherry';
+            if (id === 'baijie') return CONFIG.ttsVoiceBaijie || 'Serena';
+            if (id === 'xiaoya') return CONFIG.ttsVoiceXiaoya || 'Luna';
+            return 'Cherry';
+        }
+
+        function getTTSModel() {
+            const m = localStorage.getItem('ai_tts_model');
+            return m || CONFIG.ttsModel || 'qwen3-tts-flash';
+        }
+
+        function getTTSEndpoint(model) {
+            // qwen3-tts-flash / qwen3-tts 走 dashscope 通用端点
+            // qwen-audio / cosyvoice 走 workspace 端点（这里默认通用，需要workspace的让用户改CONFIG）
+            if (model && (model.startsWith('qwen-audio') || model.startsWith('cosyvoice'))) {
+                // 需要 workspaceId，暂时先用默认端点；如果用户填了CONFIG.ttsEndpoint则覆盖
+                const ws = localStorage.getItem('ai_tts_workspace') || '';
+                if (ws) {
+                    return `https://${ws}.cn-beijing.maas.aliyuncs.com/api/v1/services/audio/tts/SpeechSynthesizer`;
+                }
+            }
+            return CONFIG.ttsEndpoint || 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation';
+        }
+
+        /**
+         * 调用百炼TTS把文字转成语音
+         * @param {string} text 要合成的文字
+         * @param {string} voice 声音名（可选，默认用当前角色声音）
+         * @returns {Promise<{audioUrl: string, duration: number}|null>} 成功返回音频URL+时长，失败返回null
+         */
+        async function callBailianTTS(text, voice) {
+            const key = ttsKeyInput.value.trim() || ttsApiKey;
+            if (!key) {
+                console.warn('[TTS] 未配置百炼API Key');
+                return null;
+            }
+            if (!text || !text.trim()) return null;
+
+            const model = getTTSModel();
+            const endpoint = getTTSEndpoint(model);
+            const useVoice = voice || getCurrentVoice();
+
+            const isDashscopeGen = endpoint.includes('multimodal-generation');
+            const isSpeechSynth = endpoint.includes('SpeechSynthesizer');
+
+            let body;
+            if (isSpeechSynth) {
+                // CosyVoice / Qwen-Audio-TTS 接口结构
+                body = {
+                    model: model,
+                    input: {
+                        text: text,
+                        voice: useVoice,
+                        format: 'mp3',
+                        sample_rate: 24000
+                    }
+                };
+            } else {
+                // DashScope multimodal-generation (qwen3-tts) 接口结构
+                body = {
+                    model: model,
+                    input: {
+                        text: text,
+                        voice: useVoice,
+                        language_type: 'Chinese'
+                    }
+                };
+            }
+
+            try {
+                const resp = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + key
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    console.error('[TTS] HTTP错误', resp.status, errText.slice(0, 300));
+                    return null;
+                }
+
+                const data = await resp.json();
+
+                // 尝试几种常见返回格式
+                let audioUrl = null;
+                let duration = null;
+
+                // qwen3-tts (dashscope multimodal) 格式
+                if (data && data.output && data.output.audio && data.output.audio.url) {
+                    audioUrl = data.output.audio.url;
+                    if (data.output.audio.duration) duration = Math.round(data.output.audio.duration);
+                }
+                // SpeechSynthesizer 格式
+                else if (data && data.output && data.output.audio_url) {
+                    audioUrl = data.output.audio_url;
+                } else if (data && data.output && data.output.url) {
+                    audioUrl = data.output.url;
+                }
+                // 通用兜底
+                else if (data && typeof data === 'object') {
+                    const search = (obj) => {
+                        for (const k of Object.keys(obj)) {
+                            const v = obj[k];
+                            if (typeof v === 'string' && (v.startsWith('http') && (v.includes('.mp3') || v.includes('.wav') || v.includes('audio') || v.includes('aliyuncs')))) {
+                                return v;
+                            }
+                            if (v && typeof v === 'object') {
+                                const r = search(v);
+                                if (r) return r;
+                            }
+                        }
+                        return null;
+                    };
+                    audioUrl = search(data);
+                }
+
+                if (!audioUrl) {
+                    console.error('[TTS] 找不到音频URL，返回数据：', JSON.stringify(data).slice(0, 500));
+                    return null;
+                }
+
+                // 如果没有返回duration，用Audio元素探测（或默认3~8秒）
+                if (!duration) {
+                    duration = Math.min(30, Math.max(3, Math.round(text.length / 4)));
+                }
+
+                return { audioUrl, duration: duration || 5 };
+            } catch (e) {
+                console.error('[TTS] 调用异常：', e);
+                return null;
+            }
+        }
+
+        // 保存配置到localStorage（声音、模型）
+        function saveVoiceSettings() {
+            localStorage.setItem('ai_tts_voice_tianxiaoduo', voiceTianxiaoduo.value);
+            localStorage.setItem('ai_tts_voice_baijie', voiceBaijie.value);
+            localStorage.setItem('ai_tts_voice_xiaoya', voiceXiaoya.value);
+            localStorage.setItem('ai_tts_model', ttsModelSelect.value);
+        }
+
+        function updateKeyStatusDots() {
+            // 文字Key状态指示
+            if (apiKeyInput.value.trim()) {
+                dsDot.className = 'ok';
+            } else {
+                dsDot.className = 'no';
+            }
+            // 语音Key状态指示
+            if (ttsKeyInput.value.trim()) {
+                ttsDot.className = 'ok';
+            } else {
+                ttsDot.className = 'no';
+            }
+        }
+
+        // ============================================================
         //  关键词触发（★ 从当前角色读取独立参数 ★）
         // ============================================================
         function containsKeyword(text, keywords) {
@@ -1934,13 +2651,19 @@
             '声音', '说话', '语音', '哼两句', '说句话'
         ];
 
+        // ★★★ OHMYGOD 关键词：50%固定概率触发当前角色的本地音频（不走TTS）★★★
+        const OHMYGOD_KEYWORDS = ['大大', '小小'];
+        const OHMYGOD_PROB = 0.5;  // 三人共用：50%概率
+        const OHMYGOD_COOLDOWN_MS = 5000;  // 触发后5秒冷却，防止快速连点
+        let ohmygodCooldownUntil = 0;      // 冷却结束时间戳
+
         const IMAGE_KEYWORDS = [
             '照片', '自拍', '看看你', '美照', '发张照片',
             '我想看看你', '露脸', '瞅瞅', '穿什么', '来一张'
         ];
 
         const NAKED_KEYWORDS = [
-            '加减乘除'
+            '脱光','做爱','操你','操我','上床','阴茎','阴唇','逼','肉体'
         ];
 
         const ALL_IMAGE_KEYWORDS = [...IMAGE_KEYWORDS, ...NAKED_KEYWORDS];
@@ -1954,6 +2677,21 @@
         };
 
         function handleKeywordTrigger(userText) {
+            // ============ OHMYGOD 关键词：固定50%概率触发本地音频（不走TTS）============
+            if (containsKeyword(userText, OHMYGOD_KEYWORDS)) {
+                const now = Date.now();
+                if (now < ohmygodCooldownUntil) {
+                    // 冷却期内（5秒内已触发过）→ 直接忽略，什么也不推，也不继续走AI
+                    return null;
+                }
+                if (Math.random() < OHMYGOD_PROB) {
+                    ohmygodCooldownUntil = now + OHMYGOD_COOLDOWN_MS;  // 命中后开5秒冷却
+                    // 直接走当前角色本地音频文件夹随机一个，不需要AI回复
+                    return { type: 'audio', path: getRandomAudioPath(), needTTS: false };
+                }
+                // 50%概率不触发，继续走下面的正常逻辑
+            }
+
             const matchedCombo = COMBO_KEYWORDS.find(kw => userText.includes(kw));
             const isAudio = containsKeyword(userText, AUDIO_KEYWORDS);
             const isImage = containsKeyword(userText, ALL_IMAGE_KEYWORDS);
@@ -1975,25 +2713,30 @@
             }
 
             if (matchedCombo) {
+                // ★ 组合词：图片 + AI回复→TTS语音（后期你可自行改关键词）
                 return {
                     type: 'combo',
                     text: COMBO_REPLIES[matchedCombo] || '',
                     image: getRandomImagePath(isNaked),
-                    audio: getRandomAudioPath()
+                    fallbackAudio: getRandomAudioPath(),
+                    needTTS: true
                 };
             }
 
             if (isAudio && isImage) {
+                // ★ 语音+图片组合关键词：图片 + AI回复→TTS语音
                 return {
                     type: 'combo',
                     text: '',
                     image: getRandomImagePath(isNaked),
-                    audio: getRandomAudioPath()
+                    fallbackAudio: getRandomAudioPath(),
+                    needTTS: true
                 };
             }
 
             if (isAudio) {
-                return { type: 'audio', path: getRandomAudioPath() };
+                // ★ 纯语音关键词：AI回复→TTS语音，不显示文字
+                return { type: 'audio', fallbackPath: getRandomAudioPath(), needTTS: true };
             }
 
             if (isImage) {
@@ -2004,11 +2747,12 @@
         }
 
         // ============================================================
-        //  用户生日
+        //  用户生日（农历 十月廿六 → 每年公历日期对照表，2024-2030 准确值）
+        //  说明：以万年历为准已核对；2025年修正为12-16
         // ============================================================
         const LUNAR_BIRTHDAYS = {
             2024: '11-26',
-            2025: '12-15',
+            2025: '12-16',
             2026: '12-05',
             2027: '11-24',
             2028: '12-12',
@@ -2016,10 +2760,13 @@
             2030: '11-20'
         };
 
-        function getUserBirthday() {
-            const year = new Date().getFullYear();
-            return LUNAR_BIRTHDAYS[year] || '12-05';
+        function getUserBirthday(yearOrNow) {
+            const y = (typeof yearOrNow === 'number')
+                ? yearOrNow
+                : (yearOrNow instanceof Date ? yearOrNow.getFullYear() : new Date().getFullYear());
+            return LUNAR_BIRTHDAYS[y] || LUNAR_BIRTHDAYS[2026];
         }
+        const USER_BIRTHDAY_NAME = '男朋友生日';   // 作为节日名拼进节日表，让AI代入感更强
 
         // ============================================================
         //  每周总结
@@ -2053,18 +2800,28 @@
 
         // ============================================================
         //  API 调用（★ 从当前角色读取 maxTokens ★）
+        //  options.ttsMode: true 表示文字用于转语音，不直接显示
+        //  options.mediaAttach: {type:'combo'|'audio', image?, fallbackAudio?, fallbackPath?} 附加媒体信息
         // ============================================================
-        async function callDeepSeek(userMessage) {
+        async function callDeepSeek(userMessage, options = {}) {
             const key = apiKeyInput.value.trim();
             if (!key) {
                 showSystemMessage('⚠️ 请先配置 DeepSeek API Key');
                 return;
             }
 
+            const ttsMode = !!options.ttsMode;
+            const mediaAttach = options.mediaAttach || null;
+
             const now = new Date();
             if (shouldDefaultReply(currentPersona.id, now)) {
                 const reply = getDefaultReply(currentPersona.id);
-                addMessage(reply, 'bot');
+                if (ttsMode) {
+                    // TTS模式下也处理默认回复
+                    await handleTTSFinalize(reply, mediaAttach);
+                } else {
+                    addMessage(reply, 'bot');
+                }
                 return;
             }
 
@@ -2078,13 +2835,23 @@
                 weather = await fetchWeather();
             }
 
-            const systemPrompt = buildSystemPrompt(currentPersona, userMessage, weather);
+            // buildSystemPrompt 现在返回 { prompt, dailyInfo }
+            const sp = buildSystemPrompt(currentPersona, userMessage, weather);
+            const systemPrompt = sp.prompt;
+            const dailyInfo = sp.dailyInfo;
+
             const history = getHistory();
             const maxHistory = getMaxHistory();
             const context = history.slice(-maxHistory);
 
+            // TTS模式下给AI加一个简短提示：让回复更口语化、适合朗读（2-4句话最佳）
+            let finalPrompt = systemPrompt;
+            if (ttsMode) {
+                finalPrompt = systemPrompt + '\n\n【额外要求】你这次的回复会被转成语音播放给用户听，所以请：1）用口语化自然表达；2）控制在3句话以内、不要太长；3）不要用markdown、括号说明或表情符号。';
+            }
+
             const messages = [
-                { role: 'system', content: systemPrompt },
+                { role: 'system', content: finalPrompt },
                 ...context.map(h => ({ role: h.role, content: h.content }))
             ];
 
@@ -2108,8 +2875,17 @@
                 });
                 const data = await resp.json();
                 if (data.error) throw new Error(data.error.message || 'API 调用失败');
-                const reply = data.choices[0].message.content;
-                addMessage(reply, 'bot');
+                let reply = data.choices[0].message.content;
+                // 简单清理
+                reply = reply.replace(/[\*_#>`\[\]()]/g, '').trim();
+
+                if (ttsMode) {
+                    await handleTTSFinalize(reply, mediaAttach);
+                } else {
+                    addMessage(reply, 'bot');
+                }
+                // AI回复成功 → 本轮"第一次问候"机会已用掉
+                if (dailyInfo && dailyInfo.firstTime) markDailyDone(dailyInfo.key);
             } catch (e) {
                 showSystemMessage('❌ 请求失败：' + e.message);
             } finally {
@@ -2119,13 +2895,100 @@
             }
         }
 
+        /**
+         * TTS模式收尾：根据TTS成功与否决定推音频气泡还是文字/本地音频
+         */
+        async function handleTTSFinalize(aiReplyText, mediaAttach) {
+            const attachType = mediaAttach ? mediaAttach.type : 'audio'; // audio | combo
+            const ttsKeyOk = !!(ttsKeyInput.value.trim() || ttsApiKey);
+
+            // 步骤1：尝试TTS
+            let ttsResult = null;
+            if (ttsKeyOk && aiReplyText) {
+                ttsResult = await callBailianTTS(aiReplyText);
+            }
+
+            // 步骤2：根据类型+成功与否推消息
+            if (attachType === 'combo') {
+                // --- 组合消息：图片 + 音频/文字 ---
+                let finalAudio = null;
+                let finalAudioDuration = null;
+                let textToShow = '';
+
+                if (ttsResult) {
+                    // TTS成功 → 用TTS音频
+                    finalAudio = ttsResult.audioUrl;
+                    finalAudioDuration = ttsResult.duration;
+                } else if (mediaAttach && mediaAttach.fallbackAudio) {
+                    // TTS失败 → 用本地音频兜底
+                    finalAudio = mediaAttach.fallbackAudio;
+                    finalAudioDuration = getMockDuration();
+                    // 按你的要求：TTS失败就把AI文字显示出来
+                    textToShow = aiReplyText || '';
+                } else if (CONFIG.ttsFallbackToText) {
+                    textToShow = aiReplyText || '';
+                }
+
+                // 如果TTS彻底失败且无本地兜底，显示文字
+                if (!finalAudio && CONFIG.ttsFallbackToText && !textToShow) {
+                    textToShow = aiReplyText || '';
+                }
+                // 如果有兜底文字但没音频，也可以直接推文字（不强制带图片）
+                const image = mediaAttach ? mediaAttach.image : null;
+
+                if (image || finalAudio || textToShow) {
+                    addComboMessageTTS(textToShow, image, finalAudio, finalAudioDuration, aiReplyText);
+                }
+
+            } else {
+                // --- 纯语音：只推音频气泡，失败则显示文字 ---
+                if (ttsResult) {
+                    addMediaMessage('audio', ttsResult.audioUrl, { duration: ttsResult.duration, ttsText: aiReplyText });
+                } else {
+                    // TTS失败：先用本地音频兜底，同时把文字显示出来（按你要求）
+                    if (mediaAttach && mediaAttach.fallbackPath) {
+                        addMediaMessage('audio', mediaAttach.fallbackPath, { ttsText: aiReplyText });
+                    }
+                    if (CONFIG.ttsFallbackToText && aiReplyText) {
+                        addMessage(aiReplyText, 'bot');
+                    } else if (!mediaAttach || !mediaAttach.fallbackPath) {
+                        // 连本地兜底都没有，至少显示一条系统提示
+                        showSystemMessage('🔇 语音合成暂时不可用');
+                    }
+                }
+            }
+        }
+
+        /**
+         * combo消息的TTS版本：可选文字+可选图片+可选音频，音频优先TTS；会把原始AI文本存入history便于上下文
+         */
+        function addComboMessageTTS(text, imagePath, audioPath, audioDuration, rawAIReply) {
+            const history = getHistory();
+            const storedText = rawAIReply || text || '[多媒体消息]';
+            const msg = {
+                role: 'assistant',
+                type: 'combo',
+                text: text || '',
+                image: imagePath || null,
+                audio: audioPath || null,
+                audioDuration: audioPath ? (audioDuration || getMockDuration()) : null,
+                content: storedText,   // 给上下文用
+                ttsText: rawAIReply || null,
+                time: getTime(),
+                timestamp: getFullTimestamp()
+            };
+            history.push(msg);
+            saveHistory(history);
+            renderMessages();
+        }
+
         // ============================================================
         //  发送入口
         // ============================================================
         function handleSend() {
             const key = apiKeyInput.value.trim();
             if (!key) {
-                showSystemMessage('⚠️ 请先配置 API Key');
+                showSystemMessage('⚠️ 请先配置 DeepSeek API Key');
                 return;
             }
             const text = userInput.value.trim();
@@ -2147,6 +3010,20 @@
 
             const mediaResult = handleKeywordTrigger(text);
             if (mediaResult) {
+                // ===== 需要走 TTS 流程（语音关键词 / 组合词）=====
+                if (mediaResult.needTTS) {
+                    const mediaAttach = {
+                        type: mediaResult.type,  // 'combo' 或 'audio'
+                        image: mediaResult.image || null,
+                        fallbackAudio: mediaResult.fallbackAudio || null,
+                        fallbackPath: mediaResult.fallbackPath || null
+                    };
+                    // 异步走：AI生成文字 → 转TTS → 推气泡（失败→文字/本地音频兜底）
+                    callDeepSeek(text, { ttsMode: true, mediaAttach });
+                    return;
+                }
+
+                // ===== 纯图片，不涉及TTS =====
                 if (mediaResult.type === 'combo') {
                     addComboMessage(mediaResult.text, mediaResult.image, mediaResult.audio);
                 } else if (mediaResult.type === 'image') {
@@ -2173,6 +3050,11 @@
             this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         };
 
+        // ===== 配置面板折叠 =====
+        apiPanelToggle.addEventListener('click', () => {
+            apiPanel.classList.toggle('open');
+        });
+
         apiKeyInput.onchange = function() {
             const val = this.value.trim();
             if (val) {
@@ -2188,6 +3070,44 @@
                 userInput.disabled = true;
                 sendBtn.disabled = true;
             }
+            updateKeyStatusDots();
+        };
+        apiKeyInput.oninput = updateKeyStatusDots;
+
+        // ===== TTS Key =====
+        ttsKeyInput.onchange = function() {
+            const val = this.value.trim();
+            if (val) {
+                localStorage.setItem('ai_tts_api_key', val);
+                ttsApiKey = val;
+                ttsStatus.textContent = '✅ 已配置';
+                ttsStatus.className = 'status ready';
+            } else {
+                localStorage.removeItem('ai_tts_api_key');
+                ttsApiKey = '';
+                ttsStatus.textContent = '❌ 未配置';
+                ttsStatus.className = 'status';
+            }
+            updateKeyStatusDots();
+        };
+        ttsKeyInput.oninput = updateKeyStatusDots;
+
+        // ===== 每个角色声音独立保存 =====
+        voiceTianxiaoduo.onchange = function() {
+            localStorage.setItem('ai_tts_voice_tianxiaoduo', this.value);
+            CONFIG.ttsVoiceTianxiaoduo = this.value;
+        };
+        voiceBaijie.onchange = function() {
+            localStorage.setItem('ai_tts_voice_baijie', this.value);
+            CONFIG.ttsVoiceBaijie = this.value;
+        };
+        voiceXiaoya.onchange = function() {
+            localStorage.setItem('ai_tts_voice_xiaoya', this.value);
+            CONFIG.ttsVoiceXiaoya = this.value;
+        };
+        ttsModelSelect.onchange = function() {
+            localStorage.setItem('ai_tts_model', this.value);
+            CONFIG.ttsModel = this.value;
         };
 
         // ============================================================
@@ -2216,6 +3136,7 @@
 
             currentPersona = PERSONAS[0];
 
+            // ===== 恢复 DeepSeek Key =====
             if (apiKey) {
                 apiKeyInput.value = apiKey;
                 apiStatus.textContent = '✅ 已配置';
@@ -2224,17 +3145,45 @@
                 sendBtn.disabled = false;
             }
 
+            // ===== 恢复 TTS Key + 各角色声音 + 模型 =====
+            if (ttsApiKey) {
+                ttsKeyInput.value = ttsApiKey;
+                ttsStatus.textContent = '✅ 已配置';
+                ttsStatus.className = 'status ready';
+            }
+            const savedVoiceTXD = localStorage.getItem('ai_tts_voice_tianxiaoduo');
+            if (savedVoiceTXD) {
+                voiceTianxiaoduo.value = savedVoiceTXD;
+                CONFIG.ttsVoiceTianxiaoduo = savedVoiceTXD;
+            }
+            const savedVoiceBJ = localStorage.getItem('ai_tts_voice_baijie');
+            if (savedVoiceBJ) {
+                voiceBaijie.value = savedVoiceBJ;
+                CONFIG.ttsVoiceBaijie = savedVoiceBJ;
+            }
+            const savedVoiceXY = localStorage.getItem('ai_tts_voice_xiaoya');
+            if (savedVoiceXY) {
+                voiceXiaoya.value = savedVoiceXY;
+                CONFIG.ttsVoiceXiaoya = savedVoiceXY;
+            }
+            const savedModel = localStorage.getItem('ai_tts_model');
+            if (savedModel) {
+                ttsModelSelect.value = savedModel;
+                CONFIG.ttsModel = savedModel;
+            }
+            updateKeyStatusDots();
+
             renderPersonas();
             updateHeader();
             renderMessages();
 
             setInterval(() => updateStatusTag(), 60000);
 
-            console.log('💕 AI女友已启动 (角色独立参数版)');
-            console.log('📊 当前角色:', currentPersona.name);
-            console.log('📝 各角色参数独立配置');
+            console.log('💕 AI女友已启动 (角色独立参数版 + 百炼TTS集成)');
+            console.log('📊 当前角色:', currentPersona.name, '| 声音:', getCurrentVoice());
+            console.log('📝 各角色参数独立配置｜各角色声音独立保存');
             console.log('🔐 配置密码已设置');
-            console.log('📱 点击右上角 ··· → 查看 Girls3 或 世界观');
+            console.log('📱 点击顶部 ⚙️ API配置 展开面板｜设置 DeepSeek Key + 百炼TTS Key');
         }
 
         // 启动
